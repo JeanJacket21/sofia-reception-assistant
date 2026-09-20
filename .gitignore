@@ -1,0 +1,7 @@
+# Backups and temporary files
+backups/
+*.backup.*
+*.backup.html
+scratch_step.json
+*.tmp
+*.log
