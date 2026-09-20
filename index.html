@@ -2863,7 +2863,7 @@
                             </h4>
                             <ol
                                 class="list-decimal pl-5 space-y-2.5 text-xs leading-relaxed text-gray-700 dark:text-gray-300">
-                                <li>Cliquez sur <strong>« Télécharger la matrice officielle »</strong> et enregistrez le
+                                <li>Cliquez sur <strong>« Télécharger la matrice officielle »</strong> (ou <a href="Rooming_List_FR_v2.xlsx" download="Rooming_List_FR_v2.xlsx" onclick="downloadRoomingList(event)" class="text-blue-600 dark:text-blue-400 font-bold underline hover:text-blue-800 cursor-pointer">téléchargez-la directement ici</a>) et enregistrez le
                                     fichier sur votre ordinateur.</li>
                                 <li>Ouvrez le fichier Excel. <strong>Travaillez à partir de cette matrice</strong> et
                                     conservez la ligne d'en-têtes telle quelle.</li>
@@ -13457,98 +13457,88 @@ const logoSrc = (typeof window !== 'undefined' && window.ADAGIO_LOGO_SRC) ? wind
             window.ROOMING_LIST_BASE64 = EMBEDDED_ROOMING_B64;
         }
 
-        let _roomingBlobUrl = null;
-
-        function getRoomingListBlobUrl() {
-            if (_roomingBlobUrl) return _roomingBlobUrl;
+        function getRoomingBlob() {
             try {
-                const b64Data = (typeof window !== 'undefined' && window.ROOMING_LIST_BASE64)
+                const b64 = (typeof window !== 'undefined' && window.ROOMING_LIST_BASE64)
                     ? window.ROOMING_LIST_BASE64
                     : (typeof EMBEDDED_ROOMING_B64 !== 'undefined' ? EMBEDDED_ROOMING_B64 : null);
-                if (b64Data) {
-                    const binaryStr = atob(b64Data);
-                    const len = binaryStr.length;
-                    const bytes = new Uint8Array(len);
-                    for (let i = 0; i < len; i++) {
-                        bytes[i] = binaryStr.charCodeAt(i);
-                    }
-                    const blob = new Blob([bytes], {
-                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                    });
-                    _roomingBlobUrl = URL.createObjectURL(blob);
-                    return _roomingBlobUrl;
+                if (!b64) return null;
+                const cleanB64 = b64.replace(/\s+/g, '');
+                const binaryStr = atob(cleanB64);
+                const len = binaryStr.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryStr.charCodeAt(i);
                 }
+                return new Blob([bytes], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                });
             } catch (err) {
-                console.error("Erreur génération URL matrice:", err);
+                console.error("Erreur génération blob matrice Rooming List:", err);
+                return null;
             }
-            return null;
         }
 
-        function initRoomingDownloadButton() {
-            try {
-                const url = getRoomingListBlobUrl();
-                const btn = document.getElementById('btn-download-rooming');
-                if (btn && url) {
-                    btn.href = url;
+        function triggerFileDownload(blobOrUrl, fileName) {
+            const isBlob = typeof blobOrUrl !== 'string';
+            const url = isBlob ? URL.createObjectURL(blobOrUrl) : blobOrUrl;
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = fileName;
+            a.setAttribute('download', fileName);
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                if (a.parentNode) document.body.removeChild(a);
+                if (isBlob) {
+                    try { URL.revokeObjectURL(url); } catch (e) {}
                 }
-            } catch (e) {}
-        }
-        if (typeof document !== 'undefined') {
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initRoomingDownloadButton);
-            } else {
-                initRoomingDownloadButton();
-            }
+            }, 2000);
         }
 
         function downloadRoomingList(e) {
+            if (e) {
+                if (e.preventDefault) e.preventDefault();
+                if (e.stopPropagation) e.stopPropagation();
+            }
             const fileName = 'Rooming_List_FR_v2.xlsx';
-            const blobUrl = getRoomingListBlobUrl();
-            const link = (e && (e.currentTarget || e.target)) ? (e.currentTarget || e.target).closest('a') : document.getElementById('btn-download-rooming');
 
-            // 1. Si déclenché via un lien <a> avec blob URL disponible
-            if (blobUrl) {
-                if (link && link.tagName === 'A') {
-                    link.href = blobUrl;
-                    link.download = fileName;
-                    showToast("✅ Matrice Rooming List téléchargée avec succès !", "success");
-                    return true;
-                }
-
-                // 2. Déclenchement programmatique synchrone
-                try {
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    setTimeout(() => {
-                        if (a.parentNode) document.body.removeChild(a);
-                    }, 500);
-                    showToast("✅ Matrice Rooming List téléchargée avec succès !", "success");
-                    if (e && e.preventDefault) e.preventDefault();
-                    return true;
-                } catch (err) {
-                    console.warn("Erreur téléchargement synchrone base64:", err);
-                }
-            }
-
-            // 3. Repli direct vers le fichier statique hébergé
+            // 1. Déclenchement direct depuis le Blob mémoire base64 (instantané, 100% autonome en ligne et hors-ligne)
             try {
-                const a = document.createElement('a');
-                a.href = fileName;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(() => {
-                    if (a.parentNode) document.body.removeChild(a);
-                }, 500);
-                showToast("✅ Matrice Rooming List téléchargée !", "success");
-                if (e && e.preventDefault) e.preventDefault();
+                const blob = getRoomingBlob();
+                if (blob) {
+                    triggerFileDownload(blob, fileName);
+                    showToast("✅ Matrice Rooming List téléchargée avec succès !", "success");
+                    return false;
+                }
             } catch (err) {
-                console.error("Repli vers navigation directe:", err);
-                window.location.href = fileName;
+                console.warn("Échec téléchargement via blob mémoire, tentative alternative...", err);
             }
+
+            // 2. Repli serveur via fetch si servi en HTTP / HTTPS (ex: GitHub Pages)
+            if (window.location.protocol.startsWith('http')) {
+                fetch(fileName)
+                    .then(res => {
+                        if (!res.ok) throw new Error("Fichier non accessible (HTTP " + res.status + ")");
+                        return res.blob();
+                    })
+                    .then(blob => {
+                        triggerFileDownload(blob, fileName);
+                        showToast("✅ Matrice Rooming List téléchargée avec succès !", "success");
+                    })
+                    .catch(fetchErr => {
+                        console.warn("Fetch serveur échoué, repli navigation directe:", fetchErr);
+                        triggerFileDownload(fileName, fileName);
+                        showToast("✅ Matrice Rooming List téléchargée !", "success");
+                    });
+                return false;
+            }
+
+            // 3. Repli direct pour navigation standard
+            triggerFileDownload(fileName, fileName);
+            showToast("✅ Matrice Rooming List téléchargée !", "success");
+            return false;
         }
 
         function calculateTax() {
