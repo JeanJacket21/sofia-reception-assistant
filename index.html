@@ -23,18 +23,24 @@
     <!-- FontAwesome pour les icônes -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
+    <!-- Police d'écriture (Outfit) similaire à Gemini -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Firebase (Synchronisation Multi-Postes) -->
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
 
-    <!-- Configuration de la charte  et typographie Helvetica Neue -->
+    <!-- Configuration de la charte -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif']
+                        sans: ['Outfit', 'sans-serif']
+                    },
+                    fontSize: {
+                        'sm': '15px' /* Augmentation légère de la taille du texte dans les modules */
                     },
                     colors: {
                         adagio: {
@@ -50,9 +56,8 @@
 
     <style>
         body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: 'Outfit', sans-serif;
             font-size: 16px;
-            /* Ajout de la taille de police à 16px comme demandé */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             transition: background-color 0.35s ease, color 0.35s ease;
@@ -12212,6 +12217,12 @@
                         if (grid) grid.classList.remove('hidden');
                         target.querySelectorAll('.sub-content').forEach(c => c.classList.add('hidden'));
                     }
+
+                    // Correction UX : remonter automatiquement en haut de la page lors d'un changement de module
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    // Si un conteneur principal scrollable existe, on le remonte aussi
+                    const mainContainer = document.querySelector('main') || document.body;
+                    mainContainer.scrollTop = 0;
                 }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
