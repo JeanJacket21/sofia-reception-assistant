@@ -12958,10 +12958,9 @@
                         timestamp: Date.now()
                     };
                     if (currentRoomTopic) {
-                        fetch('https://ntfy.sh/' + encodeURIComponent(currentRoomTopic), {
-                            method: 'POST',
-                            body: JSON.stringify(snapshotMsg)
-                        }).catch(() => { });
+                        try {
+                            db.ref('sync_messages/' + currentRoomTopic).push(snapshotMsg).catch(err => console.warn('Erreur Firebase Snapshot:', err));
+                        } catch (e) { }
                     }
                 }
             } else if (data.action === 'SYNC_SNAPSHOT') {
