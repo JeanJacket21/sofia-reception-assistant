@@ -323,14 +323,14 @@
 
     <!-- VOLET LATÉRAL DÉROULANT (SIDEBAR DRAWER) -->
     <div id="sidebarOverlay" onclick="closeSidebar()"
-        class="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm transition-opacity opacity-0 pointer-events-none duration-300">
+        class="fixed inset-0 bg-slate-900/40 z-50 backdrop-blur-md transition-opacity opacity-0 pointer-events-none duration-300">
     </div>
 
     <aside id="sidebarDrawer"
-        class="fixed top-0 left-0 bottom-0 w-full sm:w-[480px] md:w-[520px] max-w-[92vw] bg-white dark:bg-slate-800 z-50 shadow-2xl flex flex-col transform -translate-x-full transition-transform duration-300 ease-out border-r border-gray-200 dark:border-slate-700">
+        class="fixed top-0 left-0 bottom-0 w-full sm:w-[480px] md:w-[520px] max-w-[92vw] bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl z-50 shadow-[0_8px_32px_rgba(0,0,0,0.2)] flex flex-col transform -translate-x-full transition-transform duration-300 ease-out border-r border-white/30 dark:border-slate-700/50">
         <!-- En-tête Sidebar -->
         <div
-            class="p-5 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between bg-gray-50/90 dark:bg-slate-900/70 backdrop-blur">
+            class="p-5 border-b border-white/20 dark:border-slate-700 flex items-center justify-between bg-white/40 dark:bg-slate-900/60 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.05)]">
             <div class="flex items-center gap-3.5">
                 <div
                     class="w-11 h-11 rounded-2xl bg-gradient-to-br from-adagio-red to-pink-600 flex items-center justify-center text-white font-black text-xl shadow-md">
@@ -946,7 +946,7 @@
     </aside>
 
     <nav
-        class="sticky top-0 z-50 bg-white/95 dark:bg-slate-800/95 backdrop-blur border-b border-gray-200 dark:border-slate-700 shadow-sm transition-colors">
+        class="sticky top-0 z-50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border-b border-white/20 dark:border-slate-700 shadow-[0_4px_30px_rgba(0,0,0,0.05)] transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 gap-3 sm:gap-4">
 
@@ -5987,6 +5987,173 @@
                             </div>
                         </div>
 
+                        <!-- TILE 7: Bons Cadeaux & ANCV -->
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-6 rounded-2xl border-t-4 border-t-rose-500 border border-gray-200 dark:border-slate-700 flex flex-col justify-between shadow-sm cursor-pointer group"
+                            onclick="showSubContent('factu', 'factu-ancv')">
+                            <div>
+                                <div class="w-14 h-14 bg-rose-100 dark:bg-rose-900/40 rounded-2xl flex items-center justify-center mb-4 text-2xl text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 px-2 py-0.5 rounded-full">Encaissements Spéciaux</span>
+                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mt-2 mb-1.5">7. Bons Cadeaux & ANCV</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Procédure de vérification, traitement des bordereaux et récapitulatif comptable.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-gray-200 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-rose-600 dark:text-rose-400">
+                                <span>Voir la procédure</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+
+                        <!-- TILE 8: Points ALL -->
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-6 rounded-2xl border-t-4 border-t-yellow-500 border border-gray-200 dark:border-slate-700 flex flex-col justify-between shadow-sm cursor-pointer group"
+                            onclick="showSubContent('factu', 'factu-points-all')">
+                            <div>
+                                <div class="w-14 h-14 bg-yellow-100 dark:bg-yellow-900/40 rounded-2xl flex items-center justify-center mb-4 text-2xl text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950/50 px-2 py-0.5 rounded-full">Programme de Fidélité</span>
+                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mt-2 mb-1.5">8. Paiement en Points ALL</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Règles et saisie d'un encaissement via les points de fidélité Accor Live Limitless.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-gray-200 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-yellow-600 dark:text-yellow-400">
+                                <span>Saisir un paiement</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- SOUS-CONTENU 7 : ANCV & BONS CADEAUX -->
+                    <div id="content-factu-ancv"
+                        class="sub-content hidden fade-in text-sm text-gray-600 dark:text-gray-300">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <button onclick="hideSubContent('factu')" class="flex items-center text-rose-600 dark:text-rose-400 font-bold hover:underline transition-all hover:-translate-x-1">
+                                <i class="fas fa-arrow-left mr-2"></i> Retour aux choix
+                            </button>
+                            <span class="text-xs font-bold px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full shadow-sm">
+                                <i class="fas fa-ticket-alt mr-1"></i> Mode opératoire
+                            </span>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-3xl font-black text-gray-900 dark:text-white flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center text-rose-600">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                Traitement des Bons Cadeaux & ANCV
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Les bons cadeaux et ANCV sont des titres de paiement soumis à des règles strictes de vérification, de remise en banque et de suivi comptable. Suivez ces 4 étapes essentielles pour chaque encaissement.
+                            </p>
+                        </div>
+
+                        <!-- ETAPE 1 -->
+                        <div class="mb-6 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm">
+                            <h4 class="font-bold text-gray-800 dark:text-gray-200 text-lg mb-4 flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xs">1</span> 
+                                Vérification préalable
+                            </h4>
+                            <p class="mb-3 text-sm">Tous les bons reçus doivent faire l'objet d'un contrôle systématique <strong>avant</strong> d'être acceptés en paiement :</p>
+                            <ul class="space-y-2 list-none mb-4">
+                                <li><i class="fas fa-check text-green-500 w-5"></i> <strong>Validité :</strong> Vérifiez la date d'expiration.</li>
+                                <li><i class="fas fa-check text-green-500 w-5"></i> <strong>Conditions :</strong> Lisez les conditions d'utilisation au dos.</li>
+                                <li><i class="fas fa-check text-green-500 w-5"></i> <strong>Montant et authenticité :</strong> Assurez-vous que le bon n'est pas altéré.</li>
+                            </ul>
+                            <div class="p-3 bg-gray-50 dark:bg-slate-800 rounded-lg text-xs italic border-l-2 border-rose-400">
+                                <i class="fas fa-info-circle text-rose-500 mr-1"></i> Des procédures de contrôle spécifiques par marque (BIMPLI, BEST, CADHOC, KADEOS, TIR Groupe) sont disponibles dans la base documentaire.
+                            </div>
+                        </div>
+
+                        <!-- ETAPE 2 -->
+                        <div class="mb-6 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm">
+                            <h4 class="font-bold text-gray-800 dark:text-gray-200 text-lg mb-4 flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xs">2</span> 
+                                Traitement et Bordereau de remise
+                            </h4>
+                            <ol class="list-decimal pl-5 space-y-3 marker:text-rose-500 marker:font-bold">
+                                <li><strong>Cachet commercial :</strong> Apposez le cachet de l'établissement à l'emplacement prévu au recto du bon cadeau.</li>
+                                <li><strong>Détachement des talons :</strong> Détachez et <strong>conservez les talons supérieurs (+ l'angle)</strong> jusqu'au remboursement. Cela facilitera les démarches en cas de perte. <em>(À détruire uniquement après virement bancaire vérifié par la compta).</em></li>
+                                <li><strong>Groupage :</strong> Groupez vos demandes de remboursement dans le bordereau correspondant au prestataire.</li>
+                            </ol>
+                        </div>
+
+                        <!-- ETAPE 3 & 4 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="bg-rose-50/50 dark:bg-rose-900/10 p-5 rounded-2xl border border-rose-100 dark:border-rose-900/30">
+                                <h4 class="font-bold text-rose-800 dark:text-rose-300 mb-3 flex items-center">
+                                    <i class="fas fa-envelope-open-text mr-2"></i> 3. Envoi Postal
+                                </h4>
+                                <p class="text-sm">Adressez les bons cadeaux accompagnés de leur bordereau de remise à l'adresse postale indiquée par le prestataire.</p>
+                                <p class="text-xs mt-3 font-bold text-rose-600 dark:text-rose-400 bg-white/50 dark:bg-black/20 p-2 rounded-lg text-center shadow-sm">
+                                    Conservez le scan du bordereau et le récépissé d'envoi !
+                                </p>
+                            </div>
+                            <div class="bg-gray-50/50 dark:bg-slate-800/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                                    <i class="fas fa-file-excel mr-2 text-green-600"></i> 4. Récapitulatif ADV
+                                </h4>
+                                <p class="text-sm mb-2">Tous les mois (dernière décade), envoyez à <strong>comptabilite.adv.adagio@groupepvcp.com</strong> :</p>
+                                <ul class="text-xs space-y-1 list-disc pl-4 text-gray-500 dark:text-gray-400">
+                                    <li>Fichier Excel "Feuille comptage ANCV et bons cadeaux".</li>
+                                    <li>Scans des bordereaux d'envoi.</li>
+                                    <li>Scans des récépissés postaux.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SOUS-CONTENU 8 : POINTS ALL -->
+                    <div id="content-factu-points-all"
+                        class="sub-content hidden fade-in text-sm text-gray-600 dark:text-gray-300">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <button onclick="hideSubContent('factu')" class="flex items-center text-yellow-600 dark:text-yellow-400 font-bold hover:underline transition-all hover:-translate-x-1">
+                                <i class="fas fa-arrow-left mr-2"></i> Retour aux choix
+                            </button>
+                            <span class="text-xs font-bold px-3 py-1 bg-gradient-to-r from-yellow-500 to-amber-500 text-white rounded-full shadow-sm">
+                                <i class="fas fa-star mr-1"></i> Fidélité Accor
+                            </span>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-3xl font-black text-gray-900 dark:text-white flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-yellow-100 dark:bg-yellow-900/50 flex items-center justify-center text-yellow-600">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                Paiement en Points ALL
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Le paiement par points Accor Live Limitless (ALL) est une fonctionnalité intégrée à Opera Cloud. Les points brûlés par le client génèrent une ligne de crédit sur son folio, et l'hôtel est ensuite remboursé par le programme ALL.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm mb-8">
+                            <h4 class="font-bold text-gray-800 dark:text-gray-200 text-lg mb-4 flex items-center gap-2">
+                                <i class="fas fa-desktop text-yellow-500"></i> Méthode d'encaissement Opera Cloud
+                            </h4>
+                            <p class="mb-5 text-sm">Pour appliquer le paiement en points, le membre doit être In-House ou au Check-Out. Assurez-vous d'avoir identifié formellement le titulaire de la carte (Pièce d'identité recommandée).</p>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 dark:bg-slate-800 dark:text-yellow-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">1</span>
+                                    <span>Allez dans la <strong>Facturation</strong> (Billing) de la réservation.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 dark:bg-slate-800 dark:text-yellow-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">2</span>
+                                    <span>Cliquez sur <strong>Paiement</strong> (Payment).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 dark:bg-slate-800 dark:text-yellow-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">3</span>
+                                    <span>Dans la méthode de paiement, sélectionnez le code transaction <strong>ALL Points</strong> (ou équivalent selon la configuration locale de votre Opera).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 dark:bg-slate-800 dark:text-yellow-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">4</span>
+                                    <span>Une interface de validation ALL s'ouvre. Indiquez le nombre de points à déduire (généralement par paliers de 2000 pts = 40€).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 dark:bg-slate-800 dark:text-yellow-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">5</span>
+                                    <span>Validez avec le membre (un SMS de vérification ou un code PIN peut être requis pour les gros montants). La réduction s'applique immédiatement sur le folio.</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                     <!-- SOUS-CONTENU 1 : SPLIT FOLIO -->
@@ -8157,7 +8324,7 @@
                 <div
                     class="bg-white dark:bg-slate-800 border border-t-0 border-gray-200 dark:border-slate-700 rounded-b-3xl shadow-lg min-h-[60vh] flex flex-col p-6">
 
-                    <div id="grid-fidelite" class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
+                    <div id="grid-fidelite" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 fade-in">
 
                         <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-6 rounded-2xl border-t-4 border-t-amber-500 border border-gray-200 dark:border-slate-700 flex flex-col justify-between shadow-sm cursor-pointer group"
                             onclick="showSubContent('fidelite', 'fidelite-all')">
@@ -8190,11 +8357,11 @@
                                 </div>
                                 <span
                                     class="text-[10px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/50 px-2 py-0.5 rounded-full">CRM
-                                    et Traabilité</span>
+                                    et Traçabilité</span>
                                 <h3 class="font-bold text-lg text-gray-900 dark:text-white mt-2 mb-1.5">2. Préférences
                                     ACDC et G.E.T</h3>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Fiches profils,
-                                    préférences clients et traabilité des incidents.</p>
+                                    préférences clients et traçabilité des incidents.</p>
                             </div>
                             <div
                                 class="mt-4 pt-3 border-t border-gray-200 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-pink-600 dark:text-pink-400">
@@ -8203,6 +8370,116 @@
                             </div>
                         </div>
 
+                        <!-- TILE 3: ALL Meetings & Events -->
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-6 rounded-2xl border-t-4 border-t-indigo-500 border border-gray-200 dark:border-slate-700 flex flex-col justify-between shadow-sm cursor-pointer group"
+                            onclick="showSubContent('fidelite', 'fidelite-meetings')">
+                            <div>
+                                <div class="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/40 rounded-2xl flex items-center justify-center mb-4 text-2xl text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-2 py-0.5 rounded-full">Groupes & Événements</span>
+                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mt-2 mb-1.5">3. ALL Meetings & Events</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Barème, éligibilité et procédure de crédit ACDC pour les organisateurs.</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-gray-200 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                                <span>Voir la procédure</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- SOUS-CONTENU 3 : ALL MEETINGS & EVENTS -->
+                    <div id="content-fidelite-meetings" class="sub-content hidden fade-in text-sm text-gray-600 dark:text-gray-300">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <button onclick="hideSubContent('fidelite')" class="flex items-center text-indigo-600 dark:text-indigo-400 font-bold hover:underline transition-all hover:-translate-x-1">
+                                <i class="fas fa-arrow-left mr-2"></i> Retour aux choix
+                            </button>
+                            <span class="text-xs font-bold px-3 py-1 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-full shadow-sm">
+                                <i class="fas fa-handshake mr-1"></i> Récompenses Organisateurs
+                            </span>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-2 mb-2">
+                                <i class="fas fa-handshake text-indigo-500"></i> ALL Meetings & Events
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                Depuis le <strong>10 septembre 2025</strong>, le programme ALL Meeting Planner n'est plus disponible. Les organisateurs de réunions et d'événements gagnent désormais leurs points directement en tant que <strong>membres ALL Accor</strong>.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- Règles d'éligibilité -->
+                            <div class="bg-indigo-50/50 dark:bg-indigo-900/10 p-5 rounded-2xl border border-indigo-100 dark:border-indigo-900/30">
+                                <h4 class="font-bold text-indigo-800 dark:text-indigo-300 mb-3 flex items-center">
+                                    <i class="fas fa-check-circle mr-2"></i> Conditions d'éligibilité
+                                </h4>
+                                <ul class="space-y-2 text-sm text-indigo-900 dark:text-indigo-200">
+                                    <li class="flex items-start gap-2"><i class="fas fa-users text-indigo-500 mt-1 shrink-0"></i> <span>Minimum <strong>8 participants</strong> ou <strong>8 chambres</strong>.</span></li>
+                                    <li class="flex items-start gap-2"><i class="fas fa-file-invoice text-indigo-500 mt-1 shrink-0"></i> <span>Prestations payées <strong>sur facture</strong>.</span></li>
+                                    <li class="flex items-start gap-2"><i class="fas fa-bed text-indigo-500 mt-1 shrink-0"></i> <span>Hébergement, Salles de réunion, F&B.</span></li>
+                                    <li class="flex items-start gap-2"><i class="fas fa-ban text-red-500 mt-1 shrink-0"></i> <span><strong>Exclus :</strong> Sous-traitants (matériel), personnel, extras payés par les participants.</span></li>
+                                </ul>
+                            </div>
+                            <!-- Barème de points -->
+                            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm">
+                                <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                                    <i class="fas fa-coins mr-2 text-yellow-500"></i> Barème & Générosité
+                                </h4>
+                                <div class="bg-gray-50 dark:bg-slate-900 p-3 rounded-xl mb-3 text-center border border-gray-100 dark:border-slate-700">
+                                    <span class="text-xl font-black text-gray-900 dark:text-white">2€ dépensés =</span><br>
+                                    <span class="text-indigo-600 dark:text-indigo-400 font-bold">1 point Reward + 1 point Status</span>
+                                </div>
+                                <ul class="space-y-1 text-sm text-gray-500 dark:text-gray-400">
+                                    <li><i class="fas fa-dot-circle text-[8px] text-gray-400 mr-2"></i>Valeur fixe : 1000 points Reward = 20€.</li>
+                                    <li><i class="fas fa-dot-circle text-[8px] text-gray-400 mr-2"></i><strong>Pas de plafond de gains</strong>.</li>
+                                    <li><i class="fas fa-dot-circle text-[8px] text-gray-400 mr-2"></i>Points valables 12 mois.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Procédure de crédit ACDC -->
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 dark:border-slate-800 shadow-sm">
+                            <h4 class="font-bold text-gray-800 dark:text-gray-200 text-lg mb-4 flex items-center gap-2">
+                                <i class="fas fa-desktop text-indigo-500"></i> Procédure de crédit via ACDC
+                            </h4>
+                            <p class="mb-5 text-sm">Les points ne sont plus crédités automatiquement au check-out du groupe. Ils doivent être saisis <strong>manuellement dans ACDC</strong>.</p>
+                            <ol class="list-none space-y-4 text-sm">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">1</span>
+                                    <span>Connectez-vous à <strong>ACDC</strong> et allez dans le menu <em>Points Credit</em>.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">2</span>
+                                    <span>Recherchez le membre ALL (par nom ou n° de carte de fidélité).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">3</span>
+                                    <span>Cochez explicitement la case <strong class="text-indigo-600 dark:text-indigo-400">Events points</strong> (Points d'événements).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">4</span>
+                                    <span>Indiquez la <strong>Date de l'événement</strong>.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">5</span>
+                                    <span>Saisissez le <strong>Montant HT</strong> des dépenses éligibles (hors pourboires et taxes). Le système calculera et déduira automatiquement le plafond si applicable (hors zone Pacific).</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 flex items-center justify-center text-xs mt-0.5 shadow-sm font-bold shrink-0">6</span>
+                                    <span>Validez l'opération.</span>
+                                </li>
+                            </ol>
+                            <div class="mt-6 p-4 bg-red-50 dark:bg-red-900/20 rounded-xl text-sm border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 flex items-start gap-3 shadow-sm">
+                                <i class="fas fa-exclamation-triangle mt-1 text-red-500"></i>
+                                <div>
+                                    <strong class="block mb-1">Golden Rule</strong>
+                                    Ne forcez pas le crédit de points (EARN) sur des tarifs non-éligibles. Les réservations faites sur le PMS et non enregistrées dans TARS ne peuvent pas être prises en compte et seront toujours considérées comme non éligibles.<br><br>
+                                    De plus, si un client utilise ses points pour payer (BURN), cette déduction doit obligatoirement être validée <em>avant</em> de procéder au crédit (EARN).
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- SOUS-CONTENU 1 : PROGRAMME ALL (STATUTS) ULTRA DÉTAILLÉ -->
@@ -12208,7 +12485,7 @@
                             target.querySelectorAll('.sub-content').forEach(c => c.classList.add('hidden'));
                             sub.classList.remove('hidden');
                             if (typeof gsap !== 'undefined') {
-                                gsap.fromTo(sub, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" });
+                                gsap.fromTo(sub, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.2, ease: "expo.out" });
                             }
                         } else {
                             if (grid) grid.classList.remove('hidden');
@@ -12232,7 +12509,7 @@
             if (homeView.classList.contains('hidden')) {
                 activateTarget();
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(moduleView, { opacity: 0.8 }, { opacity: 1, duration: 0.18, ease: "power2.out" });
+                    gsap.fromTo(moduleView, { opacity: 0.8 }, { opacity: 1, duration: 0.18, ease: "expo.out" });
                 }
                 return;
             }
@@ -12245,7 +12522,7 @@
                     ease: "power2.inOut",
                     onComplete: () => {
                         activateTarget();
-                        gsap.fromTo(moduleView, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" });
+                        gsap.fromTo(moduleView, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.2, ease: "expo.out" });
                     }
                 });
             } else {
@@ -12347,8 +12624,8 @@
                         document.getElementById('clearSearchBtn').classList.add('hidden');
                         handleGlobalSearch('');
 
-                        gsap.fromTo(homeView, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" });
-                        gsap.fromTo('.search-item', { opacity: 0, y: 12, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, stagger: 0.03, ease: "power2.out" });
+                        gsap.fromTo(homeView, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.25, ease: "expo.out" });
+                        gsap.fromTo('.search-item', { opacity: 0, y: 12, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, stagger: 0.03, ease: "expo.out" });
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                 });
@@ -12379,7 +12656,7 @@
             if (target) {
                 target.classList.remove('hidden');
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(target, { opacity: 0, x: 15 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out" });
+                    gsap.fromTo(target, { opacity: 0, x: 15 }, { opacity: 1, x: 0, duration: 0.25, ease: "expo.out" });
                 }
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -12404,7 +12681,7 @@
             if (grid) {
                 grid.classList.remove('hidden');
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(grid, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" });
+                    gsap.fromTo(grid, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.2, ease: "expo.out" });
                 }
             }
         }
@@ -13212,7 +13489,7 @@
                 broadcastSync('RESOLVE_CONSIGNE', { id });
 
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(`#consigne-${id}`, { scale: 1.02 }, { scale: 1, duration: 0.3, ease: "power2.out" });
+                    gsap.fromTo(`#consigne-${id}`, { scale: 1.02 }, { scale: 1, duration: 0.3, ease: "expo.out" });
                 }
             }
         }
@@ -14364,7 +14641,7 @@
                 secStandard.classList.remove('hidden');
                 secModif.classList.add('hidden');
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(secStandard, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" });
+                    gsap.fromTo(secStandard, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "expo.out" });
                 }
             } else {
                 btnModif.className = 'flex-1 p-4 rounded-2xl border-2 border-orange-500 bg-orange-50 dark:bg-orange-950/60 text-orange-900 dark:text-orange-200 font-black text-sm flex items-center justify-center gap-3 transition-all shadow-sm';
@@ -14378,7 +14655,7 @@
                 secModif.classList.remove('hidden');
                 secStandard.classList.add('hidden');
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(secModif, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" });
+                    gsap.fromTo(secModif, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "expo.out" });
                 }
             }
         }
@@ -14410,7 +14687,7 @@
                 if (icon) icon.className = 'w-9 h-9 rounded-xl bg-emerald-500 text-white flex-shrink-0 flex items-center justify-center text-base shadow-sm';
                 sec.classList.remove('hidden');
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(sec, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" });
+                    gsap.fromTo(sec, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "expo.out" });
                 }
             };
 
@@ -14448,7 +14725,7 @@
             if (target) {
                 target.classList.remove('hidden');
                 if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(target, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" });
+                    gsap.fromTo(target, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25, ease: "expo.out" });
                 }
             }
         }
@@ -14554,7 +14831,7 @@
                                     opacity: 1,
                                     x: 0,
                                     duration: 0.35,
-                                    ease: "power2.out",
+                                    ease: "expo.out",
                                     clearProps: "all"
                                 });
                             }
@@ -14578,7 +14855,7 @@
             if (typeof gsap !== 'undefined') {
                 gsap.fromTo('.search-item',
                     { opacity: 0, y: 15, scale: 0.98 },
-                    { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.03, ease: "power2.out" }
+                    { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.03, ease: "expo.out" }
                 );
             }
 
@@ -14842,7 +15119,7 @@
                         gsap.killTweensOf(sub);
                         gsap.fromTo(sub,
                             { opacity: 0, y: 10 },
-                            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", clearProps: "all" }
+                            { opacity: 1, y: 0, duration: 0.4, ease: "expo.out", clearProps: "all" }
                         );
                     }
                 };
@@ -14863,7 +15140,7 @@
                         rotationY: x * 0.015,
                         rotationX: -y * 0.015,
                         duration: 0.6,
-                        ease: "power2.out",
+                        ease: "expo.out",
                         overwrite: "auto"
                     });
                 });
@@ -14880,7 +15157,7 @@
 
                 el.addEventListener('mousedown', () => {
                     if (!el.classList.contains('checklist-row')) {
-                        gsap.to(el, { scale: 0.94, duration: 0.2, ease: "power2.out", overwrite: "auto" });
+                        gsap.to(el, { scale: 0.94, duration: 0.2, ease: "expo.out", overwrite: "auto" });
                     }
                 });
 
@@ -15189,6 +15466,44 @@
 
         })();
     </script>
+    <!-- Chat Personnel (Staff Chat) -->
+    <script src="js/chat.js"></script>
+    <div id="staffChatWidget" class="fixed bottom-6 right-28 z-[9901] flex flex-col items-end">
+        <!-- Chat Window -->
+        <div id="staffChatWindow" class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl rounded-2xl w-80 sm:w-96 mb-4 overflow-hidden border border-gray-200 dark:border-slate-700 transition-all duration-300 transform scale-0 origin-bottom-right opacity-0 pointer-events-none flex-col flex" style="height: 500px; max-height: 70vh;">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-adagio-red to-pink-600 p-4 text-white flex justify-between items-center shadow-md">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-comments text-lg"></i>
+                    <h4 class="font-bold">Chat Équipe</h4>
+                </div>
+                <button onclick="toggleStaffChat()" class="text-white/80 hover:text-white transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Messages Area -->
+            <div id="staffChatMessages" class="flex-1 p-4 overflow-y-auto custom-scrollbar flex flex-col gap-3 bg-gray-50/50 dark:bg-slate-800/50">
+                <div class="text-center text-xs text-gray-400 my-2">Début de la conversation</div>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="p-3 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
+                <form id="staffChatForm" class="flex gap-2" onsubmit="sendStaffChatMessage(event)">
+                    <input type="text" id="staffChatInput" placeholder="Votre message..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-0 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-adagio-red outline-none transition-all dark:text-white" required>
+                    <button type="submit" class="bg-adagio-red hover:bg-pink-600 text-white rounded-xl w-10 h-10 flex items-center justify-center transition-colors shadow-md hover:shadow-lg">
+                        <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Chat Bubble Button -->
+        <button id="staffChatToggle" onclick="toggleStaffChat()" class="w-14 h-14 bg-gradient-to-tr from-adagio-red to-pink-600 rounded-full text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center relative">
+            <i class="fas fa-comments text-xl"></i>
+            <span id="staffChatUnread" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 hidden">0</span>
+        </button>
+    </div>
 </body>
 
 </html>

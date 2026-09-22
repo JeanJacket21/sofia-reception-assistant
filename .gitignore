@@ -1,7 +1,21 @@
 # Backups and temporary files
 backups/
+.backup/
 *.backup.*
 *.backup.html
 scratch_step.json
 *.tmp
 *.log
+
+# Temp/debug files from editing sessions
+index_head.html
+original_modules.html
+replacement.txt
+target.txt
+temp_tail.txt
+apply_changes.ps1
+check.js
+test.js
+test_encoding.txt
+test_encoding2.txt
+safelist_div.html
