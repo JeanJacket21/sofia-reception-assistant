@@ -509,14 +509,14 @@
                         </a>
                         <div class="ml-4 pl-2.5 border-l-2 border-orange-300 dark:border-orange-700 space-y-1">
                             <a href="javascript:void(0)"
-                                onclick="navFromSidebar('module-sejour', 'sejour-checkin'); setTimeout(() => switchCheckinTab('standard'), 50);"
+                                onclick="navFromSidebar('module-sejour', 'sejour-checkin'); setTimeout(() => switchCheckinTab('standard'), 200);"
                                 class="block px-2 py-1 rounded-md text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-white dark:hover:bg-slate-700 font-medium text-[11px] sm:text-xs transition-all flex items-center justify-between">
                                 <span><i class="fas fa-angle-right mr-1.5 text-orange-400"></i> 3a. Check-In
                                     Standard</span>
                                 <span class="text-[9px] text-gray-400 font-semibold">Accueil & Scénarios</span>
                             </a>
                             <a href="javascript:void(0)"
-                                onclick="navFromSidebar('module-sejour', 'sejour-checkin'); setTimeout(() => switchCheckinTab('modif'), 50);"
+                                onclick="navFromSidebar('module-sejour', 'sejour-checkin'); setTimeout(() => switchCheckinTab('modif'), 200);"
                                 class="block px-2 py-1 rounded-md text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-white dark:hover:bg-slate-700 font-medium text-[11px] sm:text-xs transition-all flex items-center justify-between">
                                 <span><i class="fas fa-user-edit mr-1.5 text-red-500"></i> 3b. Modif Client IN & Règle
                                     OTA</span>
@@ -997,6 +997,13 @@
                         <span id="syncStatusText" class="hidden sm:inline">Synchro Active</span>
                     </button>
 
+                    <button id="globalSearchToggle"
+                        class="p-2.5 rounded-xl bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors focus:outline-none flex items-center gap-2"
+                        onclick="toggleGlobalSearch()" aria-label="Recherche Globale">
+                        <i class="fas fa-search text-lg"></i>
+                        <span class="hidden sm:inline text-[10px] font-bold opacity-70 bg-gray-200 dark:bg-slate-600 px-1.5 py-0.5 rounded">Ctrl K</span>
+                    </button>
+
                     <button id="darkModeToggle"
                         class="p-2.5 rounded-xl bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors focus:outline-none"
                         onclick="toggleDarkMode()" aria-label="Basculer le thème">
@@ -1045,6 +1052,38 @@
                         class="px-3 py-1.5 rounded-full bg-pink-50 dark:bg-pink-900/40 text-pink-700 dark:text-pink-300">Consignes</span>
                 </div>
 
+            </div>
+
+            <!-- MODULE BIENVENUE CHEZ ADAGIO (Pleine largeur) -->
+            <div class="tiles-row w-full mb-8 max-w-4xl mx-auto">
+                <div class="tile-hover bg-gradient-to-r from-rose-600 to-pink-500 dark:from-rose-800 dark:to-pink-700 rounded-3xl p-6 sm:p-7 shadow-lg flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 search-item relative overflow-hidden group cursor-pointer"
+                    onclick="openModule('module-bienvenue')"
+                    data-keywords="bienvenue adagio histoire valeurs rh rse formation onboarding">
+                    <div class="flex items-start sm:items-center gap-5">
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-white text-3xl flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform backdrop-blur-sm">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span
+                                    class="bg-white/20 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-sm">Onboarding</span>
+                            </div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white">Bienvenue Chez Adagio</h2>
+                            <p class="text-sm text-rose-100 mt-1 font-medium max-w-xl">
+                                Formation d'intégration pour les nouveaux collaborateurs : histoire, valeurs, lieux de vie, parcours client et informations RH.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="w-full lg:w-auto flex flex-col sm:flex-row items-center gap-3 shrink-0 pt-4 lg:pt-0 border-t border-white/20 lg:border-t-0">
+                        <button
+                            class="w-full sm:w-auto px-5 py-2.5 bg-white text-pink-600 font-bold rounded-xl shadow-sm group-hover:shadow hover:bg-rose-50 transition-all text-sm flex items-center justify-center gap-2">
+                            <span>Ouvrir la formation</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="relative py-2">
@@ -1253,6 +1292,403 @@
         </div>
 
         <div id="module-view" class="hidden">
+            <!-- MODULE 12: BIENVENUE CHEZ ADAGIO -->
+            <div id="module-bienvenue" class="module-content hidden">
+                <div
+                    class="bg-gradient-to-r from-rose-600 to-pink-500 dark:from-rose-800 dark:to-pink-700 rounded-t-3xl p-6 sm:p-8 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-black flex items-center"><i
+                                class="fas fa-heart mr-3 sm:mr-4 text-pink-200"></i> Bienvenue Chez Adagio
+                        </h2>
+                        <p class="mt-2 text-rose-100 text-sm sm:text-base font-light">Formation d'intégration pour les nouveaux collaborateurs.</p>
+                    </div>
+                    <button onclick="closeModules()"
+                        class="self-start sm:self-center inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 active:scale-95 text-white font-bold text-xs sm:text-sm backdrop-blur-sm border border-white/25 shadow-sm transition-all hover:-translate-x-1 shrink-0 cursor-pointer">
+                        <i class="fas fa-arrow-left"></i> Retour au menu
+                    </button>
+                </div>
+
+                <div
+                    class="bg-white dark:bg-slate-800 border border-t-0 border-gray-200 dark:border-slate-700 rounded-b-3xl shadow-lg min-h-[60vh] flex flex-col relative">
+                    
+                    <button id="btn-back-bienvenue" onclick="hideSubContent('bienvenue')"
+                        class="hidden absolute top-4 right-4 z-10 p-2 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
+                        title="Retour aux chapitres">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                    <!-- Grille des chapitres (Main View) -->
+                    <div id="grid-bienvenue" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8 fade-in">
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-8 rounded-2xl border-t-4 border-t-pink-500 border border-gray-200 dark:border-slate-700 text-center shadow-sm"
+                            onclick="showSubContent('bienvenue', 'bienvenue-histoire')">
+                            <div class="w-16 h-16 bg-pink-100 dark:bg-pink-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl text-pink-600 dark:text-pink-400">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">1. Notre Histoire</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 font-semibold">Actionnaires, Grandes dates, Organisation, Réseau</p>
+                        </div>
+                        
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-8 rounded-2xl border-t-4 border-t-blue-500 border border-gray-200 dark:border-slate-700 text-center shadow-sm"
+                            onclick="showSubContent('bienvenue', 'bienvenue-univers')">
+                            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl text-blue-600 dark:text-blue-400">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">2. Notre Univers</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 font-semibold">Identité, FDJ Suez, RSE, Marques</p>
+                        </div>
+
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-8 rounded-2xl border-t-4 border-t-orange-500 border border-gray-200 dark:border-slate-700 text-center shadow-sm"
+                            onclick="showSubContent('bienvenue', 'bienvenue-lieux')">
+                            <div class="w-16 h-16 bg-orange-100 dark:bg-orange-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl text-orange-600 dark:text-orange-400">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">3. Nos Lieux de Vie</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 font-semibold">Appartements, Coliving, Le Cercle</p>
+                        </div>
+
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-8 rounded-2xl border-t-4 border-t-teal-500 border border-gray-200 dark:border-slate-700 text-center shadow-sm"
+                            onclick="showSubContent('bienvenue', 'bienvenue-parcours')">
+                            <div class="w-16 h-16 bg-teal-100 dark:bg-teal-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl text-teal-600 dark:text-teal-400">
+                                <i class="fas fa-map-signs"></i>
+                            </div>
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">4. Notre Parcours Client</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 font-semibold">Services, Equipes & Rituels, Digital, Business Model</p>
+                        </div>
+
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-8 rounded-2xl border-t-4 border-t-purple-500 border border-gray-200 dark:border-slate-700 text-center shadow-sm"
+                            onclick="showSubContent('bienvenue', 'bienvenue-collab')">
+                            <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl text-purple-600 dark:text-purple-400">
+                                <i class="fas fa-user-astronaut"></i>
+                            </div>
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">5. Moi, Nouveau Collaborateur</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 font-semibold">Environnement RH, Avantages, Mutuelle, Congés</p>
+                        </div>
+                    </div>
+
+                    <!-- Sous-contenus (Chapitres) -->
+                    
+                    <!-- CHAPITRE 1 : NOTRE HISTOIRE -->
+                    <div id="content-bienvenue-histoire" class="sub-content hidden p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <i class="fas fa-book-open text-2xl text-pink-600 dark:text-pink-400"></i>
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white">1. Notre Histoire</h3>
+                        </div>
+
+                        <div class="space-y-8">
+                            <!-- Fondamentaux FIRST -->
+                            <div class="bg-gray-50 dark:bg-slate-900/50 p-6 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                <h4 class="font-bold text-blue-700 dark:text-blue-400 text-lg mb-4">Partir de nos fondamentaux (F.I.R.S.T 2030)</h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Dans la continuité de NEXT, le projet d’entreprise FIRST capitalise sur les fondamentaux d’ADAGIO et affirme notre ambition de leadership à 5 ans : <strong>Être la référence de l’appart’hôtellerie en EUROPE.</strong></p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                    <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
+                                        <h5 class="font-bold text-gray-900 dark:text-white text-sm">Raison d'être</h5>
+                                        <p class="text-sm text-pink-600 mt-1">Rendre la vie en ville plus belle</p>
+                                    </div>
+                                    <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
+                                        <h5 class="font-bold text-gray-900 dark:text-white text-sm">Valeurs</h5>
+                                        <p class="text-sm text-pink-600 mt-1">Audace – Responsabilité - Partage</p>
+                                    </div>
+                                    <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
+                                        <h5 class="font-bold text-gray-900 dark:text-white text-sm">Mission</h5>
+                                        <p class="text-sm text-pink-600 mt-1">Faciliter le séjour de nos clients pour qu’ils profitent de leur vie en ville</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                                    <div class="p-3 border border-gray-200 dark:border-slate-600 rounded-lg"><strong>Clients :</strong> Une marque reconnue par les voyageurs urbains</div>
+                                    <div class="p-3 border border-gray-200 dark:border-slate-600 rounded-lg"><strong>Collaborateurs :</strong> Une équipe responsable et engagée</div>
+                                    <div class="p-3 border border-gray-200 dark:border-slate-600 rounded-lg"><strong>Partenaires :</strong> La réponse «Extended Stay» N°1 des investisseurs</div>
+                                    <div class="p-3 border border-gray-200 dark:border-slate-600 rounded-lg"><strong>Actionnaires :</strong> Une croissance rentable, Best-in-Class</div>
+                                </div>
+                            </div>
+
+                            <!-- Nos Actionnaires -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">A - Nos actionnaires</h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Création de la marque Adagio en <strong>Octobre 2007</strong> : Joint-venture (50/50) entre deux leaders de l’industrie du tourisme et de l’hôtellerie : Accor et Pierre & Vacances CenterParcs.</p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-teal-50 dark:bg-teal-900/20 p-5 rounded-2xl border border-teal-100 dark:border-teal-800/50">
+                                        <h5 class="font-bold text-teal-800 dark:text-teal-400 mb-2">Groupe Pierre & Vacances CenterParcs</h5>
+                                        <ul class="text-xs space-y-2 text-gray-700 dark:text-gray-300">
+                                            <li><i class="fas fa-map-marker-alt text-teal-600 w-5"></i> 300 sites, 5 pays principaux</li>
+                                            <li><i class="fas fa-home text-teal-600 w-5"></i> 45 800 appartements et maisons</li>
+                                            <li><i class="fas fa-euro-sign text-teal-600 w-5"></i> € 1 946 millions en revenus (2024/2025)</li>
+                                            <li><i class="fas fa-users text-teal-600 w-5"></i> 8 millions de clients, 13 000 employés</li>
+                                            <li><i class="fas fa-tags text-teal-600 w-5"></i> 4 marques (Pierre & Vacances, Center Parcs, Maeva, Adagio)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-amber-50 dark:bg-amber-900/20 p-5 rounded-2xl border border-amber-100 dark:border-amber-800/50">
+                                        <h5 class="font-bold text-amber-800 dark:text-amber-400 mb-2">Groupe ACCOR</h5>
+                                        <ul class="text-xs space-y-2 text-gray-700 dark:text-gray-300">
+                                            <li><i class="fas fa-hotel text-amber-600 w-5"></i> 5 700 Hôtels, 850 000 Chambres</li>
+                                            <li><i class="fas fa-globe text-amber-600 w-5"></i> +110 Pays</li>
+                                            <li><i class="fas fa-tags text-amber-600 w-5"></i> +45 Marques hôtelières (Luxury, Premium, Midscale, Economy)</li>
+                                            <li><i class="fas fa-users text-amber-600 w-5"></i> +360 000 Collaborateurs</li>
+                                            <li><i class="fas fa-id-card text-amber-600 w-5"></i> Programme de fidélité <strong>ALL – Accor Live Limitless</strong> multimarques.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Grandes dates -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">B - Nos grandes dates et chiffres clés</h4>
+                                <div class="relative pl-6 border-l-2 border-pink-500 space-y-4">
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2007 (16 sites)</strong> Création d’Adagio City Aparthotel</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2008 (26 sites)</strong> Première Expansion en Europe (Suisse)</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2009 (38 sites)</strong> Ouvertures en Belgique, Allemagne, Autriche</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2011 (85 sites)</strong> Lancement Adagio access (ex Citéa)</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2014 (95 sites)</strong> Ouvertures franchises avec Accor en Russie, Moyen-Orient, Am. Latine</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2017 (100 sites)</strong> Master-franchises Accor Europe de l’Est et Afrique Sub-Saharienne</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2021 (122 sites)</strong> 10 Nouvelles Ouvertures!</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2022 (126 sites)</strong> Adagio fête ses 15 ans avec une nouvelle identité de marque</div>
+                                    <div class="relative"><span class="absolute -left-[31px] bg-pink-500 w-4 h-4 rounded-full border-4 border-white dark:border-slate-800"></span><strong class="text-pink-600">2030</strong> Objectif : 180 sites</div>
+                                </div>
+                            </div>
+
+                            <!-- Organisation -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">C - Notre organisation</h4>
+                                <div class="bg-gray-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                    <p class="text-sm font-semibold mb-3">Le Comité de Direction</p>
+                                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700 dark:text-gray-300">
+                                        <li><strong>Xavier DESAULLES</strong> - Directeur Général</li>
+                                        <li><strong>Virginie BARBOUX</strong> - Directrice Client & Marketing</li>
+                                        <li><strong>Marie Isabelle GRUSON</strong> - Directrice OPS, IT/Digital, Achats & CTO</li>
+                                        <li><strong>Arthur JAEGER</strong> - Directeur Développement et Programme</li>
+                                        <li><strong>Marc LE MARCHAND</strong> - Directeur Administratif et Financier</li>
+                                        <li><strong>Sophie MESTIRI</strong> - Directrice des Ressources Humaines</li>
+                                        <li><strong>Stéphane ORMAND</strong> - Directeur Ventes et Revenu</li>
+                                        <li><strong>Jean-Marc SCHNELL</strong> - Directeur des Exploitations</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Notre réseau -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">D - Notre réseau</h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 mb-4"><strong>130 appart-hôtels (Déc. 2024)</strong> au cœur des plus belles villes du monde : 14 782 appartements dans 16 pays.</p>
+                                <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300 mb-4">
+                                    <li><strong>3</strong> ADAGIO PREMIUM (équivalent 5 étoiles)</li>
+                                    <li><strong>74</strong> ADAGIO ORIGINAL (équivalent 4 étoiles)</li>
+                                    <li><strong>53</strong> ADAGIO ACCESS (équivalent 3 étoiles)</li>
+                                </ul>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 italic">Exemples d'ouvertures : Rouen, Abidjan, London City East, Stuttgart... Signature de reprise des 9 établissements Sergic (Bordeaux Pessac, etc.).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CHAPITRE 2 : NOTRE UNIVERS -->
+                    <div id="content-bienvenue-univers" class="sub-content hidden p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <i class="fas fa-globe text-2xl text-blue-600 dark:text-blue-400"></i>
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white">2. Notre Univers</h3>
+                        </div>
+                        <div class="space-y-8">
+                            <!-- Identité de marque -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">A - Notre identité</h4>
+                                <div class="bg-rose-50 dark:bg-rose-900/20 p-5 rounded-2xl border border-rose-100 dark:border-rose-800/50 mb-6">
+                                    <p class="text-sm text-gray-700 dark:text-gray-300"><strong>Adagio</strong> vient de l'italien "Ad Agio" qui signifie "à l'aise". Cela indique un tempo en musique, lent et calme.</p>
+                                    <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                                        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm"><p class="font-bold text-gray-900 dark:text-white text-xs">Notre raison d'être</p><p class="text-pink-600 font-bold mt-1">Rendre la vie en ville plus belle</p></div>
+                                        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm"><p class="font-bold text-gray-900 dark:text-white text-xs">Notre promesse</p><p class="text-blue-600 font-bold mt-1">La ville l'esprit léger</p></div>
+                                        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm"><p class="font-bold text-gray-900 dark:text-white text-xs">Notre signature</p><p class="text-pink-600 font-bold mt-1">Here for you</p></div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                                    <div class="p-4 border border-gray-200 dark:border-slate-700 rounded-xl"><strong class="text-pink-600 block mb-2">Partage</strong><p class="text-xs text-gray-600 dark:text-gray-400">Liens solides, collectif unique.</p></div>
+                                    <div class="p-4 border border-gray-200 dark:border-slate-700 rounded-xl"><strong class="text-orange-500 block mb-2">Responsabilité</strong><p class="text-xs text-gray-600 dark:text-gray-400">Grandir Adagio, oeuvrer dans nos villes.</p></div>
+                                    <div class="p-4 border border-gray-200 dark:border-slate-700 rounded-xl"><strong class="text-purple-500 block mb-2">Audace</strong><p class="text-xs text-gray-600 dark:text-gray-400">Oser, innover, concevoir.</p></div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <div class="flex-1 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800">
+                                        <strong class="text-blue-700 dark:text-blue-400 text-sm block mb-1">Partenariat FDJ Suez</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300">Partenaire majeur de l'équipe de cyclisme féminin FDJ Suez pour 4 ans. 18 athlètes, 5 nationalités. Demi Vollering (1ère au classement individuel).</p>
+                                    </div>
+                                    <div class="flex-1 bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border border-green-100 dark:border-green-800">
+                                        <strong class="text-green-700 dark:text-green-400 text-sm block mb-1">Politique RSE</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300">"Agir pour la transition des villes". Réduire notre empreinte, renforcer notre lien, agir en collectif.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Marques -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">B - Nos marques</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="border border-gray-200 dark:border-slate-700 p-5 rounded-2xl">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <span class="px-3 py-1 bg-orange-100 text-orange-700 font-bold rounded-lg text-xs">Adagio Access</span>
+                                            <span class="text-xs text-gray-500">The essence</span>
+                                        </div>
+                                        <ul class="text-xs space-y-2 text-gray-700 dark:text-gray-300">
+                                            <li><strong>Bénéfice :</strong> Bien dans ma ville</li>
+                                            <li><strong>Expérience :</strong> READY TO (Démarrer, profiter, explorer)</li>
+                                            <li><strong>Singularité :</strong> Énergie & mobilité</li>
+                                            <li><strong>Cibles :</strong> Workers (moyen/long séjour), Working nomades, City breakers, Groupes</li>
+                                            <li><strong>Localisation :</strong> Proche centre-ville ou périphérie</li>
+                                        </ul>
+                                    </div>
+                                    <div class="border border-gray-200 dark:border-slate-700 p-5 rounded-2xl">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <span class="px-3 py-1 bg-pink-100 text-pink-700 font-bold rounded-lg text-xs">Adagio Original</span>
+                                            <span class="text-xs text-gray-500">The core</span>
+                                        </div>
+                                        <ul class="text-xs space-y-2 text-gray-700 dark:text-gray-300">
+                                            <li><strong>Bénéfice :</strong> La ville m'inspire</li>
+                                            <li><strong>Expérience :</strong> OPEN TO (Découvertes, rencontres)</li>
+                                            <li><strong>Singularité :</strong> Cultures & Rencontres</li>
+                                            <li><strong>Cibles :</strong> Familles & Tribus, City breakers, Bleisure</li>
+                                            <li><strong>Localisation :</strong> Cœur de ville</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CHAPITRE 3 : NOS LIEUX DE VIE -->
+                    <div id="content-bienvenue-lieux" class="sub-content hidden p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <i class="fas fa-building text-2xl text-orange-500 dark:text-orange-400"></i>
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white">3. Nos Lieux de Vie</h3>
+                        </div>
+                        <div class="space-y-8">
+                            <!-- Appartements -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">A - Nos appartements</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div class="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-200 dark:border-slate-700">
+                                        <strong class="text-pink-600 block mb-1">Studio 2 pax (Original)</strong>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">Surface utile ~25m². Concept <em>Smart House</em>.</p>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-200 dark:border-slate-700">
+                                        <strong class="text-pink-600 block mb-1">Appart 4 pax (Original)</strong>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">Surface utile ~33m². Concept <em>Smart House</em>.</p>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-200 dark:border-slate-700">
+                                        <strong class="text-purple-600 block mb-1">Coliving (Original)</strong>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">Nouvelle typologie, appartements de 4 à 6 chambres avec espaces communs partagés.</p>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-200 dark:border-slate-700">
+                                        <strong class="text-orange-600 block mb-1">Studio 2 pax (Access)</strong>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">Surface utile ~19m². Concept <em>Living Hub</em>.</p>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-200 dark:border-slate-700">
+                                        <strong class="text-orange-600 block mb-1">Studio 4 pax (Access)</strong>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">Surface utile ~26m². Nouveau concept en développement (éco-conception).</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Le Cercle -->
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-4">B - Le Cercle</h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Le concept d'expérience client Adagio, pensé pour favoriser la convivialité et transformer nos parties communes en <strong>véritables espaces de vie</strong>. Design unique, fonctions personnalisées, moments d'échange.</p>
+                                <ul class="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs text-gray-700 dark:text-gray-300">
+                                    <li class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-700"><i class="fas fa-concierge-bell text-pink-500 mr-2"></i>Welcome Desk</li>
+                                    <li class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-700"><i class="fas fa-book text-pink-500 mr-2"></i>La Bibliothèque d'Objets</li>
+                                    <li class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-700"><i class="fas fa-shopping-basket text-pink-500 mr-2"></i>Le Shop</li>
+                                    <li class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-700"><i class="fas fa-utensils text-pink-500 mr-2"></i>La Cuisine Partagée</li>
+                                    <li class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-700"><i class="fas fa-gamepad text-pink-500 mr-2"></i>Mur d'activités & Entertainment</li>
+                                    <li class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-700"><i class="fas fa-laptop text-pink-500 mr-2"></i>Working & Coworking</li>
+                                    <li class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-gray-200 dark:border-slate-700"><i class="fas fa-child text-pink-500 mr-2"></i>Kids Corner</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CHAPITRE 4 : NOTRE PARCOURS CLIENT -->
+                    <div id="content-bienvenue-parcours" class="sub-content hidden p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <i class="fas fa-map-signs text-2xl text-teal-600 dark:text-teal-400"></i>
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white">4. Notre Parcours Client</h3>
+                        </div>
+                        <div class="space-y-8">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Services -->
+                                <div class="bg-gray-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                    <h4 class="font-bold text-gray-900 dark:text-white text-md mb-3">A - Nos services</h4>
+                                    <ul class="text-xs space-y-2 text-gray-700 dark:text-gray-300">
+                                        <li><strong>Petit-déjeuner :</strong> La Manufacture Gourmande (Bar à gourmandises, Bar à bowls, Barista, Bar à toasts).</li>
+                                        <li><strong>Autres services :</strong> Laverie, Fitness, Piscine & Salle de réunion.</li>
+                                    </ul>
+                                </div>
+                                <!-- Rituels -->
+                                <div class="bg-gray-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                    <h4 class="font-bold text-gray-900 dark:text-white text-md mb-3">B - Nos équipes & nos rituels</h4>
+                                    <p class="text-xs text-gray-700 dark:text-gray-300 mb-2">Attitudes de service <strong>HERE FOR YOU</strong> : Empathie, Générosité, Prévenance.</p>
+                                    <p class="text-xs text-gray-700 dark:text-gray-300"><strong>Nos rituels :</strong> Welcome Drink, Friendly Moments, <em>Random Act of Kindness</em>.</p>
+                                </div>
+                                <!-- Digital -->
+                                <div class="bg-gray-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                    <h4 class="font-bold text-gray-900 dark:text-white text-md mb-3">C - Parcours digital (D-Edge CRM)</h4>
+                                    <p class="text-xs text-gray-700 dark:text-gray-300 mb-2"><strong>WebApp Adagio :</strong> Room Directory, Formulaires emprunt, City Guide, Messagerie.</p>
+                                    <p class="text-xs text-gray-700 dark:text-gray-300"><strong>Parcours avec PMS :</strong> Automatisation pré-stay (campagnes mails, infos, réservation services), Personnalisation in-situ, Check-out & GSS post-stay.</p>
+                                </div>
+                                <!-- Business Model -->
+                                <div class="bg-gray-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                    <h4 class="font-bold text-gray-900 dark:text-white text-md mb-3">D - Business model & Cibles</h4>
+                                    <p class="text-xs text-gray-700 dark:text-gray-300 mb-2"><strong>Les clients :</strong> 55% de séjours business (vs 20% sur le marché). Les séjours de 4 nuits et + représentent 2/3 des séjours.</p>
+                                    <p class="text-xs text-gray-700 dark:text-gray-300 mb-2"><strong>Les cibles :</strong> Familles, City Breakers, Workers, Nomads (Commuters & Bleisure).</p>
+                                    <p class="text-xs text-gray-700 dark:text-gray-300"><strong>Performance :</strong> Score de réputation (RPS) 82,6 en 2024. Le programme <strong>ALL</strong> apporte 65M€ (23% du CA global).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CHAPITRE 5 : NOUVEAU COLLABORATEUR -->
+                    <div id="content-bienvenue-collab" class="sub-content hidden p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <i class="fas fa-user-astronaut text-2xl text-purple-600 dark:text-purple-400"></i>
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white">5. Moi, Nouveau Collaborateur</h3>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <!-- Environnement RH -->
+                            <div class="bg-gray-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                <h4 class="font-bold text-gray-900 dark:text-white text-md mb-3">A - Mon environnement de travail RH</h4>
+                                <ul class="text-xs text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                                    <li><strong>Sophie MESTIRI</strong> - Directrice des Ressources Humaines</li>
+                                    <li><strong>Amour MOUKIN</strong> - Responsable RH Opérationnelles et Recrutement</li>
+                                    <li><strong>Iman BEMMOUSSAT</strong> - Responsable Juridique des affaires sociales</li>
+                                    <li><strong>Damien CHAUMONT</strong> - Responsable Formation & Communication Interne (adagio.formation@adagio-city.com)</li>
+                                </ul>
+                                <p class="text-xs text-gray-700 dark:text-gray-300">Retrouvez les référents régionaux (Cherine NEHME pour le Siège, Marguerite-Marie DE TARLE & Salimata DIABY pour les sites) et toutes vos infos utiles sur <strong>Adagio Connect</strong>.</p>
+                            </div>
+
+                            <!-- Avantages -->
+                            <div class="bg-gray-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-200 dark:border-slate-700">
+                                <h4 class="font-bold text-gray-900 dark:text-white text-md mb-3">B - Avantages & Recommandations</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <strong class="text-xs text-purple-600 block mb-1"><i class="fas fa-bus mr-1"></i> L'avantage Transport</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300 mb-2">Prise en charge de 50% du coût de vos abonnements transports (TER, TGV, etc.). Démarche via Adagio Connect (Sites) ou Adagio People (Siège).</p>
+                                        
+                                        <strong class="text-xs text-purple-600 block mb-1"><i class="fas fa-umbrella-beach mr-1"></i> Congés Payés</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300 mb-2">25 CP/an (2,08/mois) + 4 Jours offerts (ex: 15 mai, 13 juillet...) + 6 Jours fériés garantis (>1 an d'ancienneté).</p>
+                                        
+                                        <strong class="text-xs text-purple-600 block mb-1"><i class="fas fa-hand-holding-usd mr-1"></i> Rémunération & Avantages</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300">Cooptation (1000€), Tarifs préférentiels ADAGIO, PVCP, et ALL (Carte ALL Heartist), offres CSE.</p>
+                                    </div>
+                                    <div>
+                                        <strong class="text-xs text-purple-600 block mb-1"><i class="fas fa-briefcase-medical mr-1"></i> Mutuelle & Prévoyance (AON / Klesia)</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300 mb-2">Adhésion obligatoire. Adagio prend en charge 60% du coût. Couverture complète (soins, optique, dentaire, hospi). Prévoyance pour décès, invalidité, arrêt de travail.</p>
+                                        
+                                        <strong class="text-xs text-purple-600 block mb-1"><i class="fas fa-graduation-cap mr-1"></i> Formations</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300">Obligatoires (RSE, Clef Verte, Juridiques) & Réglementaires (Permis d'exploitation, Electrique, SST). Utilisation de la <strong>Adagio Learning Academy</strong>.</p>
+                                        
+                                        <strong class="text-xs text-purple-600 block mb-1"><i class="fas fa-users mr-1"></i> Culture & Be My Staff</strong>
+                                        <p class="text-xs text-gray-700 dark:text-gray-300">Programme de diversité (sociale, parité, handicap, intergénérationnel). Moments de rencontre : Marronniers, Happy hours, conférences.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- MODULE 0: CHECKLISTS -->
             <div id="module-checklist" class="module-content hidden">
                 <div
@@ -2687,7 +3123,6 @@
                                         prix</em>, cliquez sur <em>Nouveau</em>, saisissez la période du séjour, cochez
                                     les typologies vendues (ex: CA2D, AR4P) et entrez le tarif négocié unitaire net ou TTC
                                     (selon contrat).</li>
-                                <li><strong class="text-red-600 dark:text-red-400">Règle d'or Adagio (Types virtuels)
                             </ul>
                         </div>
 
@@ -12485,7 +12920,8 @@
                             target.querySelectorAll('.sub-content').forEach(c => c.classList.add('hidden'));
                             sub.classList.remove('hidden');
                             if (typeof gsap !== 'undefined') {
-                                gsap.fromTo(sub, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.2, ease: "expo.out" });
+                                sub.classList.remove('fade-in');
+                                gsap.fromTo(sub, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.2, ease: "expo.out", clearProps: "all" });
                             }
                         } else {
                             if (grid) grid.classList.remove('hidden');
@@ -15233,67 +15669,67 @@
             {
                 keywords: ["ouvre les colis", "ouvrir colis", "aller aux colis", "module colis", "gestion des colis"],
                 answer: "📦 Tout de suite ! J'ouvre le module de **Gestion des Colis** pour vous.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-colis'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-colis'), 50); }
             },
             {
                 keywords: ["ouvre les consignes", "ouvrir consignes", "aller aux consignes", "cahier de consignes"],
                 answer: "📝 Je vous ouvre le **Cahier de Consignes** immédiatement.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-logbook'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-logbook'), 50); }
             },
             {
                 keywords: ["ouvre la checklist", "ouvrir checklist", "module checklist", "taches"],
                 answer: "📋 Voici le module des **Check-lists** !",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-checklist'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-checklist'), 50); }
             },
             {
                 keywords: ["ouvre la rooming list", "ouvrir rooming", "module rooming", "liste des arrivées", "reservations"],
                 answer: "🛏️ J'ouvre le module **Réservations & Groupes**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-resa'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-resa'), 50); }
             },
             {
                 keywords: ["ouvre la police", "fiche de police", "fiches de police", "module police"],
                 answer: "👮 J'ouvre le module **Séjour** pour la gestion des Fiches de Police.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour'), 50); }
             },
             {
                 keywords: ["ouvre le check in", "ouvre la partie check in", "aller au check in", "checkin", "check-in", "check in"],
                 answer: "🔑 Très bien, j'ouvre la partie **Check-in** pour vous.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour', 'sejour-checkin'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour', 'sejour-checkin'), 50); }
             },
             {
                 keywords: ["ouvre le check out", "ouvre la partie check out", "aller au check out", "checkout", "check-out", "check out", "depart", "dépard", "rendre la chambre"],
                 answer: "🕒 Entendu, j'ouvre la partie **Check-out**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour', 'sejour-checkout'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour', 'sejour-checkout'), 50); }
             },
             {
                 keywords: ["ouvre la facturation", "module facturation", "aller a la caisse", "ouvre la caisse"],
                 answer: "💳 J'ouvre le module de **Facturation & Caisse**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-factu'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-factu'), 50); }
             },
             {
                 keywords: ["ouvre les outils", "calculateur", "module outils"],
                 answer: "🧮 J'ouvre le module des **Outils & Calculateurs**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-tools'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-tools'), 50); }
             },
             {
                 keywords: ["ouvre la fidelite", "programme all", "loyalty", "module fidelite"],
                 answer: "⭐ J'ouvre le module du **Programme ALL & Fidélité**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-fidelite'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-fidelite'), 50); }
             },
             {
                 keywords: ["ouvre ofis", "facturation electronique", "module ofis"],
                 answer: "📧 J'ouvre le module **OFIS (Facturation électronique)**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-ofis'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-ofis'), 50); }
             },
             {
                 keywords: ["ouvre tars", "environnement tars", "module tars"],
                 answer: "🌐 J'ouvre le module **Environnement TARS Connect**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-tars'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-tars'), 50); }
             },
             {
                 keywords: ["ouvre le backoffice", "module backoffice", "cloture", "aller au backoffice"],
                 answer: "🏢 J'ouvre le module **Back Office**.",
-                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-backoffice'), 400); }
+                action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-backoffice'), 50); }
             },
             {
                 keywords: ["facture", "facturation", "Opera", "invoice"],
@@ -15463,12 +15899,202 @@
         window.toggleChatbot = toggleChatbot;
         window.handleChatSubmit = handleChatSubmit;
         window.sendQuickReply = sendQuickReply;
+        window.faqKnowledgeBase = faqKnowledgeBase;
 
         })();
     </script>
+    <!-- Global Search Modal (Spotlight) -->
+    <div id="globalSearchModal" class="fixed inset-0 z-[9999] flex items-start justify-center pt-[10vh] px-4 pointer-events-none opacity-0 transition-opacity duration-200">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" onclick="closeGlobalSearch()"></div>
+        <!-- Modal Content -->
+        <div id="globalSearchContainer" class="relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-slate-700 transform scale-95 transition-transform duration-200 flex flex-col max-h-[80vh]">
+            <!-- Search Input Header -->
+            <div class="flex items-center px-4 py-3 border-b border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-900">
+                <i class="fas fa-search text-gray-400 text-lg mr-3"></i>
+                <input type="text" id="globalSearchInput" 
+                    class="flex-1 bg-transparent border-none text-lg text-gray-900 dark:text-white focus:outline-none focus:ring-0 placeholder-gray-400"
+                    placeholder="Rechercher un module, une procédure, un code wifi..." autocomplete="off">
+                <button onclick="closeGlobalSearch()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 px-2 text-xs bg-gray-200 dark:bg-slate-700 rounded py-1 font-bold">ESC</button>
+            </div>
+            <!-- Results Area -->
+            <div id="globalSearchResults" class="flex-1 overflow-y-auto custom-scrollbar p-2">
+                <div class="text-center py-8 text-gray-400 text-sm">Commencez à taper pour rechercher...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // GLOBAL SEARCH (SPOTLIGHT) LOGIC
+        // ==========================================
+        (function() {
+            let searchIndex = [];
+            let searchModal = document.getElementById('globalSearchModal');
+            let searchContainer = document.getElementById('globalSearchContainer');
+            let searchInput = document.getElementById('globalSearchInput');
+            let searchResults = document.getElementById('globalSearchResults');
+            let isOpen = false;
+
+            // Build index function
+            function buildSearchIndex() {
+                // 1. Indexer les modules de la page d'accueil (tuiles)
+                document.querySelectorAll('.search-item').forEach(item => {
+                    let title = item.querySelector('h2') ? item.querySelector('h2').innerText : '';
+                    if(!title) {
+                        let h3 = item.querySelector('h3');
+                        if (h3) title = h3.innerText;
+                    }
+                    if(!title) return;
+                    let desc = item.querySelector('p') ? item.querySelector('p').innerText : '';
+                    let keywords = item.getAttribute('data-keywords') || '';
+                    let onClick = item.getAttribute('onclick');
+                    
+                    searchIndex.push({
+                        type: 'module',
+                        icon: 'fa-box',
+                        title: title,
+                        desc: desc,
+                        keywords: (title + ' ' + desc + ' ' + keywords).toLowerCase(),
+                        action: onClick
+                    });
+                });
+
+                // 2. Indexer la FAQ du chatbot (S.O.F.I.A)
+                const faqSrc = window.faqKnowledgeBase || (typeof faqKnowledgeBase !== 'undefined' ? faqKnowledgeBase : null);
+                if (faqSrc) {
+                    faqSrc.forEach(faq => {
+                        searchIndex.push({
+                            type: 'faq',
+                            icon: 'fa-robot',
+                            title: 'S.O.F.I.A: ' + faq.keywords.slice(0,3).join(', '),
+                            desc: faq.answer.substring(0, 80) + '...',
+                            keywords: faq.keywords.join(' ').toLowerCase(),
+                            action: faq.action || ( () => { 
+                                if (typeof toggleChatbot === 'function') {
+                                    if (!document.getElementById('chatbot-panel').classList.contains('chatbot-open')) toggleChatbot();
+                                    setTimeout(() => {
+                                        const cbInput = document.getElementById('chatbot-input');
+                                        if (cbInput) {
+                                            cbInput.value = faq.keywords[0];
+                                            if(typeof handleChatSubmit === 'function') {
+                                                handleChatSubmit(new Event('submit'));
+                                            }
+                                        }
+                                    }, 350);
+                                }
+                            })
+                        });
+                    });
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', buildSearchIndex);
+            } else {
+                buildSearchIndex();
+            }
+
+            window.toggleGlobalSearch = function() {
+                if(isOpen) closeGlobalSearch();
+                else openGlobalSearch();
+            };
+
+            window.openGlobalSearch = function() {
+                isOpen = true;
+                searchModal.classList.remove('pointer-events-none');
+                
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(searchModal, { opacity: 1, duration: 0.2 });
+                    gsap.to(searchContainer, { scale: 1, duration: 0.3, ease: 'back.out(1.5)' });
+                } else {
+                    searchModal.classList.remove('opacity-0');
+                    searchContainer.classList.remove('scale-95');
+                }
+                
+                setTimeout(() => searchInput.focus(), 100);
+            };
+
+            window.closeGlobalSearch = function() {
+                isOpen = false;
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(searchModal, { opacity: 0, duration: 0.2, onComplete: () => searchModal.classList.add('pointer-events-none') });
+                    gsap.to(searchContainer, { scale: 0.95, duration: 0.2 });
+                } else {
+                    searchModal.classList.add('opacity-0', 'pointer-events-none');
+                    searchContainer.classList.add('scale-95');
+                }
+                searchInput.value = '';
+                searchResults.innerHTML = '<div class="text-center py-8 text-gray-400 text-sm">Commencez à taper pour rechercher...</div>';
+            };
+
+            // Keyboard Shortcuts (Ctrl+K or Cmd+K)
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    toggleGlobalSearch();
+                }
+                if (e.key === 'Escape' && isOpen) {
+                    closeGlobalSearch();
+                }
+            });
+
+            // Handle Search Input
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                
+                if (query.length < 2) {
+                    searchResults.innerHTML = '<div class="text-center py-8 text-gray-400 text-sm">Commencez à taper pour rechercher...</div>';
+                    return;
+                }
+
+                const results = searchIndex.filter(item => item.keywords.includes(query));
+
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<div class="text-center py-8 text-gray-400 text-sm">Aucun résultat trouvé pour "'+query+'"</div>';
+                    return;
+                }
+
+                searchResults.innerHTML = '';
+                results.forEach((res, index) => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer transition-colors border-b border-gray-50 dark:border-slate-800/50 last:border-0';
+                    
+                    const iconColor = res.type === 'module' ? 'text-indigo-500 bg-indigo-50 dark:bg-indigo-900/30' : 'text-rose-500 bg-rose-50 dark:bg-rose-900/30';
+                    
+                    el.innerHTML = `
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${iconColor}">
+                            <i class="fas ${res.icon}"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">${res.title}</h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${res.desc}</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 dark:text-gray-600 text-xs shrink-0 pl-2"></i>
+                    `;
+                    
+                    el.addEventListener('click', () => {
+                        closeGlobalSearch();
+                        if (typeof res.action === 'function') {
+                            res.action();
+                        } else if (typeof res.action === 'string') {
+                            eval(res.action);
+                        }
+                    });
+                    
+                    searchResults.appendChild(el);
+                    
+                    if (typeof gsap !== 'undefined') {
+                        gsap.from(el, { opacity: 0, y: 10, duration: 0.2, delay: index * 0.03 });
+                    }
+                });
+            });
+        })();
+    </script>
+
     <!-- Chat Personnel (Staff Chat) -->
     <script src="js/chat.js"></script>
-    <div id="staffChatWidget" class="fixed bottom-6 right-28 z-[9901] flex flex-col items-end">
+    <div id="staffChatWidget" class="fixed bottom-6 right-28 z-[9901] flex flex-col items-end pointer-events-none">
         <!-- Chat Window -->
         <div id="staffChatWindow" class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl rounded-2xl w-80 sm:w-96 mb-4 overflow-hidden border border-gray-200 dark:border-slate-700 transition-all duration-300 transform scale-0 origin-bottom-right opacity-0 pointer-events-none flex-col flex" style="height: 500px; max-height: 70vh;">
             <!-- Header -->
@@ -15499,7 +16125,7 @@
         </div>
 
         <!-- Chat Bubble Button -->
-        <button id="staffChatToggle" onclick="toggleStaffChat()" class="w-14 h-14 bg-gradient-to-tr from-adagio-red to-pink-600 rounded-full text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center relative">
+        <button id="staffChatToggle" onclick="toggleStaffChat()" class="w-14 h-14 bg-gradient-to-tr from-adagio-red to-pink-600 rounded-full text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center relative pointer-events-auto">
             <i class="fas fa-comments text-xl"></i>
             <span id="staffChatUnread" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 hidden">0</span>
         </button>
