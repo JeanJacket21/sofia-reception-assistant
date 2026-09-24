@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="adagio-logo.js"></script>
     <script src="rooming-data.js"></script>
+    <script src="delogement-pdf-data.js"></script>
 
     <!-- FontAwesome pour les icônes -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -29,6 +30,23 @@
     <!-- Firebase (Synchronisation Multi-Postes) -->
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+
+    <!-- Mode Jour par défaut garanti à l'arrivée -->
+    <script>
+        try {
+            if (localStorage.theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                if (!localStorage.theme) localStorage.theme = 'light';
+            }
+        } catch (e) {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+    </script>
 
     <!-- Configuration de la charte -->
     <script>
@@ -542,6 +560,11 @@
                     <a href="javascript:void(0)" onclick="navFromSidebar('module-sejour', 'sejour-delogement')"
                         class="block px-3 py-2 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-slate-700 font-semibold transition-all"><i
                             class="fas fa-exchange-alt mr-2 text-purple-500"></i> 8. Délogement (Room Move)</a>
+                    <a href="javascript:void(0)" onclick="navFromSidebar('module-sejour', 'sejour-delogement-hotel')"
+                        class="block px-3 py-2 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-slate-700 font-semibold transition-all flex items-center justify-between group">
+                        <span><i class="fas fa-hotel mr-2 text-rose-500"></i> 9. Délogement Inter-Hôtels</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 font-bold">PDF Officiel</span>
+                    </a>
                 </div>
             </div>
 
@@ -988,8 +1011,102 @@
                     </div>
                 </div>
 
-                <!-- Statut Synchro Multi-Postes, Switch Thème Sombre & Logo Adagio (Haut à droite) -->
-                <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Statut Synchro Multi-Postes, Raccourcis Rapides, Switch Thème Sombre & Logo Adagio (Haut à droite) -->
+                <div class="flex items-center gap-1.5 sm:gap-2.5">
+
+                    <!-- Raccourci Direct : Calculateur Taxe de Séjour -->
+                    <button onclick="navFromSidebar('module-tools', 'tools-tax')"
+                        class="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/40 dark:hover:bg-indigo-900/70 text-indigo-700 dark:text-indigo-300 font-bold text-xs border border-indigo-200/80 dark:border-indigo-800 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+                        title="Accéder immédiatement au Calculateur de Taxe de Séjour (Courbevoie 8,13€)">
+                        <i class="fas fa-percent text-indigo-600 dark:text-indigo-400"></i>
+                        <span class="hidden lg:inline">Taxe Séjour</span>
+                    </button>
+
+                    <!-- Sélecteur Rapide de Matrices & Fichiers Téléchargeables -->
+                    <div class="relative inline-block text-left" id="matrixQuickDropdown">
+                        <button onclick="toggleMatrixMenu(event)"
+                            class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/40 dark:hover:bg-emerald-900/70 text-emerald-700 dark:text-emerald-300 font-bold text-xs border border-emerald-200/80 dark:border-emerald-800 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+                            title="Sélecteur rapide de matrices à télécharger">
+                            <i class="fas fa-file-arrow-down text-emerald-600 dark:text-emerald-400"></i>
+                            <span class="hidden sm:inline">Matrices</span>
+                            <i class="fas fa-chevron-down text-[9px] ml-0.5 opacity-70"></i>
+                        </button>
+                        <div id="matrixQuickMenu"
+                            class="hidden absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl bg-white dark:bg-slate-800 shadow-2xl border border-gray-200 dark:border-slate-700 py-3 px-2 z-50 animate-in fade-in slide-in-from-top-2">
+                            <div class="px-3 pb-2 mb-2 border-b border-gray-100 dark:border-slate-700/60 flex items-center justify-between">
+                                <span class="text-[11px] font-black uppercase tracking-wider text-gray-400">Matrices &amp; Gabarits Officiels</span>
+                                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Downloads</span>
+                            </div>
+                            <div class="space-y-1">
+                                <!-- Option 1: Rooming List Excel -->
+                                <button onclick="downloadRoomingList(event); closeMatrixMenu();"
+                                    class="w-full text-left p-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-slate-700/60 transition-colors flex items-center gap-3 group cursor-pointer">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-file-excel text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs font-bold text-gray-900 dark:text-white truncate">Matrice Rooming List (.xlsx)</div>
+                                        <div class="text-[10px] text-gray-400 truncate">Import Opera Cloud Groupes</div>
+                                    </div>
+                                    <i class="fas fa-download text-xs text-gray-300 group-hover:text-emerald-600 transition-colors"></i>
+                                </button>
+                                <!-- Option 2: Délogement PDF Vierge -->
+                                <button onclick="downloadFormulaireViergePDF(); closeMatrixMenu();"
+                                    class="w-full text-left p-2.5 rounded-xl hover:bg-rose-50 dark:hover:bg-slate-700/60 transition-colors flex items-center gap-3 group cursor-pointer">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-file-pdf text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs font-bold text-gray-900 dark:text-white truncate">Formulaire Délogement (.pdf)</div>
+                                        <div class="text-[10px] text-gray-400 truncate">Officiel Vierge Audit Adagio</div>
+                                    </div>
+                                    <i class="fas fa-download text-xs text-gray-300 group-hover:text-rose-600 transition-colors"></i>
+                                </button>
+                                <!-- Option 3: Feuille Caisse Excel -->
+                                <button onclick="exportCaisseExcel(); closeMatrixMenu();"
+                                    class="w-full text-left p-2.5 rounded-xl hover:bg-cyan-50 dark:hover:bg-slate-700/60 transition-colors flex items-center gap-3 group cursor-pointer">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-700 dark:bg-cyan-900/60 dark:text-cyan-300 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-table text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs font-bold text-gray-900 dark:text-white truncate">Feuille de Caisse 250€ (.xlsx)</div>
+                                        <div class="text-[10px] text-gray-400 truncate">Passation &amp; Arrêté H9297</div>
+                                    </div>
+                                    <i class="fas fa-download text-xs text-gray-300 group-hover:text-cyan-600 transition-colors"></i>
+                                </button>
+                                <!-- Option 4: Arrêté Caisse PDF -->
+                                <button onclick="exportCaissePDF(); closeMatrixMenu();"
+                                    class="w-full text-left p-2.5 rounded-xl hover:bg-amber-50 dark:hover:bg-slate-700/60 transition-colors flex items-center gap-3 group cursor-pointer">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-900/60 dark:text-amber-300 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-file-invoice-dollar text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs font-bold text-gray-900 dark:text-white truncate">Arrêté de Caisse (.pdf)</div>
+                                        <div class="text-[10px] text-gray-400 truncate">Audit Financier imprimable</div>
+                                    </div>
+                                    <i class="fas fa-download text-xs text-gray-300 group-hover:text-amber-600 transition-colors"></i>
+                                </button>
+                                <!-- Option 5: Checklist Shift PDF -->
+                                <button onclick="exportToPDF(getActiveShiftId(), 'Shift Actuel'); closeMatrixMenu();"
+                                    class="w-full text-left p-2.5 rounded-xl hover:bg-indigo-50 dark:hover:bg-slate-700/60 transition-colors flex items-center gap-3 group cursor-pointer">
+                                    <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-clipboard-check text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs font-bold text-gray-900 dark:text-white truncate">Check-list Shift Actuel (.pdf)</div>
+                                        <div class="text-[10px] text-gray-400 truncate">Rapport de passation de quart</div>
+                                    </div>
+                                    <i class="fas fa-download text-xs text-gray-300 group-hover:text-indigo-600 transition-colors"></i>
+                                </button>
+                            </div>
+                            <div class="pt-2.5 mt-2 border-t border-gray-100 dark:border-slate-700/60 text-center">
+                                <button onclick="openMatrixSelectorModal(); closeMatrixMenu();" class="text-[11px] font-bold text-adagio-red hover:underline inline-flex items-center gap-1 cursor-pointer">
+                                    <i class="fas fa-layer-group"></i> Ouvrir le sélecteur visuel complet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <button id="syncStatusBtn" onclick="openSyncModal()"
                         class="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all text-xs font-bold border border-gray-200 dark:border-slate-600 shadow-sm"
                         title="Statut de synchronisation multi-postes">
@@ -1040,16 +1157,49 @@
                     Votre copilote de réception : check-lists de shift, procédures Opéra Cloud, feuille de caisse et
                     consignes — tout ce dont vous avez besoin.
                 </p>
-                <div class="mt-5 flex flex-wrap justify-center gap-2 text-xs font-bold uppercase tracking-wider">
-                    <span
-                        class="px-3 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300">Check-lists</span>
-                    <span
-                        class="px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">Opéra
-                        Cloud</span>
-                    <span
-                        class="px-3 py-1.5 rounded-full bg-cyan-50 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300">Caisse</span>
-                    <span
-                        class="px-3 py-1.5 rounded-full bg-pink-50 dark:bg-pink-900/40 text-pink-700 dark:text-pink-300">Consignes</span>
+                <!-- Raccourcis Réflexes Desk & Sélecteur Rapide -->
+                <div class="mt-6 flex flex-wrap justify-center items-center gap-2.5">
+                    <!-- 1. Calculateur Taxe de Séjour -->
+                    <button onclick="navFromSidebar('module-tools', 'tools-tax')"
+                        class="group px-4 py-2.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/40 dark:hover:bg-indigo-900/70 text-indigo-700 dark:text-indigo-300 font-bold text-xs sm:text-sm border border-indigo-200/80 dark:border-indigo-800 shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+                        title="Ouvrir le calculateur officiel de Taxe de Séjour">
+                        <span class="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs group-hover:rotate-12 transition-transform shadow-xs">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                        <span>Calculateur Taxe de Séjour</span>
+                        <span class="text-[10px] font-black px-1.5 py-0.5 rounded bg-indigo-200/80 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-200">8,13€</span>
+                    </button>
+
+                    <!-- 2. Sélecteur de Matrices -->
+                    <button onclick="openMatrixSelectorModal()"
+                        class="group px-4 py-2.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/40 dark:hover:bg-emerald-900/70 text-emerald-700 dark:text-emerald-300 font-bold text-xs sm:text-sm border border-emerald-200/80 dark:border-emerald-800 shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+                        title="Télécharger toutes les matrices et gabarits officiels">
+                        <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs group-hover:-translate-y-0.5 transition-transform shadow-xs">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        <span>Sélecteur de Matrices</span>
+                        <span class="text-[10px] font-black px-1.5 py-0.5 rounded bg-emerald-200/80 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-200">5 Gabarits</span>
+                    </button>
+
+                    <!-- 3. Feuille de Caisse 250€ -->
+                    <button onclick="navFromSidebar('module-tools', 'tools-caisse')"
+                        class="group px-4 py-2.5 rounded-2xl bg-cyan-50 hover:bg-cyan-100 dark:bg-cyan-900/40 dark:hover:bg-cyan-900/70 text-cyan-700 dark:text-cyan-300 font-bold text-xs sm:text-sm border border-cyan-200/80 dark:border-cyan-800 shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+                        title="Ouvrir le fond et la feuille de caisse 250€">
+                        <span class="w-6 h-6 rounded-lg bg-cyan-600 text-white flex items-center justify-center text-xs group-hover:rotate-12 transition-transform shadow-xs">
+                            <i class="fas fa-coins"></i>
+                        </span>
+                        <span>Caisse 250€</span>
+                    </button>
+
+                    <!-- 4. Check-lists Shift -->
+                    <button onclick="openModule('module-checklist')"
+                        class="group px-4 py-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/40 dark:hover:bg-rose-900/70 text-rose-700 dark:text-rose-300 font-bold text-xs sm:text-sm border border-rose-200/80 dark:border-rose-800 shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+                        title="Accéder aux check-lists de shift (Matin, Après-midi, Nuit)">
+                        <span class="w-6 h-6 rounded-lg bg-rose-600 text-white flex items-center justify-center text-xs group-hover:scale-110 transition-transform shadow-xs">
+                            <i class="fas fa-clipboard-check"></i>
+                        </span>
+                        <span>Check-list Shift</span>
+                    </button>
                 </div>
 
             </div>
@@ -1144,7 +1294,7 @@
                     <!-- Tuile 2 : Le Séjour (In-House) -->
                     <div class="tile-hover bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-slate-700 flex flex-col h-full search-item relative overflow-hidden group cursor-pointer"
                         onclick="openModule('module-sejour')"
-                        data-keywords="sejour check-in check-out modification client in ota booking expedia prolongation depart anticipe upsale upgrade surclassement controle reservation safe note reglement vcc carte virtuelle mails arrivees police regform fraude identite alerte aloa menage housekeeping wso bt delogement statut chambre propre sale facility task planning objet lit bebe pret out of order out of service">
+                        data-keywords="sejour check-in check-out modification client in ota booking expedia prolongation depart anticipe upsale upgrade surclassement controle reservation safe note reglement vcc carte virtuelle mails arrivees police regform fraude identite alerte aloa menage housekeeping wso bt delogement room move delogement hotel walk-out walkout gaspar matrice delogement transfert arrhes inter-hotel statut chambre propre sale facility task planning objet lit bebe pret out of order out of service">
                         <div
                             class="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-orange-900/40 flex items-center justify-center text-orange-600 dark:text-orange-400 text-2xl mb-4 group-hover:scale-105 transition-transform">
                             <i class="fas fa-door-open"></i>
@@ -4195,6 +4345,25 @@
                             </div>
                         </div>
 
+                        <div class="tile-hover bg-gray-50 dark:bg-slate-900/60 p-6 rounded-2xl border-t-4 border-t-rose-600 border border-gray-200 dark:border-slate-700 flex flex-col justify-between shadow-sm cursor-pointer group"
+                            onclick="showSubContent('sejour', 'sejour-delogement-hotel')">
+                            <div>
+                                <div
+                                    class="w-14 h-14 bg-rose-100 dark:bg-rose-900/40 rounded-2xl flex items-center justify-center mb-4 text-2xl text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-hotel"></i>
+                                </div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 px-2 py-0.5 rounded-full">Walk-Out & Réseau</span>
+                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mt-2 mb-1.5">9. Délogement Inter-Hôtels</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Procédure externe : transfert d'arrhes, sous-traitance, Opera Cloud vs FOLS, compta ADV/Gaspar et formulaire officiel téléchargeable.</p>
+                            </div>
+                            <div
+                                class="mt-4 pt-3 border-t border-gray-200 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-rose-600 dark:text-rose-400">
+                                <span>Fiche & Formulaire Délogement</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Détails Séjour : Check-in & Modification Client IN -->
@@ -4255,6 +4424,16 @@
                                 rigoureuse des conditions tarifaires et du mode de prise en charge avant la remise des
                                 clés.
                             </p>
+
+                            <!-- EXEMPLE D'IMAGE ZOOMABLE (LIGHTBOX) -->
+                            <div class="mb-6 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-slate-700 w-full sm:w-2/3 max-w-md relative group bg-white dark:bg-slate-800">
+                                <img src="adagio-logo.png" class="sofia-image w-full h-auto p-4 object-contain" alt="Exemple Capture d'écran">
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 flex items-center justify-center transition-colors pointer-events-none">
+                                    <div class="opacity-0 group-hover:opacity-100 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-gray-800 dark:text-gray-200 px-3 py-1.5 rounded-lg text-xs font-bold shadow-md transform scale-90 group-hover:scale-100 transition-all">
+                                        <i class="fas fa-search-plus mr-1"></i> Cliquez pour zoomer
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Étape 1 : Accueil et Vérifications Préalables -->
                             <div
@@ -5496,6 +5675,733 @@
                                 complètement casser la facturation du groupe.
                             </p>
                         </div>
+                    </div>
+
+                    <!-- SOUS-CONTENU 9 : DÉLOGEMENT INTER-HÔTELS ADAGIO & WALK-OUT EXTERNE -->
+                    <div id="content-sejour-delogement-hotel"
+                        class="sub-content hidden fade-in text-sm text-gray-600 dark:text-gray-300">
+                        
+                        <!-- BARRE SUPÉRIEURE DE NAVIGATION ET ACTIONS RAPIDES -->
+                        <div
+                            class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
+                            <button onclick="hideSubContent('sejour')"
+                                class="flex items-center text-orange-600 dark:text-orange-400 font-bold hover:underline transition-all hover:-translate-x-1">
+                                <i class="fas fa-arrow-left mr-2"></i> Retour aux choix
+                            </button>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button onclick="downloadFormulaireViergePDF()"
+                                    class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-full font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                                    title="Télécharger le formulaire vierge officiel en PDF (Conforme Audit)">
+                                    <i class="fas fa-file-pdf"></i> Formulaire PDF Vierge
+                                </button>
+                                <span
+                                    class="text-xs font-bold px-3 py-1 bg-gradient-to-r from-rose-600 to-pink-600 text-white rounded-full shadow-sm">
+                                    <i class="fas fa-hotel mr-1"></i> Procédure Walk-Out Réseau
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- HERO HEADER MODULE 9 -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-500 to-pink-600 flex items-center justify-center text-white text-2xl shadow-md">
+                                    <i class="fas fa-hotel"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                                        Sous-Module Séjour 9 • Réseau Adagio &amp; Partenaires
+                                    </div>
+                                    <h3 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">
+                                        9. Délogement Inter-Hôtels (Walk-Out Externe)
+                                    </h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-4xl">
+                                Surréservation technique, panne lourde d'immeuble (ascenseur, climatisation, dégât des eaux) ou indisponibilité imprévue : lorsqu'un client ne peut pas être logé sur site, il doit être <strong>délogé vers un autre Aparthotel Adagio ou hôtel partenaire</strong>. Voici la procédure complète adaptée à <strong>Opera Cloud</strong>, la gestion financière, la comptabilité fournisseurs/ADV, et le formulaire officiel téléchargeable. 🏨✨
+                            </p>
+                        </div>
+
+                        <!-- BANDEAU COMPARATIF : ROOM MOVE vs DÉLOGEMENT INTER-HÔTELS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                            <div class="p-5 rounded-3xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/40 relative">
+                                <div class="flex items-center gap-2 mb-2 font-black text-purple-900 dark:text-purple-200 text-base">
+                                    <i class="fas fa-exchange-alt text-purple-600"></i> Sous-Module 8 : Room Move (Interne)
+                                </div>
+                                <ul class="text-xs text-purple-950/80 dark:text-purple-300/80 space-y-1.5 list-disc list-inside">
+                                    <li>Délogement de <strong>chambre à chambre au sein du même hôtel</strong>.</li>
+                                    <li>Même réservation Opera Cloud conservée (Je veux... &gt; Délogement).</li>
+                                    <li>Ré-encodage immédiat des clés magnétiques au desk.</li>
+                                    <li>Ancienne chambre passée en Sale / OOO / OOS.</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-5 rounded-3xl bg-rose-50/80 dark:bg-rose-950/40 border-2 border-rose-300 dark:border-rose-800 relative shadow-sm">
+                                <div class="flex items-center gap-2 mb-2 font-black text-rose-900 dark:text-rose-200 text-base">
+                                    <i class="fas fa-hotel text-rose-600"></i> Sous-Module 9 : Délogement Inter-Hôtels (Externe)
+                                </div>
+                                <ul class="text-xs text-rose-950/90 dark:text-rose-200/90 space-y-1.5 list-disc list-inside font-medium">
+                                    <li>Délogement <strong>vers un autre établissement</strong> (Adagio ou partenaire).</li>
+                                    <li>Traitement financier spécifique : <strong>Transfert d'arrhes</strong> ou <strong>Sous-traitance</strong>.</li>
+                                    <li>Résa émettrice soldée / annulée dans Opera Cloud + résa créée au site récepteur.</li>
+                                    <li><strong>Formulaire officiel signé</strong> + prise en charge Taxis A/R et PDJ.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- ========================================================= -->
+                        <!-- SECTION 1 : LA RÈGLE D'OR - TYPOLOGIE DES SÉJOURS        -->
+                        <!-- ========================================================= -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2.5 mb-3">
+                                <div class="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 flex items-center justify-center font-bold text-sm">
+                                    <i class="fas fa-filter"></i>
+                                </div>
+                                <h4 class="font-black text-xl text-gray-900 dark:text-white">
+                                    1. Typologie des Séjours à Déloger (Règles d'Or &amp; Priorités)
+                                </h4>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                                Avant d'annoncer un délogement, vous devez analyser le statut financier de la réservation dans Opera Cloud. Le choix du dossier détermine la réussite de l'opération sans impayé.
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Type 1 : Prépayé -->
+                                <div class="p-5 rounded-3xl bg-emerald-50/70 dark:bg-emerald-950/30 border-2 border-emerald-500 dark:border-emerald-600 shadow-sm flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white shadow-sm">
+                                                Priorité Absolue #1
+                                            </span>
+                                            <i class="fas fa-check-circle text-emerald-600 text-lg"></i>
+                                        </div>
+                                        <h5 class="font-black text-emerald-950 dark:text-emerald-200 text-base mb-2">
+                                            Séjour Intégralement Prépayé
+                                        </h5>
+                                        <p class="text-xs text-emerald-900/80 dark:text-emerald-300/80 leading-relaxed mb-3">
+                                            <strong>À PRIVILÉGIER TOUJOURS !</strong> Le séjour a déjà été encaissé en totalité avant l'arrivée (carte prépayée, VCC Booking/Expedia, virement bancaire encaissé).
+                                        </p>
+                                    </div>
+                                    <div class="pt-3 border-t border-emerald-200 dark:border-emerald-800/60 text-[11px] font-bold text-emerald-800 dark:text-emerald-300">
+                                        <i class="fas fa-shield-alt mr-1"></i> Zéro litige au desk de l'hôtel récepteur. Le client n'a rien à payer.
+                                    </div>
+                                </div>
+
+                                <!-- Type 2 : Partiellement prépayé -->
+                                <div class="p-5 rounded-3xl bg-red-50/70 dark:bg-red-950/30 border border-red-300 dark:border-red-800 shadow-sm flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-600 text-white shadow-sm">
+                                                Danger #2
+                                            </span>
+                                            <i class="fas fa-exclamation-triangle text-red-600 text-lg"></i>
+                                        </div>
+                                        <h5 class="font-black text-red-950 dark:text-red-200 text-base mb-2">
+                                            Séjour Partiellement Prépayé
+                                        </h5>
+                                        <p class="text-xs text-red-900/80 dark:text-red-300/80 leading-relaxed mb-3">
+                                            <strong>FORTEMENT DÉCONSEILLÉ !</strong> Seuls des arrhes ou un acompte partiel ont été réglés. Vous seriez contraint de débiter à distance la carte bancaire du client pour le solde.
+                                        </p>
+                                    </div>
+                                    <div class="pt-3 border-t border-red-200 dark:border-red-800/60 text-[11px] font-bold text-red-800 dark:text-red-300">
+                                        <i class="fas fa-ban mr-1"></i> Risque critique de contestation bancaire (chargeback) et d'impayé.
+                                    </div>
+                                </div>
+
+                                <!-- Type 3 : Débiteurs -->
+                                <div class="p-5 rounded-3xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 shadow-sm flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-600 text-white shadow-sm">
+                                                Interdit #3
+                                            </span>
+                                            <i class="fas fa-times-circle text-amber-600 text-lg"></i>
+                                        </div>
+                                        <h5 class="font-black text-amber-950 dark:text-amber-200 text-base mb-2">
+                                            Séjours avec Paiement Débiteur
+                                        </h5>
+                                        <p class="text-xs text-amber-900/80 dark:text-amber-300/80 leading-relaxed mb-3">
+                                            <strong>FORTEMENT DÉCONSEILLÉ !</strong> Il est impossible de s'auto-facturer entre établissements d'une même entité juridique. Le transfert d'arrhes est impossible.
+                                        </p>
+                                    </div>
+                                    <div class="pt-3 border-t border-amber-200 dark:border-amber-800/60 text-[11px] font-bold text-amber-800 dark:text-amber-300">
+                                        <i class="fas fa-file-invoice-dollar mr-1"></i> Nécessite une facturation fictive puis traitement fournisseur complexe.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================================= -->
+                        <!-- SECTION 2 : PROCÉDURE OPERA CLOUD SELON L'ENTITÉ JURIDIQUE -->
+                        <!-- ========================================================= -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2.5 mb-3">
+                                <div class="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 flex items-center justify-center font-bold text-sm">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <h4 class="font-black text-xl text-gray-900 dark:text-white">
+                                    2. Les 2 Grands Types de Délogements Juridiques (Traitement dans Opera Cloud)
+                                </h4>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-5">
+                                Dans la documentation historique FOLS, la procédure mentionnait les <em>« factures permanentes »</em>. Voici la <strong>transposition exacte dans Opera Cloud</strong> selon l'entité juridique de destination :
+                            </p>
+
+                            <div class="space-y-6">
+                                <!-- CAS 1 : Même entité -->
+                                <div class="p-6 rounded-3xl bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-800/50 shadow-md">
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-gray-100 dark:border-slate-700">
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-black text-sm flex items-center justify-center">1</span>
+                                            <div>
+                                                <h5 class="text-lg font-black text-gray-900 dark:text-white">
+                                                    Adagio SAS ou PVCP City &rarr; Adagio SAS ou PVCP City
+                                                </h5>
+                                                <div class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">
+                                                    Même entité juridique • Transfert d'arrhes direct (Aucune refacturation commerciale)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300 font-bold rounded-full text-xs self-start sm:self-auto">
+                                            Transfert d'arrhes
+                                        </span>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs text-gray-600 dark:text-gray-300">
+                                        <!-- Côté Emetteur -->
+                                        <div class="p-4 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/40">
+                                            <div class="font-black text-indigo-900 dark:text-indigo-300 text-sm mb-2 flex items-center gap-2">
+                                                <i class="fas fa-arrow-circle-up text-indigo-600"></i> Côté Site Émetteur (Votre Hôtel)
+                                            </div>
+                                            <ol class="space-y-2 list-decimal list-inside leading-relaxed">
+                                                <li><strong>Folio Opera Cloud :</strong> Ouvrez la réservation du client prépayé. Les arrhes perçues doivent être soldées par une écriture de virement interne : postez un règlement en <strong>Mode Virement / Transfert Inter-Hôtel négatif (- Montant)</strong> pour ramener le solde du folio à 0,00 €.</li>
+                                                <li><strong>Statut Réservation :</strong> Annulez ou passez la réservation au statut <em>Délogé</em> avec le motif <strong><code>WALK - Délogement vers [Nom de l'hôtel]</code></strong>.</li>
+                                                <li><strong>Traces &amp; Logbook :</strong> Ajoutez une Trace Pop-Up dans Opera Cloud et inscrivez le délogement au <button onclick="openAndNavigateTo('module-logbook', '', event)" class="underline font-bold text-pink-600">Cahier de Consignes SOFIA</button>.</li>
+                                                <li><strong>Notification ADV le jour même :</strong> Envoyez un e-mail à la <strong>comptabilité ADV</strong> pour qu'elle puisse régulariser les écritures dans les comptes en banque des deux sites.</li>
+                                            </ol>
+                                        </div>
+
+                                        <!-- Côté Recepteur -->
+                                        <div class="p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40">
+                                            <div class="font-black text-emerald-900 dark:text-emerald-300 text-sm mb-2 flex items-center gap-2">
+                                                <i class="fas fa-arrow-circle-down text-emerald-600"></i> Côté Site Récepteur (L'Hôtel d'Accueil)
+                                            </div>
+                                            <ol class="space-y-2 list-decimal list-inside leading-relaxed">
+                                                <li><strong>Création Réservation :</strong> Crée la réservation dans son Opera Cloud au nom du client en appliquant strictement le tarif convenu et les prestations prévues.</li>
+                                                <li><strong>Encaissement dans Opera Cloud :</strong> Le jour même du délogement, poste le montant du séjour et encaisse par <strong>Mode Virement / Transfert Inter-Hôtel positif (+ Montant)</strong> du même montant.</li>
+                                                <li><strong>Accueil Client :</strong> Remet les clés au client sans lui réclamer aucun paiement de chambre ou petit-déjeuner pris en charge.</li>
+                                                <li><strong>Lettrage ADV :</strong> Les écritures bancaires se compensent automatiquement lors du rapprochement ADV.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CAS 2 : Autre entité -->
+                                <div class="p-6 rounded-3xl bg-white dark:bg-slate-800 border-2 border-rose-200 dark:border-rose-800/50 shadow-md">
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-gray-100 dark:border-slate-700">
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-8 h-8 rounded-full bg-rose-600 text-white font-black text-sm flex items-center justify-center">2</span>
+                                            <div>
+                                                <h5 class="text-lg font-black text-gray-900 dark:text-white">
+                                                    Adagio SAS ou PVCP City &rarr; Autre Entité Juridique
+                                                </h5>
+                                                <div class="text-xs text-rose-600 dark:text-rose-400 font-semibold">
+                                                    Mandat Externe • Franchisé (ex: HiPark) • Hôtels Hors Réseau (ex: Ibis, Mercure, Novotel)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="px-3 py-1 bg-rose-100 dark:bg-rose-900/50 text-rose-800 dark:text-rose-300 font-bold rounded-full text-xs self-start sm:self-auto">
+                                            Sous-Traitance Commerciale
+                                        </span>
+                                    </div>
+
+                                    <div class="text-xs text-gray-600 dark:text-gray-300 space-y-4">
+                                        <p class="leading-relaxed bg-rose-50/70 dark:bg-rose-950/30 p-3.5 rounded-2xl border border-rose-200 dark:border-rose-800/50">
+                                            <strong>Principe de Sous-Traitance :</strong> Vous sous-traitez le séjour du client. Votre site facture le client final normalement. L'hôtel d'accueil vous facture ensuite sa prestation, qui sera réglée par la comptabilité fournisseurs Adagio.
+                                        </p>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <!-- Etape 1 -->
+                                            <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700">
+                                                <div class="font-bold text-gray-900 dark:text-white mb-1.5 flex items-center gap-1.5">
+                                                    <span class="w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-black flex items-center justify-center">A</span>
+                                                    Facturation Récepteur (DD)
+                                                </div>
+                                                <p class="text-[11px] leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    À la fin du séjour, l'hôtel récepteur facture le montant total au site émetteur. La facture est imputée sur un compte <strong>Débiteur Divers (DD / Direct Bill / AR Account)</strong> au nom exact de l'entité de facturation du site émetteur.
+                                                </p>
+                                            </div>
+
+                                            <!-- Etape 2 -->
+                                            <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700">
+                                                <div class="font-bold text-gray-900 dark:text-white mb-1.5 flex items-center gap-1.5">
+                                                    <span class="w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-black flex items-center justify-center">B</span>
+                                                    Transmission Facture Fournisseur
+                                                </div>
+                                                <p class="text-[11px] leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    Dès réception de la facture de délogement, le site émetteur la transmet immédiatement pour paiement à la comptabilité fournisseurs Adagio :
+                                                    <strong class="block text-rose-600 dark:text-rose-400 font-mono mt-1 select-all">invoice.france.adagio@groupepvcp.com</strong>
+                                                </p>
+                                            </div>
+
+                                            <!-- Etape 3 -->
+                                            <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700">
+                                                <div class="font-bold text-gray-900 dark:text-white mb-1.5 flex items-center gap-1.5">
+                                                    <span class="w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-black flex items-center justify-center">C</span>
+                                                    N° Fournisseur &amp; GASPAR
+                                                </div>
+                                                <p class="text-[11px] leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    Pensez à <strong>indiquer le numéro fournisseur du récepteur sur la facture</strong> pour accélérer le règlement. Vérifiez en amont si le site existe dans <strong>GASPAR</strong> (sinon, demander <strong>KBIS + RIB</strong> pour création fournisseur).
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================================= -->
+                        <!-- SECTION 3 : PRISES EN CHARGE CLIENT & DÉMARCHE CARING     -->
+                        <!-- ========================================================= -->
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2.5 mb-3">
+                                <div class="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-900/40 text-purple-600 flex items-center justify-center font-bold text-sm">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <h4 class="font-black text-xl text-gray-900 dark:text-white">
+                                    3. Prise en Charge du Client &amp; Démarche Caring Adagio
+                                </h4>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                                Un délogement est un désagrément majeur pour le voyageur. L'excellence de service Adagio repose sur la prise en charge immédiate, proactive et sans surcoût :
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 text-lg">
+                                        <i class="fas fa-taxi"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">Taxis Aller &amp; Retour</div>
+                                        <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-snug">
+                                            Course prise en charge par l'hôtel émetteur (compte taxi ou remboursement immédiat sur note de frais).
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center shrink-0 text-lg">
+                                        <i class="fas fa-coffee"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">Petit-Déjeuner Offert</div>
+                                        <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-snug">
+                                            Si non inclus dans la réservation initiale, le PDJ est systématiquement offert en dédommagement.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 text-lg">
+                                        <i class="fas fa-gem"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">Surclassement Garanti</div>
+                                        <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-snug">
+                                            Logement dans une typologie équivalente ou supérieure sans aucun supplément tarifaire pour le client.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm flex items-start gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 text-lg">
+                                        <i class="fas fa-gift"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">Points ALL &amp; Attention</div>
+                                        <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-snug">
+                                            Crédit de points de fidélité ALL Rewards, mot signé de la direction et attention gourmande d'accueil.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================================= -->
+                        <!-- SECTION 4 : GÉNÉRATEUR INTERACTIF DU FORMULAIRE OFFICIEL -->
+                        <!-- ========================================================= -->
+                        <div id="section-formulaire-delogement" class="mb-8">
+                            <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-800 border-2 border-rose-300 dark:border-rose-700/60 shadow-lg">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200 dark:border-slate-700">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300">
+                                                Générateur Opérationnel
+                                            </span>
+                                            <span class="text-xs text-gray-400 font-semibold">• Conforme au PDF Adagio</span>
+                                        </div>
+                                        <h4 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">
+                                            Formulaire Officiel de Délogement
+                                        </h4>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                            Renseignez les champs ci-dessous pour imprimer ou générer instantanément le formulaire officiel PDF (100% conforme audit Adagio).
+                                        </p>
+                                    </div>
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <button type="button" onclick="fillDelogementSample()"
+                                            class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/40 dark:hover:bg-indigo-900/70 text-indigo-700 dark:text-indigo-300 font-bold rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer">
+                                            <i class="fas fa-wand-magic-sparkles"></i> Exemple Réaliste
+                                        </button>
+                                        <button type="button" onclick="resetDelogementForm()"
+                                            class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-300 font-bold rounded-xl text-xs transition-colors cursor-pointer">
+                                            <i class="fas fa-eraser"></i> Effacer
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <form id="form-delogement" onsubmit="event.preventDefault(); downloadFormulaireDelogementPDF(true);" class="space-y-6">
+                                    <!-- Grille Emetteur / Recepteur -->
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                        <!-- Bloc Emetteur -->
+                                        <div class="p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/40 border border-gray-200 dark:border-slate-700 space-y-3">
+                                            <h5 class="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 flex items-center gap-2">
+                                                <i class="fas fa-building"></i> Coordonnées Site Émetteur
+                                            </h5>
+
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Nom du site Adagio :</label>
+                                                <input type="text" id="delog_site_emetteur_nom" placeholder="Ex: Paris Centre Tour Eiffel"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Adresse complète :</label>
+                                                <input type="text" id="delog_site_emetteur_adresse" placeholder="14 Rue du Théâtre, 75015 Paris"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Téléphone :</label>
+                                                    <input type="text" id="delog_site_emetteur_tel" placeholder="01 53 95 60 00"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">E-mail (@adagio-city.com) :</label>
+                                                    <input type="text" id="delog_site_emetteur_mail" placeholder="h3789@adagio-city.com"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Nom du contact en charge :</label>
+                                                <input type="text" id="delog_site_emetteur_contact" placeholder="Nom du réceptionniste ou Duty Manager"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                        </div>
+
+                                        <!-- Bloc Recepteur -->
+                                        <div class="p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/40 border border-gray-200 dark:border-slate-700 space-y-3">
+                                            <h5 class="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 flex items-center gap-2">
+                                                <i class="fas fa-map-marker-alt"></i> Coordonnées Site Récepteur
+                                            </h5>
+
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Nom du site ou hôtel d'accueil :</label>
+                                                <input type="text" id="delog_site_recepteur_nom" placeholder="Ex: Aparthotel Adagio Paris Montmartre"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Adresse complète :</label>
+                                                <input type="text" id="delog_site_recepteur_adresse" placeholder="10 Place Baudiquey, 75018 Paris"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Téléphone :</label>
+                                                    <input type="text" id="delog_site_recepteur_tel" placeholder="01 42 57 10 00"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">E-mail de contact :</label>
+                                                    <input type="text" id="delog_site_recepteur_mail" placeholder="h5678@adagio-city.com"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Contact en charge au site récepteur :</label>
+                                                <input type="text" id="delog_site_recepteur_contact" placeholder="Nom du réceptionniste ayant validé l'accord"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bloc Informations Client -->
+                                    <div class="p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/40 border border-gray-200 dark:border-slate-700 space-y-3">
+                                        <h5 class="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 flex items-center gap-2">
+                                            <i class="fas fa-user-check"></i> Informations Client &amp; Séjour
+                                        </h5>
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Nom du client :</label>
+                                                <input type="text" id="delog_client_nom" placeholder="Ex: DUPONT Jean"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none font-bold">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">N° Réservation Opera :</label>
+                                                <input type="text" id="delog_num_resa" placeholder="Ex: OP-123456"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Date du délogement :</label>
+                                                <input type="date" id="delog_date_delogement"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Date d'arrivée :</label>
+                                                <input type="date" id="delog_date_arrivee"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Date de départ :</label>
+                                                <input type="date" id="delog_date_depart"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Nombre de nuits :</label>
+                                                <input type="number" id="delog_nb_nuits" min="1" value="1"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Nombre Pax :</label>
+                                                <input type="number" id="delog_nb_pax" min="1" value="2"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div class="col-span-2 sm:col-span-1">
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Typologie :</label>
+                                                <input type="text" id="delog_typo" placeholder="Studio / T2"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bloc Prises en charge -->
+                                    <div class="p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/40 border border-gray-200 dark:border-slate-700 space-y-4">
+                                        <h5 class="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 flex items-center gap-2">
+                                            <i class="fas fa-hand-holding-usd"></i> Prise en Charge Financière &amp; Transport
+                                        </h5>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <!-- Chambre -->
+                                            <div class="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-bold text-xs text-gray-900 dark:text-white">Chambre (Hébergement)</div>
+                                                    <div class="text-[10px] text-gray-400">Règlement du séjour délogé</div>
+                                                </div>
+                                                <div class="flex items-center gap-4 text-xs">
+                                                    <label class="flex items-center gap-1.5 cursor-pointer">
+                                                        <input type="radio" name="delog_pec_chambre" value="CLIENT" class="text-rose-600 focus:ring-rose-500"> Client
+                                                    </label>
+                                                    <label class="flex items-center gap-1.5 cursor-pointer font-bold text-rose-600 dark:text-rose-400">
+                                                        <input type="radio" name="delog_pec_chambre" value="HÔTEL" checked class="text-rose-600 focus:ring-rose-500"> Hôtel
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- PDJ -->
+                                            <div class="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-bold text-xs text-gray-900 dark:text-white">Petit-Déjeuner (PDJ)</div>
+                                                    <div class="text-[10px] text-gray-400">Offert ou transféré</div>
+                                                </div>
+                                                <div class="flex items-center gap-4 text-xs">
+                                                    <label class="flex items-center gap-1.5 cursor-pointer">
+                                                        <input type="radio" name="delog_pec_pdj" value="CLIENT" class="text-rose-600 focus:ring-rose-500"> Client
+                                                    </label>
+                                                    <label class="flex items-center gap-1.5 cursor-pointer font-bold text-rose-600 dark:text-rose-400">
+                                                        <input type="radio" name="delog_pec_pdj" value="HÔTEL" checked class="text-rose-600 focus:ring-rose-500"> Hôtel
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- Taxi Aller -->
+                                            <div class="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-bold text-xs text-gray-900 dark:text-white">Taxi Aller</div>
+                                                    <div class="text-[10px] text-gray-400">Trajet vers hôtel récepteur</div>
+                                                </div>
+                                                <div class="flex items-center gap-3 text-xs">
+                                                    <label class="flex items-center gap-1.5 cursor-pointer font-bold text-blue-600 dark:text-blue-400">
+                                                        <input type="radio" name="delog_pec_taxi_aller" value="HÔTEL ÉMETTEUR" checked class="text-blue-600 focus:ring-blue-500"> Hôtel Émetteur
+                                                    </label>
+                                                    <label class="flex items-center gap-1.5 cursor-pointer">
+                                                        <input type="radio" name="delog_pec_taxi_aller" value="HÔTEL RECEVEUR" class="text-blue-600 focus:ring-blue-500"> Receveur
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- Taxi Retour -->
+                                            <div class="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-bold text-xs text-gray-900 dark:text-white">Taxi Retour</div>
+                                                    <div class="text-[10px] text-gray-400">Trajet retour si nécessaire</div>
+                                                </div>
+                                                <div class="flex items-center gap-3 text-xs">
+                                                    <label class="flex items-center gap-1.5 cursor-pointer font-bold text-blue-600 dark:text-blue-400">
+                                                        <input type="radio" name="delog_pec_taxi_retour" value="HÔTEL ÉMETTEUR" checked class="text-blue-600 focus:ring-blue-500"> Hôtel Émetteur
+                                                    </label>
+                                                    <label class="flex items-center gap-1.5 cursor-pointer">
+                                                        <input type="radio" name="delog_pec_taxi_retour" value="HÔTEL RECEVEUR" class="text-blue-600 focus:ring-blue-500"> Receveur
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bloc Raison et commentaires -->
+                                    <div class="p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/40 border border-gray-200 dark:border-slate-700 space-y-3">
+                                        <h5 class="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 flex items-center gap-2">
+                                            <i class="fas fa-comment-alt"></i> Raison du Délogement &amp; Réaction Client
+                                        </h5>
+                                        <div>
+                                            <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Raison du délogement (Technique, Surréservation, etc.) :</label>
+                                            <input type="text" id="delog_raison" placeholder="Ex: Panne majeure de climatisation - Relogement en établissement du réseau"
+                                                class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Réaction du client :</label>
+                                                <input type="text" id="delog_reaction" placeholder="Ex: Compréhensif suite explications et prise en charge taxi"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[11px] font-bold text-gray-700 dark:text-gray-300 mb-1">Commentaires plus précis :</label>
+                                                <input type="text" id="delog_commentaires" placeholder="Ex: Client ALL Gold. Points ALL offerts et mot direction"
+                                                    class="w-full text-xs px-3 py-2 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Boutons de génération -->
+                                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                                        <div class="text-xs text-gray-400 font-medium">
+                                            <i class="fas fa-info-circle mr-1"></i> Génère la fiche officielle exacte conforme aux règles d'audit Adagio.
+                                        </div>
+                                        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                                            <button type="button" onclick="downloadFormulaireViergePDF()"
+                                                class="flex-1 sm:flex-initial px-5 py-3 rounded-2xl bg-slate-700 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                                <i class="fas fa-file-pdf text-rose-400 text-base"></i> Télécharger Formulaire Vierge (.pdf)
+                                            </button>
+                                            <button type="button" onclick="printDelogementForm()"
+                                                class="flex-1 sm:flex-initial px-5 py-3 rounded-2xl bg-gray-900 hover:bg-black text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                                <i class="fas fa-print text-base"></i> Imprimer (Format Audit)
+                                            </button>
+                                            <button type="submit"
+                                                class="flex-1 sm:flex-initial px-6 py-3 rounded-2xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-black text-xs shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+                                                <i class="fas fa-download text-base"></i> Télécharger Fiche Remplie (PDF)
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <!-- Aperçu Fidèle du Document Officiel (Format Audit Adagio) -->
+                                <div class="mt-8 pt-6 border-t border-gray-200 dark:border-slate-700">
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse"></span>
+                                            <h4 class="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider">
+                                                Aperçu du Formulaire Officiel Conforme Audit
+                                            </h4>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button type="button" onclick="updateDelogementLivePreview()" class="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-xs font-bold text-gray-700 dark:text-gray-200 transition-all flex items-center gap-1.5 cursor-pointer">
+                                                <i class="fas fa-sync-alt"></i> Actualiser
+                                            </button>
+                                            <button type="button" onclick="printDelogementForm()" class="px-3 py-1.5 rounded-xl bg-gray-900 hover:bg-black text-xs font-bold text-white transition-all flex items-center gap-1.5 cursor-pointer">
+                                                <i class="fas fa-print"></i> Imprimer
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="delogement-preview-container" class="overflow-x-auto bg-gray-100 dark:bg-slate-900/80 p-4 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-inner flex justify-center">
+                                        <!-- Le formulaire A4 conforme à l'audit s'affiche ici -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================================= -->
+                        <!-- SECTION 4 : TÉLÉCHARGEMENT DIRECT DU FORMULAIRE VIERGE    -->
+                        <!-- ========================================================= -->
+                        <div class="mb-8">
+                            <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-rose-500/10 via-pink-500/10 to-red-500/5 border-2 border-rose-500/40 dark:border-rose-600/40 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-16 h-16 rounded-2xl bg-rose-600 text-white flex items-center justify-center text-3xl shadow-lg shrink-0">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-600 text-white">
+                                                Standard Audit Adagio
+                                            </span>
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 font-semibold">• Document original officiel</span>
+                                        </div>
+                                        <h5 class="text-lg font-black text-gray-900 dark:text-white">
+                                            Formulaire de Délogement Vierge (.pdf)
+                                        </h5>
+                                        <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 max-w-2xl leading-relaxed">
+                                            Téléchargez directement le PDF officiel original conforme aux exigences d'audit interne, prêt à imprimer pour votre accueil, vos mains courantes ou à conserver au desk.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 w-full md:w-auto shrink-0">
+                                    <button type="button" onclick="downloadFormulaireViergePDF()"
+                                        class="w-full md:w-auto px-6 py-3.5 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-2xl shadow-md transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+                                        <i class="fas fa-download text-sm"></i> Télécharger le PDF Vierge
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ========================================================= -->
+                        <!-- SECTION 6 : ANNEXES, CONTACTS & PROCÉDURES LIÉES          -->
+                        <!-- ========================================================= -->
+                        <div class="p-6 rounded-3xl bg-gray-50 dark:bg-slate-900/40 border border-gray-200 dark:border-slate-700">
+                            <h5 class="text-xs font-black uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
+                                <i class="fas fa-link"></i> Annexes, Contacts &amp; Liens Utiles
+                            </h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                                <div class="p-3 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+                                    <div class="text-[10px] font-bold text-gray-400 uppercase">Compta Fournisseurs Adagio</div>
+                                    <div class="font-mono font-bold text-rose-600 dark:text-rose-400 text-[11px] truncate select-all mt-0.5" title="invoice.france.adagio@groupepvcp.com">
+                                        invoice.france.adagio@groupepvcp.com
+                                    </div>
+                                    <div class="text-[10px] text-gray-500 mt-1">Envoi factures récepteurs avec N° fournisseur</div>
+                                </div>
+
+                                <div class="p-3 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+                                    <div class="text-[10px] font-bold text-gray-400 uppercase">Système Achats / Fournisseurs</div>
+                                    <div class="font-bold text-gray-900 dark:text-white mt-0.5">Outil GASPAR</div>
+                                    <div class="text-[10px] text-gray-500 mt-1">Création fournisseur préalable avec KBIS &amp; RIB</div>
+                                </div>
+
+                                <div class="p-3 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+                                    <div class="text-[10px] font-bold text-gray-400 uppercase">Comptabilité ADV</div>
+                                    <div class="font-bold text-gray-900 dark:text-white mt-0.5">Régularisation Bancaire</div>
+                                    <div class="text-[10px] text-gray-500 mt-1">Écritures interbancaires le jour même</div>
+                                </div>
+
+                                <div class="p-3 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex flex-col justify-between">
+                                    <div>
+                                        <div class="text-[10px] font-bold text-gray-400 uppercase">Passation de Consigne</div>
+                                        <div class="font-bold text-gray-900 dark:text-white mt-0.5">Cahier de Consignes</div>
+                                    </div>
+                                    <button onclick="openAndNavigateTo('module-logbook', '', event)"
+                                        class="mt-2 px-2.5 py-1 bg-pink-100 hover:bg-pink-200 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300 font-bold rounded-lg text-[10px] transition-colors text-center w-full cursor-pointer">
+                                        Ouvrir le Logbook
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- SOUS-CONTENU 6 : ALERTES TRACES -->
@@ -12851,23 +13757,254 @@
             </div>
         </div>
     </div>
+    <!-- MODAL SÉLECTEUR RAPIDE DE MATRICES & GABARITS OFFICIELS -->
+    <div id="matrix-selector-modal" class="fixed inset-0 z-[110] bg-black/65 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-gray-200 dark:border-slate-700 space-y-6 fade-in max-h-[92vh] flex flex-col my-auto">
+            <!-- Entête modal -->
+            <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-slate-700 shrink-0">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center text-2xl shadow-md">
+                        <i class="fas fa-file-arrow-down"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Hub Téléchargements</span>
+                            <span class="text-xs text-gray-400 font-semibold">• 5 Fichiers Officiels</span>
+                        </div>
+                        <h3 class="font-black text-xl text-gray-900 dark:text-white mt-0.5">Sélecteur de Matrices &amp; Gabarits</h3>
+                    </div>
+                </div>
+                <button onclick="closeMatrixSelectorModal()" class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-500 dark:text-gray-300 flex items-center justify-center text-base transition-colors cursor-pointer" title="Fermer (Échap)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Grille des matrices scrollable -->
+            <div class="overflow-y-auto space-y-3.5 pr-1 flex-1">
+                <!-- 1. Rooming List Excel -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-emerald-400 dark:hover:border-emerald-600 transition-all">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="font-black text-sm text-gray-900 dark:text-white">Matrice Rooming List Officielle</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 uppercase">Excel .xlsx</span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Gabarit officiel normalisé requis pour l'import automatisé des listes de chambres et réservations de groupes dans Opera Cloud.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                        <button onclick="navFromSidebar('module-resa', 'resa-rooming'); closeMatrixSelectorModal();" class="px-3 py-2 rounded-xl bg-gray-200/80 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 text-xs font-bold transition-all cursor-pointer">
+                            Procédure
+                        </button>
+                        <button onclick="downloadRoomingList(event)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-download"></i> Télécharger
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Formulaire Délogement PDF Vierge -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-rose-400 dark:hover:border-rose-600 transition-all">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="font-black text-sm text-gray-900 dark:text-white">Formulaire de Délogement Vierge</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 uppercase">PDF .pdf</span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Document original authentique 100% conforme audit interne Adagio pour les walk-out et délogements réseau (accueil, main courante).
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                        <button onclick="navFromSidebar('module-sejour', 'sejour-delogement-hotel'); closeMatrixSelectorModal();" class="px-3 py-2 rounded-xl bg-gray-200/80 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 text-xs font-bold transition-all cursor-pointer">
+                            Remplir en ligne
+                        </button>
+                        <button onclick="downloadFormulaireViergePDF()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-download"></i> Télécharger
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Feuille de Caisse 250€ Excel -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-cyan-400 dark:hover:border-cyan-600 transition-all">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/60 dark:text-cyan-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="font-black text-sm text-gray-900 dark:text-white">Feuille de Passation Caisse 250€ H9297</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300 uppercase">Excel .xlsx</span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Matrice de passation journalière : comptage des billets, pièces, débourses et contrôle du fond de caisse 250€ pour tous les shifts.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                        <button onclick="navFromSidebar('module-tools', 'tools-caisse'); closeMatrixSelectorModal();" class="px-3 py-2 rounded-xl bg-gray-200/80 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 text-xs font-bold transition-all cursor-pointer">
+                            Calculateur
+                        </button>
+                        <button onclick="exportCaisseExcel()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-download"></i> Télécharger
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Arrêté de Caisse PDF Officiel -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-amber-400 dark:hover:border-amber-600 transition-all">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-900/60 dark:text-amber-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="font-black text-sm text-gray-900 dark:text-white">Arrêté de Caisse &amp; Passation (Audit)</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 uppercase">PDF .pdf</span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Rapport imprimable et archivable pour la comptabilité avec ventilation par quart et signatures des réceptionnistes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                        <button onclick="exportCaissePDF()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-print"></i> Générer PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5. Check-list Shift PDF -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gray-50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-indigo-400 dark:hover:border-indigo-600 transition-all">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300 flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="font-black text-sm text-gray-900 dark:text-white">Check-list de Shift Réception (Audit)</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 uppercase">PDF .pdf</span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Export PDF de la check-list des tâches obligatoires avec statut coché du shift en cours (Matin, Après-midi ou Nuit).
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                        <button onclick="openModule('module-checklist'); closeMatrixSelectorModal();" class="px-3 py-2 rounded-xl bg-gray-200/80 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 text-xs font-bold transition-all cursor-pointer">
+                            Ouvrir Checklist
+                        </button>
+                        <button onclick="exportToPDF(getActiveShiftId(), 'Shift Actuel')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-download"></i> Exporter PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pied de modal avec rappel Taxe de Séjour -->
+            <div class="pt-3 border-t border-gray-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                <button onclick="navFromSidebar('module-tools', 'tools-tax'); closeMatrixSelectorModal();" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1.5 cursor-pointer">
+                    <i class="fas fa-percent"></i> Besoin du Calculateur de Taxe de Séjour (8,13€) ? Cliquez ici
+                </button>
+                <button onclick="closeMatrixSelectorModal()" class="w-full sm:w-auto px-5 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-xl text-xs font-bold text-gray-700 dark:text-gray-200 transition-colors cursor-pointer">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Élément conteneur invisible pour l'export PDF -->
     <div id="pdf-template-container" class="hidden"></div>
 
     <script>
-        /* Gestion du mode sombre avec protection sandbox */
+        /* Gestion du mode sombre : mode jour (light) garanti par défaut à l'arrivée */
         function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.toggle('dark');
+            if (isDark) {
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.add('light');
+            }
             try {
-                localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                localStorage.theme = isDark ? 'dark' : 'light';
             } catch (e) { }
         }
         try {
-            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            if (localStorage.theme === 'dark') {
                 document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                if (!localStorage.theme) localStorage.theme = 'light';
             }
-        } catch (e) { }
+        } catch (e) {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        }
+
+        /* ==========================================================================
+           RACCOURCIS RÉCEPTION & SÉLECTEUR RAPIDE DE MATRICES
+           ========================================================================== */
+        function openTaxCalculator() {
+            navFromSidebar('module-tools', 'tools-tax');
+        }
+
+        function toggleMatrixMenu(e) {
+            if (e) {
+                e.stopPropagation();
+            }
+            const menu = document.getElementById('matrixQuickMenu');
+            if (!menu) return;
+            menu.classList.toggle('hidden');
+        }
+
+        function closeMatrixMenu() {
+            const menu = document.getElementById('matrixQuickMenu');
+            if (menu) menu.classList.add('hidden');
+        }
+
+        function openMatrixSelectorModal() {
+            const modal = document.getElementById('matrix-selector-modal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            closeMatrixMenu();
+        }
+
+        function closeMatrixSelectorModal() {
+            const modal = document.getElementById('matrix-selector-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Fermeture automatique au clic en dehors et touche Échap
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('matrixQuickDropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                closeMatrixMenu();
+            }
+            const modal = document.getElementById('matrix-selector-modal');
+            if (modal && e.target === modal) {
+                closeMatrixSelectorModal();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeMatrixMenu();
+                closeMatrixSelectorModal();
+            }
+        });
 
         /* Configuration et aiguillage direct des modules & sous-modules */
         function getActiveShiftId() {
@@ -15279,6 +16416,536 @@
             }
         }
 
+        /* ==========================================================================
+           MODULE 9 : DÉLOGEMENT INTER-HÔTELS ADAGIO / WALK-OUT (OPERA CLOUD)
+           Génération & Impression Formulaire PDF Conforme Audit Adagio
+           ========================================================================== */
+
+        function getDelogementFormValues(fromForm) {
+            const todayStr = new Date().toISOString().slice(0, 10);
+            if (!fromForm) {
+                return {
+                    emetteurNom: 'Aparthotel Adagio ……………………..',
+                    emetteurAdresse: '…………………………………………..',
+                    emetteurTel: '……………………..',
+                    emetteurMail: 'h........@adagio-city.com',
+                    emetteurContact: '…………………………………………..',
+                    recepteurNom: 'ADAGIO ……………………..',
+                    recepteurAdresse: '…………………………………………..',
+                    recepteurTel: '……………………..',
+                    recepteurMail: 'h........@adagio-city.com',
+                    recepteurContact: '…………………………………………..',
+                    clientNom: '…………………………………………..',
+                    numResa: '…………………………………………..',
+                    dateDelog: todayStr,
+                    dateArrivee: todayStr,
+                    dateDepart: '……………………..',
+                    nbNuits: '……………………..',
+                    nbPax: '……………………..',
+                    typo: '…………………………………………..',
+                    pecChambreClient: false,
+                    pecChambreHotel: false,
+                    pecPdjClient: false,
+                    pecPdjHotel: false,
+                    pecTaxiAllerEmetteur: false,
+                    pecTaxiAllerReceveur: false,
+                    pecTaxiRetourEmetteur: false,
+                    pecTaxiRetourReceveur: false,
+                    raison: '…………………………………………..',
+                    reaction: '…………………………………………..',
+                    commentaires: '…………………………………………..'
+                };
+            }
+
+            const getVal = (id, fallback = '') => {
+                const el = document.getElementById(id);
+                return el && el.value.trim() !== '' ? el.value.trim() : fallback;
+            };
+
+            const getRadio = (name, targetVal) => {
+                const checkedEl = document.querySelector(`input[name="${name}"]:checked`);
+                return checkedEl ? checkedEl.value === targetVal : false;
+            };
+
+            return {
+                emetteurNom: getVal('delog_site_emetteur_nom', 'Aparthotel Adagio Paris Centre Tour Eiffel (H3789)'),
+                emetteurAdresse: getVal('delog_site_emetteur_adresse', '14 Rue du Théâtre, 75015 Paris'),
+                emetteurTel: getVal('delog_site_emetteur_tel', '01 53 95 60 00'),
+                emetteurMail: getVal('delog_site_emetteur_mail', 'h3789@adagio-city.com'),
+                emetteurContact: getVal('delog_site_emetteur_contact', 'Alexandre V. (Duty Manager)'),
+
+                recepteurNom: getVal('delog_site_recepteur_nom', 'Aparthotel Adagio Paris Montmartre (H5678)'),
+                recepteurAdresse: getVal('delog_site_recepteur_adresse', '10 Place Baudiquey, 75018 Paris'),
+                recepteurTel: getVal('delog_site_recepteur_tel', '01 42 57 10 00'),
+                recepteurMail: getVal('delog_site_recepteur_mail', 'h5678@adagio-city.com'),
+                recepteurContact: getVal('delog_site_recepteur_contact', 'Sophie M. (Chef de Réception)'),
+
+                clientNom: getVal('delog_client_nom', 'Client à renseigner'),
+                numResa: getVal('delog_num_resa', 'Opera-Cloud'),
+                dateDelog: getVal('delog_date_delogement', todayStr),
+                dateArrivee: getVal('delog_date_arrivee', todayStr),
+                dateDepart: getVal('delog_date_depart', todayStr),
+                nbNuits: getVal('delog_nb_nuits', '1'),
+                nbPax: getVal('delog_nb_pax', '2'),
+                typo: getVal('delog_typo', 'Studio Standard'),
+
+                pecChambreClient: getRadio('delog_pec_chambre', 'CLIENT'),
+                pecChambreHotel: getRadio('delog_pec_chambre', 'HÔTEL'),
+                pecPdjClient: getRadio('delog_pec_pdj', 'CLIENT'),
+                pecPdjHotel: getRadio('delog_pec_pdj', 'HÔTEL'),
+                pecTaxiAllerEmetteur: getRadio('delog_pec_taxi_aller', 'HÔTEL ÉMETTEUR'),
+                pecTaxiAllerReceveur: getRadio('delog_pec_taxi_aller', 'HÔTEL RECEVEUR'),
+                pecTaxiRetourEmetteur: getRadio('delog_pec_taxi_retour', 'HÔTEL ÉMETTEUR'),
+                pecTaxiRetourReceveur: getRadio('delog_pec_taxi_retour', 'HÔTEL RECEVEUR'),
+
+                raison: getVal('delog_raison', 'Panne technique / Relogement établissement réseau'),
+                reaction: getVal('delog_reaction', 'Client informé et compréhensif'),
+                commentaires: getVal('delog_commentaires', 'Procédure Opera Cloud exécutée - Prise en charge taxi desk')
+            };
+        }
+
+        // 1. Téléchargement direct du PDF officiel vierge d'audit Adagio (authentique 1:1)
+        function downloadFormulaireViergePDF() {
+            try {
+                if (typeof window !== 'undefined' && window.OFFICIAL_DELOGEMENT_PDF_B64) {
+                    const byteCharacters = atob(window.OFFICIAL_DELOGEMENT_PDF_B64);
+                    const byteNumbers = new Uint8Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const blob = new Blob([byteNumbers], { type: 'application/pdf' });
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = blobUrl;
+                    a.download = 'FORMULAIRE_DE_DELOGEMENT_ADAGIO_OFFICIEL.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+                    if (typeof showToast === 'function') {
+                        showToast("✅ Téléchargement du formulaire officiel vierge réussi !", "success");
+                    }
+                    return;
+                }
+
+                // Secours fichier local
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = 'FORMULAIRE_DE_DELOGEMENT_ADAGIO_OFFICIEL.pdf';
+                a.download = 'FORMULAIRE_DE_DELOGEMENT_ADAGIO_OFFICIEL.pdf';
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                if (typeof showToast === 'function') {
+                    showToast("✅ Téléchargement du formulaire officiel vierge lancé !", "success");
+                }
+            } catch (err) {
+                console.error("Erreur téléchargement formulaire vierge:", err);
+                window.open('FORMULAIRE_DE_DELOGEMENT_ADAGIO_OFFICIEL.pdf', '_blank');
+            }
+        }
+
+        // 2. Générateur de l'HTML officiel 100% fidèle au PDF d'audit Adagio
+        function generateDelogementOfficialHTML(fromForm) {
+            const data = getDelogementFormValues(fromForm);
+
+            const logoHtml = (typeof window !== 'undefined' && window.ADAGIO_LOGO_SRC)
+                ? `<img src="${window.ADAGIO_LOGO_SRC}" style="height: 48px; max-width: 175px; object-fit: contain; margin: 0 auto; display: block;" alt="ADAGIO APARTHOTEL" />`
+                : `<div style="text-align: center; line-height: 1.1; margin-bottom: 2px;">
+                       <div style="font-size: 26pt; font-weight: 900; color: #d40e53; letter-spacing: 2px; font-family: Arial, sans-serif;">ADAGIO</div>
+                       <div style="font-size: 8.5pt; font-weight: bold; color: #111827; letter-spacing: 4px; margin-top: 1px; font-family: Arial, sans-serif;">APARTHOTEL</div>
+                   </div>`;
+
+            const cleanSite = (name) => {
+                if (!name || name.includes('…')) return '……………………..';
+                return name.replace(/^(aparthotel\s+adagio|adagio)\s+/i, '').trim();
+            };
+
+            const formatDate = (val) => {
+                if (!val || val.includes('…')) return '……………………..';
+                if (/^\d{4}-\d{2}-\d{2}$/.test(val)) {
+                    const p = val.split('-');
+                    return `${p[2]}/${p[1]}/${p[0]}`;
+                }
+                return val;
+            };
+
+            const escapeStr = (str) => {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            };
+
+            // Valeurs émetteur
+            const emetteurNom = (fromForm && data.emetteurNom) ? escapeStr(cleanSite(data.emetteurNom)) : '……………………..';
+            const emetteurAdresse = (fromForm && data.emetteurAdresse) ? escapeStr(data.emetteurAdresse) : '……………………..';
+            const emetteurTel = (fromForm && data.emetteurTel) ? escapeStr(data.emetteurTel) : '……………………..';
+            const emetteurMail = (fromForm && data.emetteurMail) ? escapeStr(data.emetteurMail) : 'h........@adagio-city.com';
+            const emetteurContact = (fromForm && data.emetteurContact) ? escapeStr(data.emetteurContact) : '……………………..';
+
+            // Valeurs récepteur
+            const recepteurNom = (fromForm && data.recepteurNom) ? escapeStr(cleanSite(data.recepteurNom)) : '……………………..';
+            const recepteurAdresse = (fromForm && data.recepteurAdresse) ? escapeStr(data.recepteurAdresse) : '……………………..';
+            const recepteurTel = (fromForm && data.recepteurTel) ? escapeStr(data.recepteurTel) : '……………………..';
+            const recepteurMail = (fromForm && data.recepteurMail) ? escapeStr(data.recepteurMail) : 'h........@adagio-city.com';
+            const recepteurContact = (fromForm && data.recepteurContact) ? escapeStr(data.recepteurContact) : '……………………..';
+
+            // Informations client
+            const valDateDelog = (fromForm && data.dateDelog) ? formatDate(data.dateDelog) : '……………………..';
+            const valDateArrivee = (fromForm && data.dateArrivee) ? formatDate(data.dateArrivee) : '……………………..';
+            const valDateDepart = (fromForm && data.dateDepart) ? formatDate(data.dateDepart) : '……………………..';
+            const valNbNuits = (fromForm && data.nbNuits) ? escapeStr(data.nbNuits) : '……………………..';
+            const valTypo = (fromForm && data.typo) ? escapeStr(data.typo) : '……………………..';
+            const valNbPax = (fromForm && data.nbPax) ? escapeStr(data.nbPax) : '……………………..';
+
+            let valClientNom = (fromForm && data.clientNom && data.clientNom !== 'Client à renseigner')
+                ? escapeStr(data.clientNom)
+                : '……………………..';
+            if (fromForm && data.numResa && data.numResa !== 'Opera-Cloud' && !data.numResa.includes('…')) {
+                valClientNom += `<br /><span style="font-size: 9pt; font-weight: normal; color: #374151;">(N&deg; R&eacute;sa Op&eacute;ra : <strong>${escapeStr(data.numResa)}</strong>)</span>`;
+            }
+
+            // Prise en charge
+            const renderMark = (checked) => (fromForm && checked)
+                ? '<strong style="font-size: 13pt; line-height: 1; display: inline-block;">X</strong>'
+                : '&nbsp;';
+
+            const boxChambreClient = renderMark(data.pecChambreClient);
+            const boxChambreHotel = renderMark(data.pecChambreHotel);
+            const boxPdjClient = renderMark(data.pecPdjClient);
+            const boxPdjHotel = renderMark(data.pecPdjHotel);
+
+            const boxTaxiAllerEmetteur = renderMark(data.pecTaxiAllerEmetteur);
+            const boxTaxiAllerReceveur = renderMark(data.pecTaxiAllerReceveur);
+            const boxTaxiRetourEmetteur = renderMark(data.pecTaxiRetourEmetteur);
+            const boxTaxiRetourReceveur = renderMark(data.pecTaxiRetourReceveur);
+
+            // Commentaires
+            let commentsHtml = '';
+            if (fromForm) {
+                const commentLines = [];
+                if (data.raison && !data.raison.includes('…')) {
+                    commentLines.push(`<div><strong>Raison du d&eacute;logement :</strong> ${escapeStr(data.raison)}</div>`);
+                }
+                if (data.reaction && !data.reaction.includes('…')) {
+                    commentLines.push(`<div style="margin-top: 4px;"><strong>R&eacute;action du client :</strong> ${escapeStr(data.reaction)}</div>`);
+                }
+                if (data.commentaires && !data.commentaires.includes('…')) {
+                    commentLines.push(`<div style="margin-top: 4px;"><strong>Commentaires plus pr&eacute;cis :</strong> ${escapeStr(data.commentaires)}</div>`);
+                }
+                if (commentLines.length > 0) {
+                    commentsHtml = `
+                    <div style="font-size: 10.5pt; line-height: 1.5; margin-top: 8px; color: #000000; font-family: Arial, sans-serif;">
+                        ${commentLines.join('')}
+                        <div style="font-size: 11pt; line-height: 2; margin-top: 6px; color: #555555;">
+                            ……………………………………………………………………………………………………………………………………………………………………………………
+                        </div>
+                    </div>`;
+                }
+            }
+
+            if (!commentsHtml) {
+                commentsHtml = `
+                <div style="font-size: 11pt; line-height: 2.1; margin-top: 8px; color: #000000; font-family: Arial, sans-serif;">
+                    <div>…………………………………………..</div>
+                    <div>…………………………………………..</div>
+                </div>`;
+            }
+
+            return `
+            <div style="width: 100%; max-width: 794px; min-height: 1050px; margin: 0 auto; padding: 36px 48px; font-family: Arial, Helvetica, sans-serif; color: #000000; background-color: #ffffff; font-size: 11pt; line-height: 1.4; box-sizing: border-box; text-align: left;">
+                
+                <!-- LOGO ADAGIO APARTHOTEL (CENTRÉ) -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    ${logoHtml}
+                </div>
+
+                <!-- TITRE OFFICIEL CENTRÉ, GRAS, SOULIGNÉ -->
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <span style="font-size: 15.5pt; font-weight: bold; text-decoration: underline; letter-spacing: 0.5px; text-transform: uppercase;">
+                        FORMULAIRE DE D&Eacute;LOGEMENT
+                    </span>
+                </div>
+
+                <!-- COORDONNÉES SITE ÉMETTEUR -->
+                <div style="margin-bottom: 20px;">
+                    <div style="font-weight: bold; font-size: 11pt; margin-bottom: 4px;">
+                        Coordonn&eacute;es du site &eacute;metteur du d&eacute;logement :
+                    </div>
+                    <div style="font-size: 11pt; line-height: 1.45;">
+                        <div>(Entit&eacute; juridique du site &agrave; renseigner) ……………………..</div>
+                        <div>(Nom du site &agrave; renseigner) ADAGIO ${emetteurNom}</div>
+                        <div>(Adresse du site &agrave; renseigner) ${emetteurAdresse}</div>
+                        <div>T&eacute;l : ${emetteurTel} &ndash; Mail : ${emetteurMail}</div>
+                        <div>Nom du contact site en charge du dossier : ${emetteurContact}</div>
+                    </div>
+                </div>
+
+                <!-- COORDONNÉES SITE RÉCEPTEUR -->
+                <div style="margin-bottom: 22px;">
+                    <div style="font-weight: bold; font-size: 11pt; margin-bottom: 4px;">
+                        Coordonn&eacute;es du site r&eacute;cepteur du d&eacute;logement :
+                    </div>
+                    <div style="font-size: 11pt; line-height: 1.45;">
+                        <div>(Entit&eacute; juridique du site &agrave; renseigner) ……………………..</div>
+                        <div>(Nom du site &agrave; renseigner) ADAGIO ${recepteurNom}</div>
+                        <div>(Adresse du site &agrave; renseigner) ${recepteurAdresse}</div>
+                        <div>T&eacute;l : ${recepteurTel} &ndash; Mail : ${recepteurMail}</div>
+                        <div>Nom du contact site en charge du dossier : ${recepteurContact}</div>
+                    </div>
+                </div>
+
+                <!-- INFORMATIONS CLIENT : -->
+                <div style="margin-bottom: 22px;">
+                    <div style="font-weight: bold; font-size: 11pt; text-decoration: underline; margin-bottom: 6px;">
+                        INFORMATIONS CLIENT :
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000000; font-size: 10.5pt; line-height: 1.35; font-family: Arial, sans-serif;">
+                        <tr>
+                            <td style="width: 44%; border: 1px solid #000000; padding: 4px 6px; vertical-align: top;">
+                                <strong>DATE DU DELOGEMENT :</strong> ${valDateDelog}
+                            </td>
+                            <td style="width: 56%; border: 1px solid #000000; padding: 4px 6px; vertical-align: top;">
+                                <strong>DATE D&rsquo;ARRIV&Eacute;E :</strong> ${valDateArrivee}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4" style="border: 1px solid #000000; padding: 4px 6px; vertical-align: top;">
+                                <strong>NOM DU CLIENT :</strong> ${valClientNom}
+                            </td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; vertical-align: top;">
+                                <strong>DATE DE D&Eacute;PART :</strong> ${valDateDepart}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; vertical-align: top;">
+                                <strong>NOMBRE DE NUITS :</strong> ${valNbNuits}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; vertical-align: top;">
+                                <strong>NOMBRE D&rsquo;APPARTEMENTS/ TYPO :</strong> ${valTypo}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; vertical-align: top;">
+                                <strong>NOMBRE DE PERSONNES :</strong> ${valNbPax}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- PRISE EN CHARGE : -->
+                <div style="margin-bottom: 22px;">
+                    <div style="font-weight: bold; font-size: 11pt; text-decoration: underline; margin-bottom: 6px;">
+                        PRISE EN CHARGE :
+                    </div>
+
+                    <!-- TABLE 1 : CLIENT / HÔTEL -->
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000000; font-size: 10.5pt; margin-bottom: 12px; font-family: Arial, sans-serif;">
+                        <tr>
+                            <td style="width: 30%; border: 1px solid #000000; padding: 4px 6px;">&nbsp;</td>
+                            <td style="width: 35%; border: 1px solid #000000; padding: 4px 6px; text-align: center;"><strong>CLIENT</strong></td>
+                            <td style="width: 35%; border: 1px solid #000000; padding: 4px 6px; text-align: center;"><strong>H&Ocirc;TEL</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000000; padding: 4px 6px;"><strong>CHAMBRE</strong></td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxChambreClient}</td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxChambreHotel}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000000; padding: 4px 6px;"><strong>PDJ</strong></td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxPdjClient}</td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxPdjHotel}</td>
+                        </tr>
+                    </table>
+
+                    <!-- TABLE 2 : HOTEL EMETTEUR / HOTEL RECEVEUR -->
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #000000; font-size: 10.5pt; font-family: Arial, sans-serif;">
+                        <tr>
+                            <td style="width: 30%; border: 1px solid #000000; padding: 4px 6px;">&nbsp;</td>
+                            <td style="width: 35%; border: 1px solid #000000; padding: 4px 6px; text-align: center;"><strong>HOTEL EMETTEUR</strong></td>
+                            <td style="width: 35%; border: 1px solid #000000; padding: 4px 6px; text-align: center;"><strong>HOTEL RECEVEUR</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000000; padding: 4px 6px;"><strong>TAXI ALLER</strong></td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxTaxiAllerEmetteur}</td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxTaxiAllerReceveur}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #000000; padding: 4px 6px;"><strong>TAXI RETOUR</strong></td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxTaxiRetourEmetteur}</td>
+                            <td style="border: 1px solid #000000; padding: 4px 6px; text-align: center; height: 20px;">${boxTaxiRetourReceveur}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- RAISON DU DELOGEMENT + RÉACTION DU CLIENT + COMMENTAIRES PLUS PRÉCIS : -->
+                <div>
+                    <div style="font-weight: bold; font-size: 10.5pt; text-decoration: underline; margin-bottom: 6px;">
+                        RAISON DU DELOGEMENT + R&Eacute;ACTION DU CLIENT + COMMENTAIRES PLUS PR&Eacute;CIS :
+                    </div>
+                    ${commentsHtml}
+                </div>
+
+            </div>
+            `;
+        }
+
+        // 3. Mise à jour de l'aperçu dynamique direct
+        function updateDelogementLivePreview() {
+            const previewEl = document.getElementById('delogement-preview-container');
+            if (!previewEl) return;
+            previewEl.innerHTML = generateDelogementOfficialHTML(true);
+        }
+
+        // 4. Télécharger le PDF (rempli depuis le formulaire ou vierge conforme au document officiel)
+        function downloadFormulaireDelogementPDF(fromForm) {
+            if (!fromForm) {
+                downloadFormulaireViergePDF();
+                return;
+            }
+
+            const data = getDelogementFormValues(true);
+            const clientClean = (data.clientNom && !data.clientNom.includes('…') && data.clientNom !== 'Client à renseigner')
+                ? data.clientNom.replace(/[^a-zA-Z0-9_-]/g, '_')
+                : 'Rempli';
+
+            const dateStr = new Date().toISOString().slice(0, 10);
+            const filename = `FORMULAIRE_DELOGEMENT_ADAGIO_${clientClean}_${dateStr}.pdf`;
+
+            const previewEl = document.getElementById('delogement-preview-container');
+            const targetElement = (previewEl && previewEl.firstElementChild) ? previewEl.firstElementChild : null;
+
+            if (typeof html2pdf !== 'undefined' && targetElement) {
+                showToast("📥 Génération du formulaire officiel Adagio (PDF)...", "info");
+                const opt = {
+                    margin: [6, 8, 6, 8],
+                    filename: filename,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, logging: false },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(targetElement).save().then(() => {
+                    showToast("✅ Formulaire de délogement officiel PDF téléchargé !", "success");
+                }).catch(err => {
+                    console.error("Erreur html2pdf:", err);
+                    printDelogementForm();
+                });
+            } else {
+                showToast("🖨️ Préparation pour impression / PDF...", "info");
+                printDelogementForm();
+            }
+        }
+
+        // 5. Impression directe du formulaire officiel conforme audit
+        function printDelogementForm() {
+            const html = generateDelogementOfficialHTML(true);
+            const printWin = window.open('', '_blank', 'width=900,height=960');
+            if (!printWin) {
+                showToast("❌ Veuillez autoriser les fenêtres pop-up pour imprimer", "error");
+                return;
+            }
+            printWin.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Formulaire de Délogement - Adagio Aparthotel</title>
+                    <style>
+                        @page { size: A4 portrait; margin: 8mm 10mm 8mm 10mm; }
+                        * { box-sizing: border-box; }
+                        body { margin: 0; padding: 0; background: #fff; font-family: Arial, Helvetica, sans-serif; color: #000; }
+                        table { border-collapse: collapse; }
+                        @media print {
+                            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${html}
+                    <script>
+                        window.onload = function() {
+                            setTimeout(function() {
+                                window.print();
+                            }, 300);
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWin.document.close();
+        }
+
+        // 6. Pré-remplissage avec un cas type réaliste
+        function fillDelogementSample() {
+            const now = new Date();
+            const todayStr = now.toISOString().slice(0, 10);
+            const depDate = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            };
+
+            const setRadio = (name, val) => {
+                const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
+                if (el) el.checked = true;
+            };
+
+            setVal('delog_site_emetteur_nom', 'Aparthotel Adagio Paris Centre Tour Eiffel (H3789)');
+            setVal('delog_site_emetteur_adresse', '14 Rue du Théâtre, 75015 Paris');
+            setVal('delog_site_emetteur_tel', '01 53 95 60 00');
+            setVal('delog_site_emetteur_mail', 'h3789@adagio-city.com');
+            setVal('delog_site_emetteur_contact', 'Alexandre V. (Duty Manager)');
+
+            setVal('delog_site_recepteur_nom', 'Aparthotel Adagio Paris Montmartre (H5678)');
+            setVal('delog_site_recepteur_adresse', '10 Place Baudiquey, 75018 Paris');
+            setVal('delog_site_recepteur_tel', '01 42 57 10 00');
+            setVal('delog_site_recepteur_mail', 'h5678@adagio-city.com');
+            setVal('delog_site_recepteur_contact', 'Sophie M. (Chef de Réception)');
+
+            setVal('delog_client_nom', 'DUPONT Jean');
+            setVal('delog_num_resa', 'OP-489215');
+            setVal('delog_date_delogement', todayStr);
+            setVal('delog_date_arrivee', todayStr);
+            setVal('delog_date_depart', depDate);
+            setVal('delog_nb_nuits', '2');
+            setVal('delog_nb_pax', '2');
+            setVal('delog_typo', 'Studio Supérieur');
+
+            setRadio('delog_pec_chambre', 'HÔTEL');
+            setRadio('delog_pec_pdj', 'HÔTEL');
+            setRadio('delog_pec_taxi_aller', 'HÔTEL ÉMETTEUR');
+            setRadio('delog_pec_taxi_retour', 'HÔTEL ÉMETTEUR');
+
+            setVal('delog_raison', 'Panne majeure de climatisation aile 3ème étage - Relogement réseau immédiat');
+            setVal('delog_reaction', 'Client compréhensif et très satisfait de la prise en charge taxi G7 et surclassement');
+            setVal('delog_commentaires', 'Client ALL Gold n° 308492019. Virement inter-sites négatif posté (360 €). Geste 1 500 points ALL.');
+
+            updateDelogementLivePreview();
+            showToast("✨ Cas type appliqué et aperçu actualisé", "info");
+        }
+
+        // 7. Réinitialiser le formulaire
+        function resetDelogementForm() {
+            const form = document.getElementById('form-delogement');
+            if (form) form.reset();
+            const todayStr = new Date().toISOString().slice(0, 10);
+            const delogDate = document.getElementById('delog_date_delogement');
+            const arrDate = document.getElementById('delog_date_arrivee');
+            if (delogDate) delogDate.value = todayStr;
+            if (arrDate) arrDate.value = todayStr;
+            updateDelogementLivePreview();
+            showToast("Formulaire délogement réinitialisé", "info");
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             initRoomSync();
             renderConsignes();
@@ -15287,6 +16954,14 @@
                 initCaisseShift();
             } else {
                 calculCaisse();
+            }
+            if (typeof updateDelogementLivePreview === 'function') {
+                updateDelogementLivePreview();
+            }
+            const delogForm = document.getElementById('form-delogement');
+            if (delogForm) {
+                delogForm.addEventListener('input', updateDelogementLivePreview);
+                delogForm.addEventListener('change', updateDelogementLivePreview);
             }
             if (typeof gsap !== 'undefined') {
                 gsap.fromTo('.search-item',
@@ -16130,6 +17805,110 @@
             <span id="staffChatUnread" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 hidden">0</span>
         </button>
     </div>
+
+    <!-- Image Lightbox (Spotlight) -->
+    <div id="sofiaLightbox" class="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-8 pointer-events-none opacity-0">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" onclick="closeLightbox()"></div>
+        <!-- Image Container -->
+        <div class="relative w-full h-full flex items-center justify-center pointer-events-none">
+            <img id="sofiaLightboxImg" src="" alt="Zoom" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl scale-95 opacity-0 pointer-events-auto bg-white/5 dark:bg-black/5">
+            <!-- Close button -->
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 sm:top-8 sm:right-8 w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 transition-colors pointer-events-auto shadow-lg z-10">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // IMAGE LIGHTBOX LOGIC
+        // ==========================================
+        (function() {
+            const lightbox = document.getElementById('sofiaLightbox');
+            const lightboxImg = document.getElementById('sofiaLightboxImg');
+            let isOpen = false;
+
+            window.openLightbox = function(src) {
+                if(!lightbox || !lightboxImg || isOpen) return;
+                isOpen = true;
+                lightboxImg.src = src;
+                
+                lightbox.classList.remove('pointer-events-none');
+                
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(lightbox, { opacity: 1, duration: 0.2, ease: "power2.out" });
+                    gsap.fromTo(lightboxImg, 
+                        { opacity: 0, scale: 0.95, y: 10 }, 
+                        { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "expo.out", delay: 0.05, clearProps: "all" }
+                    );
+                } else {
+                    lightbox.style.opacity = '1';
+                    lightboxImg.style.opacity = '1';
+                    lightboxImg.style.transform = 'scale(1)';
+                }
+                
+                // Close on Escape key
+                const escHandler = (e) => {
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                        document.removeEventListener('keydown', escHandler);
+                    }
+                };
+                document.addEventListener('keydown', escHandler);
+            };
+
+            window.closeLightbox = function() {
+                if(!isOpen) return;
+                
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(lightboxImg, { opacity: 0, scale: 0.95, y: -5, duration: 0.2, ease: "power2.in" });
+                    gsap.to(lightbox, { 
+                        opacity: 0, 
+                        duration: 0.2, 
+                        delay: 0.1,
+                        ease: "power2.inOut",
+                        onComplete: () => {
+                            lightbox.classList.add('pointer-events-none');
+                            lightboxImg.src = '';
+                            isOpen = false;
+                        }
+                    });
+                } else {
+                    lightbox.style.opacity = '0';
+                    lightbox.classList.add('pointer-events-none');
+                    isOpen = false;
+                }
+            };
+
+            // Attach listeners to images with class .sofia-image
+            function attachImageListeners() {
+                document.querySelectorAll('.sofia-image').forEach(img => {
+                    // Avoid attaching multiple times
+                    if(img.dataset.lightboxBound) return;
+                    
+                    // Add utility classes for UX
+                    img.style.cursor = 'zoom-in';
+                    img.classList.add('transition-transform', 'hover:scale-[1.02]', 'hover:shadow-md');
+                    
+                    img.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openLightbox(img.src);
+                    });
+                    
+                    img.dataset.lightboxBound = 'true';
+                });
+            }
+
+            // Run on load and expose to window to allow re-binding if new content is loaded dynamically
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', attachImageListeners);
+            } else {
+                attachImageListeners();
+            }
+            window.attachImageListeners = attachImageListeners;
+        })();
+    </script>
 </body>
 
 </html>
