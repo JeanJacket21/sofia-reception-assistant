@@ -354,6 +354,7 @@
             pointer-events: auto !important;
         }
     </style>
+    <link rel="stylesheet" href="css/arrivals.css">
 </head>
 
 <body class="bg-gray-50 text-gray-800 dark:bg-slate-900 dark:text-gray-100 min-h-screen">
@@ -7533,6 +7534,71 @@
                                 e-mails et attentions VIP.
                             </p>
                         </div>
+
+                        <!-- Tableau opérationnel des arrivées : OCR sur l'appareil et validation humaine -->
+                        <section id="arrivals-app" class="arrivals-app mb-10" aria-labelledby="arrivals-title">
+                            <div class="arrivals-header">
+                                <div>
+                                    <p class="arrivals-eyebrow">OPERA CLOUD · SUIVI DU JOUR</p>
+                                    <h4 id="arrivals-title">Tableau des arrivées</h4>
+                                    <p>Importez une capture du listing OPERA, corrigez les données lues puis suivez chaque arrivée.</p>
+                                </div>
+                                <label class="arrivals-day">Date des arrivées
+                                    <input id="arrivals-date" type="date" aria-label="Date des arrivées">
+                                </label>
+                            </div>
+
+                            <div class="arrivals-instructions" aria-label="Consignes avant le tableau">
+                                <strong>Avant de cocher une arrivée</strong>
+                                <ul>
+                                    <li>Faire signer la fiche d’enregistrement par le client.</li>
+                                    <li>Vérifier les notes, les consignes et le montant réellement dû dans OPERA.</li>
+                                    <li>Cocher « Paiement posté » uniquement après l’imputation dans OPERA.</li>
+                                    <li>Cocher « Arrivée OK » uniquement après avoir terminé l’arrivée dans OPERA.</li>
+                                </ul>
+                            </div>
+
+                            <div class="arrivals-import" id="arrivals-dropzone">
+                                <div>
+                                    <strong><i class="fas fa-camera mr-2"></i>Capturer les arrivées OPERA</strong>
+                                    <p>Sur Windows : Win + Maj + S, puis Ctrl + V ici. Vous pouvez aussi choisir une image ou la déposer dans ce cadre.</p>
+                                    <small>L’image est analysée sur cet appareil et n’est pas enregistrée. Affichez les colonnes confirmation, solde, chambre, type, arrivée, nom et départ.</small>
+                                </div>
+                                <div class="arrivals-actions">
+                                    <label class="arrivals-button arrivals-primary" for="arrivals-file"><i class="fas fa-image"></i> Choisir une capture</label>
+                                    <input id="arrivals-file" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+                                    <button id="arrivals-paste" type="button" class="arrivals-button"><i class="fas fa-paste"></i> Coller la capture</button>
+                                </div>
+                            </div>
+                            <p id="arrivals-status" class="arrivals-status" role="status" aria-live="polite">Prêt à analyser une capture.</p>
+
+                            <div id="arrivals-preview" class="arrivals-panel" hidden>
+                                <div class="arrivals-panel-head">
+                                    <div><h5>Vérifier avant d’enregistrer</h5><p>Corrigez les champs incertains et ajoutez les réservations manquantes. Le solde OPERA ne remplit jamais le montant à encaisser.</p></div>
+                                    <button id="arrivals-add-preview" type="button" class="arrivals-button"><i class="fas fa-plus"></i> Ajouter une ligne</button>
+                                </div>
+                                <div class="arrivals-scroll"><table class="arrivals-table" aria-label="Aperçu des arrivées détectées">
+                                    <thead><tr><th>Garder</th><th>Confirmation</th><th>Chambre</th><th>Nom</th><th>Arrivée</th><th>Départ</th><th>Type</th><th>Solde OPERA</th><th>À encaisser (€)</th><th>Notes</th></tr></thead>
+                                    <tbody id="arrivals-preview-body"></tbody>
+                                </table></div>
+                                <div class="arrivals-panel-foot"><button id="arrivals-save" type="button" class="arrivals-button arrivals-primary">Enregistrer les arrivées vérifiées</button></div>
+                            </div>
+
+                            <div class="arrivals-panel">
+                                <div class="arrivals-panel-head">
+                                    <div><h5>Suivi des arrivées</h5><p id="arrivals-summary">Aucune arrivée enregistrée pour ce jour.</p></div>
+                                    <div class="arrivals-actions">
+                                        <button id="arrivals-add-manual" type="button" class="arrivals-button"><i class="fas fa-plus"></i> Ajouter</button>
+                                        <button id="arrivals-clear" type="button" class="arrivals-button arrivals-danger">Effacer ce jour</button>
+                                    </div>
+                                </div>
+                                <div class="arrivals-scroll"><table class="arrivals-table" aria-label="Tableau de bord des arrivées">
+                                    <thead><tr><th>Arrivée OK</th><th>Paiement posté</th><th>Chambre</th><th>Nom</th><th>Durée</th><th>Type</th><th>Solde OPERA</th><th>À encaisser (€)</th><th>Notes / consignes</th></tr></thead>
+                                    <tbody id="arrivals-dashboard-body"></tbody>
+                                </table></div>
+                                <p class="arrivals-privacy">Suivi sauvegardé uniquement dans ce navigateur, par date. Les coches ne modifient pas OPERA et ne sont pas synchronisées avec les autres postes. Effacez la journée après usage sur un poste partagé.</p>
+                            </div>
+                        </section>
 
                         <!-- LES 5 ÉTAPES CHRONOLOGIQUES DE PRÉPARATION -->
                         <div class="space-y-4 mb-8">
@@ -18510,6 +18576,9 @@
             });
         })();
     </script>
+
+    <script src="js/arrivals-parser.js"></script>
+    <script src="js/arrivals.js"></script>
 
     <!-- Chat Personnel (Staff Chat) -->
     <script src="js/chat.js"></script>
