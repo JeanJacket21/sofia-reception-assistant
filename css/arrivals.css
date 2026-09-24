@@ -1,0 +1,69 @@
+.arrivals-app { color: #273244; }
+.arrivals-header, .arrivals-panel-head, .arrivals-import, .arrivals-actions, .arrivals-panel-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.arrivals-header { border-radius: 1.4rem 1.4rem 0 0; padding: 1.5rem; background: linear-gradient(125deg, #aa0038, #e3004f); color: #fff; }
+.arrivals-header h4 { font-size: 1.6rem; line-height: 1.2; font-weight: 800; margin: .2rem 0; }
+.arrivals-header p { color: #ffe3ec; }
+.arrivals-header .arrivals-eyebrow { font-size: .7rem; font-weight: 800; letter-spacing: .12em; }
+.arrivals-day { display: grid; gap: .35rem; font-weight: 700; font-size: .85rem; }
+.arrivals-day input { color: #252d38; border-radius: .65rem; padding: .45rem .7rem; background: #fff; }
+.arrivals-instructions { padding: 1.25rem 1.5rem; background: #fff5f8; border-inline: 1px solid #ffc7d8; border-bottom: 1px solid #ffc7d8; }
+.arrivals-instructions strong { display: block; color: #970034; font-size: 1rem; margin-bottom: .5rem; }
+.arrivals-instructions ul { padding-left: 1.3rem; list-style: disc; line-height: 1.7; }
+.arrivals-import { padding: 1.2rem 1.5rem; border: 2px dashed #eeb2c5; background: #fff; border-radius: 0 0 1.3rem 1.3rem; }
+.arrivals-import.is-dragover { background: #fff1f6; border-color: #e3004f; }
+.arrivals-import > div:first-child { flex: 1 1 280px; }
+.arrivals-import strong { font-size: 1rem; color: #922041; }
+.arrivals-import p { margin: .35rem 0; }
+.arrivals-import small { display: block; color: #64748b; line-height: 1.5; }
+.arrivals-button { display: inline-flex; align-items: center; gap: .45rem; justify-content: center; padding: .65rem .85rem; border-radius: .7rem; background: #fff; color: #9b1742; border: 1px solid #e9b7c8; font-weight: 700; font-size: .83rem; cursor: pointer; text-align: center; }
+.arrivals-button:hover { background: #fff1f6; }
+.arrivals-button:focus-visible, .arrivals-app input:focus-visible, .arrivals-app textarea:focus-visible { outline: 2px solid #e3004f; outline-offset: 2px; }
+.arrivals-button:disabled { cursor: progress; opacity: .65; }
+.arrivals-primary { background: #e3004f; color: #fff; border-color: #e3004f; }
+.arrivals-primary:hover { background: #bd0043; }
+.arrivals-danger { color: #a33b3b; border-color: #e6c5c5; }
+.arrivals-status { min-height: 2.6rem; padding: .75rem .35rem; color: #535f71; }
+.arrivals-status.is-error { color: #ae123e; font-weight: 700; }
+.arrivals-panel { background: #fff; border: 1px solid #e4e6ed; border-radius: 1.1rem; margin-top: 1rem; overflow: hidden; box-shadow: 0 6px 24px rgba(30, 40, 70, .05); }
+.arrivals-panel[hidden] { display: none; }
+.arrivals-panel-head { align-items: flex-start; padding: 1.15rem 1.2rem; }
+.arrivals-panel-head > div:first-child { flex: 1 1 280px; }
+.arrivals-panel-head h5 { font-size: 1.15rem; font-weight: 800; color: #1c2738; }
+.arrivals-panel-head p { color: #5b6474; margin-top: .3rem; }
+.arrivals-scroll { max-width: 100%; overflow-x: auto; }
+.arrivals-table { width: 100%; min-width: 970px; border-collapse: collapse; font-size: .86rem; }
+.arrivals-table th { background: #f8edf1; color: #683044; font-weight: 800; text-align: left; white-space: nowrap; padding: .8rem .7rem; }
+.arrivals-table td { border-top: 1px solid #e7e8ed; padding: .7rem; vertical-align: top; }
+.arrivals-table tr:nth-child(even) td { background: #fcfafb; }
+.arrivals-table .arrivals-review td { background: #fff8e8; }
+.arrivals-table input:not([type='checkbox']), .arrivals-table textarea { width: 100%; min-width: 76px; border: 1px solid #d4d9e1; border-radius: .5rem; padding: .4rem .5rem; background: #fff; color: #1e293b; }
+.arrivals-table input[type='checkbox'] { width: 1.1rem; height: 1.1rem; accent-color: #d5004b; cursor: pointer; }
+.arrivals-table textarea { min-width: 150px; min-height: 42px; resize: vertical; }
+.arrivals-table .arrivals-name { min-width: 150px; }
+.arrivals-table .arrivals-number { width: 100px; }
+.arrivals-table .arrivals-date-input { min-width: 134px; }
+.arrivals-table .arrivals-confirmation { min-width: 135px; }
+.arrivals-table .arrivals-warning { display: block; color: #a05706; font-size: .72rem; line-height: 1.35; margin-top: .3rem; }
+.arrivals-table .arrivals-balance { white-space: nowrap; color: #475569; }
+.arrivals-table .arrivals-empty { text-align: center; color: #697487; padding: 1.5rem; }
+.arrivals-panel-foot { justify-content: flex-end; padding: 1rem 1.2rem; }
+.arrivals-privacy { border-top: 1px solid #eceef1; padding: .8rem 1.2rem; color: #667084; font-size: .78rem; line-height: 1.5; }
+.dark .arrivals-app { color: #e2e8f0; }
+.dark .arrivals-instructions { background: #39202c; border-color: #7d334b; }
+.dark .arrivals-instructions strong { color: #ff98ba; }
+.dark .arrivals-import, .dark .arrivals-panel { background: #1e293b; border-color: #475569; }
+.dark .arrivals-import.is-dragover { background: #3b2939; }
+.dark .arrivals-import strong, .dark .arrivals-panel-head h5 { color: #fff; }
+.dark .arrivals-import small, .dark .arrivals-panel-head p, .dark .arrivals-privacy, .dark .arrivals-status { color: #c1cada; }
+.dark .arrivals-status.is-error { color: #fca5a5; }
+.dark .arrivals-button:not(.arrivals-primary) { background: #28364a; color: #ffbbd0; border-color: #704258; }
+.dark .arrivals-table th { background: #432435; color: #ffd1df; }
+.dark .arrivals-table td { border-color: #475569; }
+.dark .arrivals-table tr:nth-child(even) td { background: #253245; }
+.dark .arrivals-table .arrivals-review td { background: #4b382a; }
+.dark .arrivals-table .arrivals-balance, .dark .arrivals-table .arrivals-empty { color: #ccd6e5; }
+.dark .arrivals-table .arrivals-warning { color: #fbbf69; }
+.dark .arrivals-privacy { border-color: #475569; }
+@media (max-width: 640px) { .arrivals-header, .arrivals-import { padding: 1rem; } .arrivals-actions { width: 100%; } .arrivals-actions .arrivals-button { flex: 1 1 auto; } }
