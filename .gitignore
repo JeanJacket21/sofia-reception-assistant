@@ -3,6 +3,9 @@ backups/
 .backup/
 *.backup.*
 *.backup.html
+*.backup_*.html
+media_latest_screenshot.png
+temp_xlsx/
 scratch_step.json
 *.tmp
 *.log

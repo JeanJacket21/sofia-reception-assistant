@@ -7,7 +7,7 @@ let chatDbRef = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialiser la base de données si firebase est prêt
-    if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
         chatDbRef = firebase.database().ref('staff_chat');
         
         chatDbRef.limitToLast(50).on('child_added', (snapshot) => {
@@ -18,6 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 chatUnread++;
                 updateUnreadBadge();
                 if (window.playSyncSound) window.playSyncSound('pop');
+            }
+        });
+
+        // Écouter si la discussion est réinitialisée/supprimée
+        chatDbRef.on('value', (snapshot) => {
+            if (!snapshot.exists()) {
+                const messagesArea = document.getElementById('staffChatMessages');
+                if (messagesArea) {
+                    messagesArea.innerHTML = '<div class="text-center text-xs text-gray-400 my-2">Début de la conversation</div>';
+                }
             }
         });
     } else {
@@ -53,7 +63,7 @@ function toggleStaffChat() {
         
         chatUnread = 0;
         updateUnreadBadge();
-        input.focus();
+        if (input) input.focus();
         scrollToBottom();
     } else {
         // Fermer avec GSAP
@@ -77,7 +87,7 @@ function toggleStaffChat() {
 function sendStaffChatMessage(e) {
     e.preventDefault();
     const input = document.getElementById('staffChatInput');
-    const text = input.value.trim();
+    const text = input ? input.value.trim() : '';
     
     if (!text || !chatDbRef) return;
     
@@ -88,11 +98,40 @@ function sendStaffChatMessage(e) {
     };
     
     chatDbRef.push(message);
-    input.value = '';
+    if (input) input.value = '';
+}
+
+// Fonction pour supprimer la discussion d'équipe
+function clearStaffChat() {
+    if (!confirm("Voulez-vous vraiment supprimer tous les messages de la discussion d'équipe ?")) {
+        return;
+    }
+
+    if (chatDbRef) {
+        chatDbRef.remove().then(() => {
+            const messagesArea = document.getElementById('staffChatMessages');
+            if (messagesArea) {
+                messagesArea.innerHTML = '<div class="text-center text-xs text-gray-400 my-2">Discussion supprimée. Début d\'une nouvelle conversation.</div>';
+            }
+        }).catch(err => {
+            console.error("Erreur suppression Firebase:", err);
+            // Fallback nettoyage local
+            const messagesArea = document.getElementById('staffChatMessages');
+            if (messagesArea) {
+                messagesArea.innerHTML = '<div class="text-center text-xs text-gray-400 my-2">Discussion supprimée localement.</div>';
+            }
+        });
+    } else {
+        const messagesArea = document.getElementById('staffChatMessages');
+        if (messagesArea) {
+            messagesArea.innerHTML = '<div class="text-center text-xs text-gray-400 my-2">Discussion supprimée.</div>';
+        }
+    }
 }
 
 function displayMessage(msg) {
     const messagesArea = document.getElementById('staffChatMessages');
+    if (!messagesArea) return;
     const isMe = msg.name === staffName;
     
     const time = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -153,3 +192,4 @@ function escapeHTML(str) {
 
 window.toggleStaffChat = toggleStaffChat;
 window.sendStaffChatMessage = sendStaffChatMessage;
+window.clearStaffChat = clearStaffChat;
