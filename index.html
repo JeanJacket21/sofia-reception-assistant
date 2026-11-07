@@ -18164,35 +18164,78 @@
 
     <!-- CHATBOT S.O.F.I.A -->
     <!-- Bouton Flottant -->
-    <button id="chatbot-fab" onclick="toggleChatbot()"
-        class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-r from-adagio-red to-rose-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 z-[9900] flex items-center justify-center group border-4 border-white dark:border-slate-800">
+    <button id="chatbot-fab" onclick="toggleChatbot()" title="Demander à S.O.F.I.A (Assistant IA Réception)"
+        class="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-r from-adagio-red to-rose-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 z-[9900] flex items-center justify-center group border-4 border-white dark:border-slate-800 cursor-pointer">
         <i class="fas fa-robot text-2xl group-hover:scale-110 transition-transform"></i>
         <span class="absolute -top-1 -right-1 flex h-4 w-4">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-4 w-4 bg-rose-500"></span>
+            <span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-400 border-2 border-white dark:border-slate-800"></span>
         </span>
     </button>
 
     <!-- Fenêtre du Chatbot -->
     <div id="chatbot-panel"
-        class="fixed bottom-28 right-6 w-[360px] h-[550px] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-700 z-[9900] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right opacity-0 scale-95 pointer-events-none translate-y-4">
+        class="fixed bottom-24 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[440px] h-[610px] max-h-[82vh] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-slate-700 z-[9900] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right opacity-0 scale-95 pointer-events-none translate-y-4">
         <!-- Header -->
         <div
-            class="bg-gradient-to-r from-adagio-red to-rose-600 p-4 flex items-center justify-between text-white shrink-0">
-            <div class="flex items-center gap-3">
+            class="bg-gradient-to-r from-adagio-red via-rose-600 to-pink-600 px-4 py-3.5 flex items-center justify-between text-white shrink-0 shadow-md">
+            <div class="flex items-center gap-3 min-w-0">
                 <div
-                    class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/30 shadow-inner">
+                    class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/30 shadow-inner shrink-0">
                     <i class="fas fa-robot text-xl"></i>
                 </div>
-                <div>
-                    <h3 class="font-bold text-base leading-tight">S.O.F.I.A</h3>
-                    <p class="text-xs text-rose-100 flex items-center gap-1"><span
-                            class="w-2 h-2 rounded-full bg-green-400 inline-block"></span> En ligne</p>
+                <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                        <h3 class="font-black text-base leading-tight tracking-tight">S.O.F.I.A</h3>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 border border-white/25">IA Réception</span>
+                    </div>
+                    <p class="text-[11px] text-rose-100 flex items-center gap-1.5 truncate mt-0.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                        <span>12 Modules • OFIS • 5 891 Comptes Corpo • Calculs</span>
+                    </p>
                 </div>
             </div>
-            <button onclick="toggleChatbot()"
-                class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors">
-                <i class="fas fa-times"></i>
+            <div class="flex items-center gap-1 shrink-0">
+                <button onclick="toggleChatbotExpand()" id="chatbot-expand-btn" title="Agrandir / Réduire la fenêtre"
+                    class="hidden sm:flex w-8 h-8 rounded-xl hover:bg-white/20 items-center justify-center transition-colors text-xs cursor-pointer">
+                    <i class="fas fa-expand-alt"></i>
+                </button>
+                <button onclick="resetSofiaChat()" title="Réinitialiser la conversation"
+                    class="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors text-xs cursor-pointer">
+                    <i class="fas fa-redo-alt"></i>
+                </button>
+                <button onclick="toggleChatbot()" title="Fermer"
+                    class="w-8 h-8 rounded-xl hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Barre de raccourcis thématiques (Scroll horizontal) -->
+        <div class="px-3 py-2 bg-rose-50/70 dark:bg-slate-900/90 border-b border-rose-100 dark:border-slate-700/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 text-[11px]">
+            <button onclick="sendQuickReply('Comment faire un ajustement ou un avoir ?')"
+                class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-700 font-bold whitespace-nowrap transition-colors shrink-0 cursor-pointer">
+                🧾 Avoir / Ajustement
+            </button>
+            <button onclick="sendQuickReply('Erreur OFIS G6.07')"
+                class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60 font-bold whitespace-nowrap transition-colors shrink-0 cursor-pointer">
+                ⚡ Rejet OFIS G6.07
+            </button>
+            <button onclick="sendQuickReply('Routage Fenêtre 2 (1000 + 2000)')"
+                class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-700 font-bold whitespace-nowrap transition-colors shrink-0 cursor-pointer">
+                🔀 Routage Folio 2
+            </button>
+            <button onclick="sendQuickReply('Codes transactions Opera Cloud')"
+                class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-700 font-bold whitespace-nowrap transition-colors shrink-0 cursor-pointer">
+                🔢 Codes Opera
+            </button>
+            <button onclick="sendQuickReply('Compte corpo Thales')"
+                class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 font-bold whitespace-nowrap transition-colors shrink-0 cursor-pointer">
+                🏢 Chercher Compte SC
+            </button>
+            <button onclick="sendQuickReply('TDS 2 adultes 5 nuits')"
+                class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 font-bold whitespace-nowrap transition-colors shrink-0 cursor-pointer">
+                🧮 Calcul TDS / TVA
             </button>
         </div>
 
@@ -18200,44 +18243,55 @@
         <div id="chatbot-messages"
             class="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-slate-900/50 space-y-4 custom-scrollbar">
             <!-- Message de bienvenue -->
-            <div class="flex items-end gap-2">
+            <div class="flex items-start gap-2.5">
                 <div
-                    class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-adagio-red flex items-center justify-center text-white text-xs shrink-0 shadow-sm">
+                    class="w-8 h-8 rounded-2xl bg-gradient-to-br from-rose-500 to-adagio-red flex items-center justify-center text-white text-xs shrink-0 shadow-sm mt-0.5">
                     <i class="fas fa-robot"></i>
                 </div>
                 <div
-                    class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-3 rounded-2xl rounded-bl-none shadow-sm max-w-[85%]">
-                    <p class="text-sm text-gray-800 dark:text-gray-200">Bonjour ! 👋 Je suis S.O.F.I.A, votre assistante
-                        de réception. Comment puis-je vous aider aujourd'hui ?</p>
+                    class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[90%] space-y-2">
+                    <p class="text-xs sm:text-sm text-gray-800 dark:text-gray-200 leading-relaxed">
+                        Bonjour ! 👋 Je suis <strong>S.O.F.I.A</strong>, votre assistante experte Opera Cloud & Réception Adagio.
+                    </p>
+                    <div class="text-[11px] text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-gray-100 dark:border-slate-700/70 space-y-1">
+                        <div class="font-bold text-gray-800 dark:text-gray-100">💡 Ce que vous pouvez me demander :</div>
+                        <div>• <strong>Procédures Opera :</strong> <em>« Faire un avoir », « VCC Booking », « Clôture EOD »</em></div>
+                        <div>• <strong>Erreurs OFIS :</strong> <em>« G6.07 », « BR-CO-9 », « BR-FR-21 », « 9914 »</em></div>
+                        <div>• <strong>Comptes Corpo :</strong> <em>« Compte Thales », « Commercial SNCF »</em></div>
+                        <div>• <strong>Calculs directs :</strong> <em>« TDS 2 adultes 4 nuits », « 320€ TTC en HT », « SIRET »</em></div>
+                    </div>
                 </div>
             </div>
 
             <!-- Suggestions rapides -->
-            <div class="flex flex-wrap gap-2 ml-10" id="chatbot-suggestions">
-                <button onclick="sendQuickReply('Code Wifi')"
-                    class="text-xs bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-3 py-1.5 rounded-full transition-colors font-medium">📶
-                    Code Wifi</button>
-                <button onclick="sendQuickReply('Petit déjeuner')"
-                    class="text-xs bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-3 py-1.5 rounded-full transition-colors font-medium">🥐
-                    Petit déjeuner</button>
-                <button onclick="sendQuickReply('Check-out')"
-                    class="text-xs bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-3 py-1.5 rounded-full transition-colors font-medium">🕒
-                    Check-out</button>
-                <button onclick="sendQuickReply('Parking')"
-                    class="text-xs bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-3 py-1.5 rounded-full transition-colors font-medium">🚗
-                    Parking</button>
+            <div class="flex flex-wrap gap-1.5 ml-10" id="chatbot-suggestions">
+                <button onclick="sendQuickReply('Comment gérer une carte virtuelle Booking / Expedia ?')"
+                    class="text-[11px] bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-2.5 py-1.5 rounded-xl transition-colors font-semibold cursor-pointer">💳
+                    VCC Booking / OTA</button>
+                <button onclick="sendQuickReply('Paliers tarifs dégressifs Adagio')"
+                    class="text-[11px] bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-2.5 py-1.5 rounded-xl transition-colors font-semibold cursor-pointer">📉
+                    Tarifs Dégressifs</button>
+                <button onclick="sendQuickReply('Procédure Check-in et Caution')"
+                    class="text-[11px] bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-2.5 py-1.5 rounded-xl transition-colors font-semibold cursor-pointer">🔑
+                    Check-In & Caution</button>
+                <button onclick="sendQuickReply('Clôture de caisse 250€')"
+                    class="text-[11px] bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-2.5 py-1.5 rounded-xl transition-colors font-semibold cursor-pointer">🪙
+                    Caisse 250€</button>
+                <button onclick="sendQuickReply('Infos pratiques hôtel (Wifi, PDJ, Parking, Ménage)')"
+                    class="text-[11px] bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 px-2.5 py-1.5 rounded-xl transition-colors font-semibold cursor-pointer">🏨
+                    Infos Hôtel</button>
             </div>
         </div>
 
         <!-- Input Area -->
         <div class="p-3 bg-white dark:bg-slate-800 border-t border-gray-100 dark:border-slate-700 shrink-0">
             <form id="chatbot-form" class="flex items-center gap-2" onsubmit="handleChatSubmit(event)">
-                <input type="text" id="chatbot-input" placeholder="Posez votre question..."
-                    class="flex-1 bg-gray-100 dark:bg-slate-900 border-transparent focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 dark:focus:ring-rose-900 rounded-full px-4 py-2.5 text-sm transition-all dark:text-white outline-none"
+                <input type="text" id="chatbot-input" placeholder="Posez une question (ex: avoir, G6.07, Thales, tds 2 ad 3n)..."
+                    class="flex-1 bg-gray-100 dark:bg-slate-900 border border-transparent focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 dark:focus:ring-rose-900 rounded-2xl px-4 py-2.5 text-xs sm:text-sm transition-all dark:text-white outline-none"
                     autocomplete="off">
                 <button type="submit"
-                    class="w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-200 dark:bg-rose-900/50 dark:hover:bg-rose-900 text-rose-600 dark:text-rose-400 flex items-center justify-center transition-colors shrink-0">
-                    <i class="fas fa-paper-plane text-sm translate-x-[-1px] translate-y-[1px]"></i>
+                    class="w-10 h-10 rounded-2xl bg-gradient-to-r from-adagio-red to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white flex items-center justify-center transition-all shadow-md hover:scale-105 shrink-0 cursor-pointer">
+                    <i class="fas fa-paper-plane text-xs translate-x-[-1px] translate-y-[1px]"></i>
                 </button>
             </form>
         </div>
@@ -21818,205 +21872,1045 @@
             });
 
             /* ==========================================================================
-               MODULE CHATBOT & FAQ INTELLIGENTE (S.O.F.I.A BOT)
+               MODULE CHATBOT & ASSISTANT IA INTERACTIF (S.O.F.I.A BOT V3.5)
                ========================================================================== */
 
-            // Base de connaissances (FAQ)
+            // Normalisation texte (sans accents, minuscule, ponctuation nettoyée)
+            function normalizeSofiaText(str) {
+                if (!str) return '';
+                return String(str)
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/['’`]/g, ' ')
+                    .replace(/[^a-z0-9€%.:\-_+\s]/g, ' ')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+            }
+
+            // Base de connaissances Experte (Tous les 12 modules + Infos Hôtel + Procédures Opera Cloud)
             const faqKnowledgeBase = [
+                // --- FACTURATION, AJUSTEMENTS, AVOIRS & CODES OPERA ---
                 {
-                    keywords: ["wifi", "internet", "code wifi", "connexion"],
-                    answer: "📶 Le code wifi est affiché en réception sur l'affiche au desk. Il change **tous les 1er du mois**."
+                    title: "Ajustement vs Facture d'Avoir (Credit Bill)",
+                    badge: "Facturation • Module 4",
+                    keywords: ["ajustement", "avoir", "credit bill", "facture de credit", "remboursement", "corriger facture", "modifier facture", "annuler facture", "reduire prix", "geste commercial"],
+                    answer: "🧾 **Règle d'Or Facturation Opera Cloud :**\n\n1️⃣ **AVANT l'édition de la facture (Séjour en cours / Folio ouvert) ➔ AJUSTEMENT :**\n• Ouvrez la facturation du client et **dépliez le forfait (`+`)** pour voir les lignes détaillées.\n• Cochez la ligne **1000 (Appartement)**.\n• Cliquez sur **Ajuster la sélection**, saisissez un **montant négatif** (ex: `-45.00`), sélectionnez le motif d'audit et validez.\n\n2️⃣ **APRÈS l'édition de la facture (Facture déjà verrouillée avec N° fiscal) ➔ FACTURE D'AVOIR (Credit Bill) :**\n• Allez dans **Historique des folios**, sélectionnez la facture verrouillée.\n• Cliquez sur **Facture de crédit (Credit Bill)**, choisissez le motif réglementaire et générez l'avoir pour annuler comptablement la facture initiale.",
+                    image: {
+                        src: "img/opera-ajust-1.png",
+                        caption: "Opera Cloud — Facturation : Déplier le forfait et cocher la ligne 1000 Appartement avant Ajustement"
+                    },
+                    extraImages: [
+                        { src: "img/opera-ajust-2.png", label: "Capture Ajustement" },
+                        { src: "img/opera-avoir-2.png", label: "Capture Credit Bill (Avoir)" }
+                    ],
+                    module: { id: "module-factu", sub: "factu-ajustement", label: "Ouvrir Ajustements & Avoirs" },
+                    followUps: ["Codes transactions Opera Cloud", "Comment faire un Split Folio ?", "Erreur OFIS BR-FR-CO-02"]
                 },
                 {
-                    keywords: ["petit déjeuner", "petit-déjeuner", "pdj", "heure pdj", "horaires pdj", "buffet"],
-                    answer: "🥐 Les horaires du PDJ sont de **7h à 10h** en semaine et de **7h30 à 10h30** le week-end."
+                    title: "Codes Transactions Opera Cloud (Hébergement, Paiements & Remboursements)",
+                    badge: "Facturation • Référentiel",
+                    keywords: ["code transaction", "codes transactions", "codes opera", "code 1000", "code 2000", "code 9000", "code 7530", "code cb", "code visa", "code amex", "code virement", "rembourser cb"],
+                    answer: "🔢 **Référentiel Officiel des Codes Transactions Opera Cloud :**\n\n🏨 **Prestations & Taxes :**\n• **`1000`** : Hébergement / Appartement (TVA 10%)\n• **`2000` / `7010`** : Taxe de Séjour (8,13 € / adulte / nuit — 0% TVA)\n• **`1069`** : Frais de No-Show / Annulation tardive\n\n💳 **Encaissements (Paiements standard) :**\n• **`9000`** : Espèces (Cash)\n• **`9100`** : Carte Bancaire (CB / Visa / Mastercard)\n• **`9101`** : American Express (AMEX)\n• **`9104`** : Virement Bancaire (Bank Transfer)\n• **`9105`** : Chèque Vacances ANCV\n• **`9234`** : Règlement / Voucher PVCP\n\n↩️ **Remboursements (Refunds / Avoirs) :**\n• **`7530`** : Remboursement Espèces\n• **`7532`** : Remboursement Visa / CB\n• **`7533`** : Remboursement Mastercard\n• **`7535`** : Remboursement AMEX\n• **`7541`** : Remboursement Virement Bancaire",
+                    module: { id: "module-factu", sub: "factu-ajustement", label: "Ouvrir Facturation & Codes" },
+                    followUps: ["Comment faire un ajustement ou un avoir ?", "Routage Fenêtre 2 (1000 + 2000)", "Clôture de caisse 250€"]
                 },
                 {
-                    keywords: ["check-out", "checkout", "départ", "heure de départ", "rendre la chambre"],
-                    answer: "🕒 L'heure normale de check-out est **11h00**.\nUn *Late Check-out* est possible jusqu'à 17h00 maximum, selon nos disponibilités, moyennant un supplément de **50€**."
+                    title: "Cartes Virtuelles OTA (VCC Booking.com / Expedia / Agoda)",
+                    badge: "Séjour & Facturation",
+                    keywords: ["vcc", "carte virtuelle", "booking", "expedia", "ota", "virtual card", "paiement booking", "debiter vcc", "caution ota", "modif ota"],
+                    answer: "💳 **Gestion d'une Carte Virtuelle (VCC Booking / Expedia) :**\n\n1. **Activation :** Vérifiez que la date du jour est bien égale ou postérieure à la date d'activation de la VCC.\n2. **Routage OBLIGATOIRE :** La VCC doit **uniquement** se trouver sur la **Fenêtre 2** avec un routage strict de l'hébergement (`1000`) ou hébergement + TDS selon l'instruction OTA.\n3. **Fenêtre 1 (Client) :** Sur la Fenêtre 1, prenez systématiquement la **carte bancaire personnelle du client** pour la **caution (100€ ou 250€)** et ses extras (Parking, PDJ non inclus, Boutique).\n4. **Confidentialité stricte :** Ne remettez **JAMAIS** la facture de la Fenêtre 2 (tarif net OTA confidentiel) au client lors du check-out !",
+                    image: {
+                        src: "img/opera-sejour-routing.png",
+                        caption: "Opera Cloud — Instructions de Routage (Fenêtre 2 : Isolement de la VCC ou Société)"
+                    },
+                    module: { id: "module-sejour", sub: "sejour-checkin", label: "Ouvrir Règles OTA & Check-In" },
+                    followUps: ["Routage Fenêtre 2 (1000 + 2000)", "Procédure Check-in et Caution", "Comment faire un Split Folio ?"]
                 },
                 {
-                    keywords: ["parking", "garage", "voiture", "se garer"],
-                    answer: "🚗 Le tarif du parking est à **20€ par jour**."
+                    title: "Routage & Prise en Charge Société (Fenêtre 2 : 1000 + 2000)",
+                    badge: "Réservations & Séjour",
+                    keywords: ["routage", "routing", "prise en charge", "pec", "fenetre 2", "folio 2", "1000 + 2000", "router", "instructions de routage", "transfert fenetre"],
+                    answer: "🔀 **Créer un Routage (Prise en Charge Société / Agence) dans Opera Cloud :**\n\n1. Dans la réservation, cliquez sur **Instructions de routage (Routing Instructions)** ➔ **Nouveau**.\n2. Sélectionnez le type **Fenêtre (Window)** et choisissez la **Fenêtre 2**.\n3. Renseignez et rattachez le **Profil Société (Cardex)** ou le compte **Débiteur (City Ledger)**.\n4. Sélectionnez les codes transactions pris en charge :\n   • **Hébergement seul :** Code `1000`\n   • **Hébergement + Taxe de séjour :** Codes `1000` + `2000` (ou `7010`)\n5. Cochez **Appliquer aux écritures existantes** si des nuits ont déjà été postées, puis enregistrez.",
+                    image: {
+                        src: "img/opera-sejour-routing.png",
+                        caption: "Opera Cloud — Instructions de Routage (Fenêtre 2 Société : 1000 + 2000)"
+                    },
+                    module: { id: "module-resa", sub: "resa-routing", label: "Ouvrir Routings & PEC" },
+                    followUps: ["Erreur OFIS G6.07", "Comment faire un Split Folio ?", "City Ledger & Débiteurs"]
                 },
                 {
-                    keywords: ["ménage", "recouche", "nettoyage", "serviettes"],
-                    answer: "🧹 **Politique de ménage :**\nLe ménage c'est **1 fois par semaine** si le séjour fait plus de 8 nuitées.\nSi en dessous, il faut payer un supplément de **19€** pour un studio CA2D ou **23€** pour un appartement AR4P."
+                    title: "Split Folio & Gestion des Fenêtres de Facturation (1 à 8)",
+                    badge: "Facturation • Module 4",
+                    keywords: ["split", "split folio", "separer facture", "diviser ligne", "fenetre facturation", "glisser deposer", "partager note"],
+                    answer: "🗂️ **Split Folio & Multi-Fenêtres (Fenêtres 1 à 8) dans Opera Cloud :**\n\n• **Fenêtre 1 :** Toujours réservée au **Client physique** (extras personnels, parking, boutique, ou séjour si payé par lui).\n• **Fenêtre 2 :** Réservée à la **Société / Agence / VCC OTA** (facturation B2B OFIS ou City Ledger).\n• **Diviser une transaction (Split) :** Clic droit ou menu `...` sur la ligne de poste ➔ **Diviser (Split)** ➔ par **Montant (€)** ou par **Pourcentage (%)**.\n• **Transférer vers une autre fenêtre :** Cochez les lignes concernées puis glissez-déposez-les vers la **Fenêtre 2** (ou cliquez sur *Transférer vers la fenêtre*).",
+                    image: {
+                        src: "img/opera-folio2.png",
+                        caption: "Opera Cloud — Gestion multi-fenêtres (Folio 1 Client & Folio 2 Société)"
+                    },
+                    module: { id: "module-factu", sub: "factu-split", label: "Ouvrir Split Folio" },
+                    followUps: ["Routage Fenêtre 2 (1000 + 2000)", "Comment faire un ajustement ou un avoir ?", "Erreur OFIS G6.07"]
                 },
                 {
-                    keywords: ["taxe", "taxe de séjour", "city tax", "tds"],
-                    answer: "💶 La TDS (Taxe de Séjour) est de **8,13€ par jour et par personne**. (Non applicable aux mineurs de moins de 18 ans)."
+                    title: "Pay By Link (Stripe), APOL & Règlements PVCP",
+                    badge: "Facturation Online • Module 4",
+                    keywords: ["paybylink", "pay by link", "stripe", "lien de paiement", "apol", "to be paid", "pvcp", "pierre et vacances", "9234"],
+                    answer: "🌐 **Paiements Online, APOL & PVCP :**\n\n1️⃣ **Secure Pay By Link (Stripe) :**\n• Utilisé pour les paiements à distance sécurisés (3D Secure). Ne jamais saisir une CB par téléphone en VAD non sécurisée !\n• Vérifiez la confirmation de paiement sur le portail avant de poster le règlement dans Opera Cloud.\n\n2️⃣ **APOL & To Be Paid :**\n• Contrôlez chaque jour la liste des réservations **APOL / To Be Paid** pour vérifier que le prélèvement automatique est bien passé avant le check-in.\n\n3️⃣ **Réservations PVCP (Pierre & Vacances) :**\n• Utilisez le code règlement spécifique **`9234`** pour équilibrer le folio hébergement PVCP selon le bordereau.",
+                    module: { id: "module-factu", sub: "factu-online", label: "Ouvrir Paiements Online & PVCP" },
+                    followUps: ["Codes transactions Opera Cloud", "Cartes Virtuelles VCC Booking"]
                 },
                 {
-                    keywords: ["animaux", "chien", "chat", "pet", "animal"],
-                    answer: "🐶 Oui, les animaux de compagnie sont acceptés ! Le supplément est de **10€ par nuit**."
+                    title: "Ventes Boutique (Post-It), Offerts & Bon de Commande (PO Number)",
+                    badge: "Facturation • Module 4",
+                    keywords: ["post-it", "post it", "boutique", "vente boutique", "offert", "offert boutique", "po number", "bon de commande", "reference commande", "passant"],
+                    answer: "🛍️ **Boutique (Post-It), Offerts & PO Number :**\n\n• **Vente Boutique (Post-It) :** Pour un client externe (passant) ou qui règle comptant sans l'imputer sur sa chambre, utilisez un **Compte Passant (Post-It)**, postez l'article et encaissez immédiatement.\n• **Offert Boutique :** Saisissez l'article selon la grille des offerts autorisés (geste commercial / accueil VIP) et tracez le motif.\n• **Bon de Commande (PO Number) :** Si une entreprise exige un numéro de bon de commande sur sa facture (surtout pour **Chorus Pro / OFIS**), renseignez-le dans le champ **PO Number / Référence Supplémentaire** de la réservation avant de générer le Folio 2.",
+                    module: { id: "module-factu", sub: "factu-postit", label: "Ouvrir Boutique & PO Number" },
+                    followUps: ["Erreur OFIS G6.07", "Codes transactions Opera Cloud"]
+                },
+
+                // --- RÉSERVATIONS, GROUPES & TARIFS DÉGRESSIFS ADAGIO ---
+                {
+                    title: "Tarifs Dégressifs Adagio (Paliers 1-3n, 4-9n, 10-27n, 28+n) & Fixed Rate",
+                    badge: "Réservations • Module 1",
+                    keywords: ["degressif", "tarif degressif", "paliers", "palier", "fixed rate", "tarif fixe", "prolongation", "raccourcissement", "daily details", "details quotidiens", "long sejour", "28 nuits", "4 nuits", "10 nuits"],
+                    answer: "📉 **Grille Tarifaire Dégressive Adagio & Règle `Fixed Rate` :**\n\nChez Adagio, le tarif par nuit dépend de la durée totale du séjour :\n• **Court séjour :** `1 à 3 nuits` (Tarif Public / Flex)\n• **Moyen séjour :** `4 à 9 nuits` (1er palier dégressif)\n• **Long séjour :** `10 à 27 nuits` (2e palier dégressif)\n• **Très long séjour :** `28 nuits et +` (Tarif mensuel préférentiel)\n\n⚠️ **Attention dans Opera Cloud (`Daily Details`) :**\n• Si un client **raccourcit** son séjour (ex: passe de 12 nuits à 3 nuits), le tarif doit être recalculé au palier `1-3 nuits`.\n• Cochez **Tarif Fixe (`Fixed Rate`)** dans *Détails Quotidiens* uniquement lorsque vous voulez verrouiller un tarif négocié (Corpo/Groupe) pour empêcher Opera Cloud de l'écraser lors d'une modification.",
+                    image: {
+                        src: "img/opera-resa-daily.png",
+                        caption: "Opera Cloud — Détails Quotidiens (Daily Details) : Paliers dégressifs Adagio et Fixed Rate"
+                    },
+                    module: { id: "module-resa", sub: "resa-annul", label: "Ouvrir Tarifs & Modifications" },
+                    followUps: ["Comment faire un ajustement ou un avoir ?", "Compte corpo Thales"]
                 },
                 {
-                    keywords: ["bagage", "valise", "bagagerie", "luggage", "stocker"],
-                    answer: "🧳 Nous avons une bagagerie accessible **24h/24**.\nToutefois, les bagages ne peuvent être stockés plus de 24h."
+                    title: "Rooming List Excel & Gestion des Blocs de Groupes",
+                    badge: "Réservations • Module 1",
+                    keywords: ["rooming", "rooming list", "bloc", "groupe", "groupes", "matrice excel", "import groupe", "pm", "chambre virtuelle", "master folio"],
+                    answer: "👥 **Gestion des Blocs Groupes & Rooming List dans Opera Cloud :**\n\n1. **Création / Vérification du Bloc :** Vérifiez le statut du bloc, le *Cut-off Date* et le compte **PM (9000+)** servant de Master Folio.\n2. **Import Rooming List :** Utilisez la **Matrice Excel Officielle Adagio** (disponible dans le bouton *Matrices* en haut à droite). Renseignez Nom, Prénom, Dates d'arrivée/départ et Typologie (`CA2D`, `AR4P`).\n3. **Routage Groupe :** Paramétrez le routage automatique des chambres du groupe vers le compte **PM Master** pour les prestations prises en charge par l'organisateur.\n4. **Pré-attribution :** Attribuez les chambres par étage/proximité et préparez les enveloppes clés à J-1.",
+                    module: { id: "module-resa", sub: "resa-rooming", label: "Ouvrir Rooming List & Groupes" },
+                    followUps: ["Routage Fenêtre 2 (1000 + 2000)", "Arrhes et dépôts de garantie"]
                 },
                 {
-                    keywords: ["laverie", "lessive", "machine à laver", "linge", "pressing", "laver"],
-                    answer: "🧺 Une laverie en libre-service est disponible.\n- Machine à laver : **6€** (la lessive est déjà incluse)\n- Sèche-linge : **3€**\nLe paiement se fait uniquement par CB sur le terminal ou via l'application **AirWallet**."
+                    title: "Arrhes, Acomptes & Dépôts de Garantie (Deposit)",
+                    badge: "Réservations • Module 1",
+                    keywords: ["arrhes", "acompte", "deposit", "depot de garantie", "pre-paiement", "prepaiement", "avances"],
+                    answer: "💰 **Saisie des Arrhes & Dépôts de Garantie dans Opera Cloud :**\n\n• **Avant l'arrivée (`Due In` / Réservation future) :** Ne postez jamais un paiement dans une chambre non arrivée sans passer par l'onglet **Dépôt / Annulation (Deposit / Cancellation)** de la réservation.\n• Saisissez la règle de dépôt puis cliquez sur **Poster un dépôt (Post Deposit)** avec le mode de règlement reçu (`9100` CB, `9104` Virement, etc.).\n• Au moment du **Check-in**, Opera Cloud transférera automatiquement le dépôt (Deposit Ledger ➔ Guest Ledger) sur le folio du client !",
+                    module: { id: "module-resa", sub: "resa-arrhes", label: "Ouvrir Arrhes & Dépôts" },
+                    followUps: ["Codes transactions Opera Cloud", "Procédure Check-in et Caution"]
+                },
+
+                // --- LE SÉJOUR : CHECK-IN, CAUTION, CHECK-OUT, STATUTS, DÉLOGEMENT ---
+                {
+                    title: "Procédure Check-In, Fiche de Police & Caution Bancaire (Pré-autorisation)",
+                    badge: "Séjour • Module 2",
+                    keywords: ["check-in", "checkin", "check in", "arrivee", "caution", "pre-autorisation", "preautorisation", "plafond caution", "empreinte cb", "fiche de police", "piece d identite"],
+                    answer: "🔑 **Procédure Complète de Check-In & Caution chez Adagio :**\n\n1. **Contrôle Identité & Fiche de Police :** Vérifiez la pièce d'identité (obligatoire, même en prépaiement OTA). Faire remplir la **Fiche de Police** pour tout client de nationalité étrangère.\n2. **Vérification du Tarif & Règlement :** Si paiement sur place, encaissez le séjour (ou la 1re période pour un long séjour) + la Taxe de Séjour (`8,13 € / adulte / nuit`).\n3. **Prise de Caution (Pré-autorisation CB sur TPE) :**\n   • **Court / Moyen séjour (`1 à 27 nuits`) :** Pré-autorisation de **100 €** (ou **200 €** selon typologie/consigne site).\n   • **Long séjour (`28 nuits et +`) :** Caution réglementaire long séjour.\n4. **Remise des clés :** Annoncez les horaires PDJ (`7h-10h` sem / `7h30-10h30` WE), le code Wifi et la politique de ménage hebdomadaire (+8 nuits).",
+                    image: {
+                        src: "img/opera-sejour-roomassign.png",
+                        caption: "Opera Cloud — Attribution de chambre, Do Not Move et Statuts HK"
+                    },
+                    module: { id: "module-sejour", sub: "sejour-checkin", label: "Ouvrir Check-In & Caution" },
+                    followUps: ["Cartes Virtuelles VCC Booking", "Politique de ménage Adagio", "Check-Out Masterclass"]
                 },
                 {
-                    keywords: ["prêt", "adaptateur", "fer à repasser", "lit bébé", "parapluie", "caution", "matériel"],
-                    answer: "🔌 Nous pouvons prêter gratuitement du matériel (selon disponibilité en réception).\nIl n'y a **pas de caution**, mais nous demandons à l'emprunteur d'en prendre soin et de bien le rendre pour les suivants."
+                    title: "Check-Out, Départ Anticipé & Libération de Caution",
+                    badge: "Séjour • Module 2",
+                    keywords: ["check-out", "checkout", "check out", "depart", "heure de depart", "late check-out", "late checkout", "depart anticipe", "early departure", "check-out masterclass", "masterclass check-out"],
+                    answer: "🕒 **Procédure de Check-Out & Départ (Normal : 11h00) :**\n\n• **Heure de départ :** **11h00** maximum. Un *Late Check-Out* est possible jusqu'à **17h00** (selon disponibilité) au tarif de **50 €**.\n• **Les 4 réflexes obligatoires au Check-Out :**\n  1. **Solde à 0,00 € :** Vérifiez que toutes les fenêtres du folio sont soldées.\n  2. **Caution (Pré-autorisation) :** **Libérez / Annulez la pré-autorisation** si elle n'est pas utilisée, afin de ne pas bloquer le plafond bancaire du client.\n  3. **Facturation B2B / OFIS :** Si une société paie ou si le client demande une facture au nom de son entreprise, passez par la **Fenêtre 2** avec un Cardex Société complet (SIRET + TVA).\n  4. **Programme ALL :** Demandez systématiquement si le client est membre ALL ou proposez l'inscription rapide.",
+                    module: { id: "module-sejour", sub: "sejour-checkout", label: "Ouvrir Procédure Check-Out" },
+                    followUps: ["Erreur OFIS G6.07", "Comment faire un ajustement ou un avoir ?", "Programme ALL & Barème Points"]
                 },
                 {
-                    keywords: ["fitness", "salle de sport", "sport", "gym", "piscine"],
-                    answer: "🏋️ L'espace Fitness / Piscine est accessible **24h/24 et 7j/7**.\nIl se situe au niveau **-2** de l'établissement."
+                    title: "Statuts de Chambres (Inspected, Clean, Dirty, OOO, OOS) & Do Not Move",
+                    badge: "Séjour & HK • Module 2",
+                    keywords: ["ooo", "oos", "out of order", "out of service", "statut chambre", "statuts chambres", "inspected", "dirty", "clean", "do not move", "dnm", "bloquer chambre", "hors service"],
+                    answer: "🧹 **Statuts Housekeeping & Blocages Techniques dans Opera Cloud :**\n\n• **Statuts Ménage :** `Dirty` (Sale) ➔ `Clean` (Propre) ➔ `Inspected` (Contrôlée par la gouvernante, prête pour le check-in).\n• **`OOO` (Out of Order — Hors Service) :** Chambre **déduite de l'inventaire** vendable (travaux lourds, dégât des eaux majeur). Impacte le taux d'occupation.\n• **`OOS` (Out of Service — Hors Usage temporaire) :** Chambre **non déduite de l'inventaire** (petite maintenance du jour, ampoule/joint, attente contrôle rapide).\n• **`Do Not Move` (DNM) :** Cochez cette case dans la réservation pour verrouiller le numéro d'appartement attribué (PMR, demande expresse client fidèle, chambres communicantes).",
+                    image: {
+                        src: "img/opera-sejour-roomassign.png",
+                        caption: "Opera Cloud — Attribution de chambre, Do Not Move et Statuts HK / OOO / OOS"
+                    },
+                    module: { id: "module-sejour", sub: "sejour-statut", label: "Ouvrir Statuts OOO / OOS" },
+                    followUps: ["Délogement Interne & Inter-Hôtels", "Politique de ménage Adagio"]
                 },
                 {
-                    keywords: ["canapé", "lit", "sofa", "literie", "canapé-lit"],
-                    answer: "🛏️ Le canapé-lit n'est pas fait à l'arrivée (il est fermé).\nLes clients doivent le faire eux-mêmes.\n*Toutefois, s'ils en font la demande 24h à l'avance, nous pouvons exceptionnellement l'ouvrir et le préparer pour eux.*"
+                    title: "Délogement Interne (Room Move) & Délogement Inter-Hôtels (Walk-Out)",
+                    badge: "Séjour • Module 2",
+                    keywords: ["delogement", "deloger", "room move", "changer de chambre", "changement de chambre", "walk out", "walk-out", "surbooking", "formulaire delogement", "inter-hotels"],
+                    answer: "🔄 **Procédures de Délogement (Interne & Externe) :**\n\n1️⃣ **Délogement Interne (`Room Move` dans l'hôtel) :**\n• Dans Opera Cloud, ouvrez le séjour (`In-House`) ➔ cliquez sur **Déplacer la chambre (Room Move)**.\n• Sélectionnez le nouvel appartement `Inspected`, indiquez le motif et choisissez le statut de l'ancienne chambre (`Dirty` si le client l'a occupée, `Inspected` s'il n'y est pas entré). Ré-encodez les clés.\n\n2️⃣ **Délogement Inter-Hôtels (Surbooking / Walk-Out vers un autre hôtel) :**\n• Trouvez un établissement Adagio ou Accor de gamme équivalente ou supérieure.\n• Remplissez le **Formulaire Officiel de Délogement Adagio** (générable en PDF directement dans S.O.F.I.A) précisant la prise en charge (Chambre, PDJ, Taxi aller/retour).",
+                    module: { id: "module-sejour", sub: "sejour-delogement-hotel", label: "Ouvrir Formulaire Délogement PDF" },
+                    followUps: ["Statuts de Chambres (OOO / OOS)", "Traces & Alertes ALOA"]
                 },
                 {
-                    keywords: ["poubelle", "déchets", "jeter", "ordures"],
-                    answer: "🗑️ Les clients doivent sortir leurs poubelles eux-mêmes.\nLe local poubelle se situe au niveau de la réception : **au fond du couloir vers la bagagerie et à gauche**."
+                    title: "Préparation des Arrivées, Contrôle SAFE & Alertes / Traces ALOA",
+                    badge: "Séjour • Module 2",
+                    keywords: ["preparer arrivees", "preparation arrivees", "safe", "controle reservation", "traces", "alerte", "aloa", "vip", "accueil vip"],
+                    answer: "🛡️ **Préparation des Arrivées, Contrôle SAFE & Traces :**\n\n• **Préparation du Jour :** Filtrez les arrivées (`Due In`), attribuez en priorité les membres **ALL (Silver/Gold/Platinum/Diamond)**, les longs séjours et les demandes PMR.\n• **Contrôle SAFE :** Vérifiez que chaque réservation dispose d'une garantie valide (VCC active, prépaiement APOL encaissé, PEC société signée ou CB en garantie).\n• **Traces & Alertes :** Ajoutez une **Alerte Check-In / Check-Out** dans Opera Cloud pour toute consigne critique (ex: *« Récupérer PEC », « Facturer sur Fenêtre 2 », « Colis en bagagerie »*).",
+                    module: { id: "module-sejour", sub: "sejour-prepa", label: "Ouvrir Préparation & SAFE" },
+                    followUps: ["Procédure Check-in et Caution", "Programme ALL & Barème Points"]
+                },
+
+                // --- FACTURATION ÉLECTRONIQUE (OFIS) ---
+                {
+                    title: "Facturation Électronique OFIS : Règles Cardex B2B France vs Étranger (E-reporting)",
+                    badge: "OFIS • Module 5",
+                    keywords: ["ofis", "facturation electronique", "e-invoicing", "einvoicing", "e-reporting", "ereporting", "cardex", "client etranger", "societe etrangere", "chorus", "chorus pro", "retry", "offline", "detacher rattacher"],
+                    answer: "⚡ **Règles Fondamentales OFIS (Facturation Électronique Opera Cloud) :**\n\n🇫🇷 **1. Société Française (Flux B2B Domestique) :**\n• **SIRET :** Exactement **14 chiffres continus sans aucun espace** (ex: `77604221001297`).\n• **N° TVA :** `FR` + clé 2 chiffres + SIREN 9 chiffres sans espace (ex: `FR57776042210`).\n• **Pays :** `FR` en bas dans l'adresse ET dans Communication.\n\n🌍 **2. Société Étrangère (Flux E-Reporting International) :**\n• **SIRET / SIREN :** **LAISSER TOTALEMENT VIDE !** (Une société étrangère n'a pas de SIRET).\n• **TVA Intracommunautaire & eInvoicing Address :** Saisir uniquement le numéro de TVA étranger avec son préfixe pays (ex: `DE114108789`, `BE0403019261`) **SANS préfixe `9914:`**.\n• **Pays :** Code ISO du pays (`DE`, `BE`, `ES`, `IT`, `GB`...) dans l'adresse et dans Communication.\n\n🔄 **3. Purge du Cache Folio 2 (Obligatoire avant Retry) :**\n• Après toute modification du Cardex, **détachez puis rattachez le profil société sur la Fenêtre 2** avant de cliquer sur **Retry** !",
+                    image: {
+                        src: "img/opera-ofis-ereporting.png",
+                        caption: "Opera Cloud — Profil Société & Facturation Électronique OFIS (B2B France vs E-reporting International)"
+                    },
+                    extraImages: [
+                        { src: "img/opera-cardex.png", label: "Capture Cardex" },
+                        { src: "img/opera-folio2.png", label: "Capture Folio 2" }
+                    ],
+                    module: { id: "module-ofis", sub: "ofis-erreurs", label: "Ouvrir Diagnostic OFIS" },
+                    followUps: ["Erreur OFIS G6.07", "Erreur OFIS BR-FR-21", "Erreur OFIS BR-O-10"]
+                },
+
+                // --- BACK OFFICE, CLÔTURE EOD, CAISSE 250€ & CITY LEDGER ---
+                {
+                    title: "Clôture de Nuit (Night Audit / End of Day) & Rapports Obligatoires",
+                    badge: "Back Office • Module 8",
+                    keywords: ["cloture", "night audit", "end of day", "eod", "cloture de nuit", "due in", "due out", "finjrnlbytrans", "trial balance", "trial_balance", "audit de nuit"],
+                    answer: "🌙 **Procédure de Clôture Journalière (End of Day / Night Audit) :**\n\n1. **Purge des Départs (`0 Due Out`) :** Vérifiez qu'aucune chambre en départ du jour n'est restée en statut *Due Out* (faites les check-outs ou prolongez les séjours confirmés).\n2. **Traitement des Arrivées non venues (`0 Due In`) :** Vérifiez les no-shows et appliquez la procédure **No-Show (Code `1069`)** ou reportez la date si prévenu.\n3. **Clôture des Caisses & TPE :** Vérifiez la balance TPE contre le rapport Opera **`finjrnlbytrans`** (Journal financier par code transaction).\n4. **Lancement de l'EOD :** Menu *Fin de journée (End of Day)* ➔ Lancez la séquence Night Audit et archivez la **`trial_balance`** (Balance générale).",
+                    image: {
+                        src: "img/opera-checklist-eod.png",
+                        caption: "Opera Cloud — Fin de journée (End of Day) : Séquence Night Audit et rapports"
+                    },
+                    module: { id: "module-backoffice", sub: "backoffice-cloture", label: "Ouvrir Clôture EOD" },
+                    followUps: ["Traitement des No-Shows (Code 1069)", "Clôture de caisse 250€", "City Ledger & Débiteurs"]
                 },
                 {
-                    keywords: ["taxi", "transport", "aéroport", "orly", "cdg", "charles de gaulle", "gare", "rer", "navette", "g7", "nasser"],
-                    answer: "🚕 **Transports & Taxis :**\n- **CDG :** RER A (La Défense) ➔ Châtelet ➔ RER B (Aéroport CDG).\n- **Orly :** RER A (La Défense) ➔ Gare de Lyon ➔ Ligne 14 (Aéroport d'Orly).\n- **Taxi :** Nous pouvons appeler un G7, ou contacter nos partenaires taxis qui prennent moins cher (Appeler **Nasser**)."
+                    title: "Traitement des No-Shows & Facturation Code 1069",
+                    badge: "Back Office • Module 8",
+                    keywords: ["no-show", "noshow", "no show", "1069", "client non venu", "annulation tardive", "penalite no show"],
+                    answer: "🚫 **Traitement des No-Shows (Code Transaction `1069`) :**\n\n1. Identifiez les réservations encore en `Due In` avant la clôture de nuit.\n2. Vérifiez les conditions tarifaires de la réservation (Flexible vs Non-Remboursable / Prépaiement OTA).\n3. Si des frais de No-Show s'appliquent, postez les frais avec le **Code Transaction `1069`** sur un compte dédié et encaissez la garantie (ou débitez la VCC OTA si autorisé).\n4. Ne laissez jamais une réservation en statut No-Show non traité après l'EOD.",
+                    module: { id: "module-backoffice", sub: "backoffice-noshow", label: "Ouvrir Procédure No-Shows" },
+                    followUps: ["Clôture de Nuit (Night Audit)", "Codes transactions Opera Cloud"]
                 },
                 {
-                    keywords: ["ouvre les colis", "ouvrir colis", "aller aux colis", "module colis", "gestion des colis"],
-                    answer: "📦 Tout de suite ! J'ouvre le module de **Gestion des Colis** pour vous.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-colis'), 50); }
+                    title: "Comptes Débiteurs (City Ledger / Accounts Receivable)",
+                    badge: "Back Office • Module 8",
+                    keywords: ["city ledger", "debiteur", "debiteurs", "accounts receivable", "ar", "facturation directe", "direct bill", "cl", "paiement societe"],
+                    answer: "🏢 **Comptes Débiteurs (City Ledger / Direct Bill) dans Opera Cloud :**\n\n• Le mode de règlement **City Ledger (`CL` / `Direct Bill`)** n'est autorisé que pour les sociétés et agences disposant d'un **numéro de compte AR ouvert et validé** par la comptabilité.\n• Toujours transférer les frais pris en charge sur la **Fenêtre 2**, rattacher le profil Société + Compte AR, vérifier la conformité **OFIS** (SIRET/TVA/PO Number), puis solder la Fenêtre 2 en **City Ledger**.\n• Ne laissez **JAMAIS** un solde débiteur sur la Fenêtre 1 !",
+                    image: {
+                        src: "img/opera-backoffice-ar.png",
+                        caption: "Opera Cloud — Comptes Débiteurs (Accounts Receivable / City Ledger) & Facturation directe"
+                    },
+                    module: { id: "module-backoffice", sub: "backoffice-caisse", label: "Ouvrir Back Office & Caisse" },
+                    followUps: ["Routage Fenêtre 2 (1000 + 2000)", "Erreur OFIS G6.07"]
                 },
                 {
-                    keywords: ["ouvre les consignes", "ouvrir consignes", "aller aux consignes", "cahier de consignes"],
-                    answer: "📝 Je vous ouvre le **Cahier de Consignes** immédiatement.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-logbook'), 50); }
+                    title: "Feuille de Caisse 250€ & Passation de Shift",
+                    badge: "Outils & Caisse • Module 9",
+                    keywords: ["caisse", "fond de caisse", "250", "250€", "passation de caisse", "compter la caisse", "ecart de caisse", "coffre", "drop"],
+                    answer: "🪙 **Contrôle du Fond de Caisse Réglementaire (250,00 €) :**\n\n• Le fond de caisse réception H9297 doit toujours être strictement égal à **250,00 €** à chaque prise et fin de shift (Matin, Après-midi, Nuit).\n• **Si vous avez encaissé des espèces (Code `9000`) :** Le surplus au-dessus de 250,00 € doit faire l'objet d'un **Drop au coffre** dans une enveloppe scellée et signée.\n• Utilisez l'outil interactif **Feuille de Caisse 250€** dans S.O.F.I.A pour compter vos pièces/billets/rouleaux et générer la fiche PDF/Excel officielle de passation.",
+                    module: { id: "module-tools", sub: "tools-caisse", label: "Ouvrir Feuille de Caisse 250€" },
+                    followUps: ["Codes transactions Opera Cloud", "Clôture de Nuit (Night Audit)"]
+                },
+
+                // --- PROGRAMME ALL, TARS CONNECT & CORPORATE ---
+                {
+                    title: "Programme de Fidélité ALL (Statuts, Avantages & Barème Points Adagio)",
+                    badge: "Fidélité ALL • Module 3",
+                    keywords: ["all", "programme all", "fidelite", "fidélité", "statut all", "silver", "gold", "platinum", "diamond", "points all", "acdc", "notes get", "boisson de bienvenue"],
+                    answer: "⭐ **Programme ALL — Accor Live Limitless chez Adagio :**\n\n• **Niveaux de statut :** `Classic` ➔ `Silver` ➔ `Gold` ➔ `Platinum` ➔ `Diamond`.\n• **Barème chez Adagio :** Base de **10 € HT dépensés = 12,5 points Reward** pour un membre Classic (contre 25 pts en hôtellerie classique).\n• **Réflexes Réception :**\n  1. Vérifiez les préférences **ACDC** du profil (étage élevé, calme, type d'oreiller).\n  2. Préparez l'accueil VIP / mot de bienvenue et la boisson de bienvenue selon le statut.\n  3. Proposez l'enrôlement au desk à tout client non-membre !",
+                    module: { id: "module-fidelite", sub: "fidelite-all", label: "Ouvrir Programme ALL & ACDC" },
+                    followUps: ["Simulateur de points ALL", "Environnement TARS Connect"]
                 },
                 {
-                    keywords: ["ouvre la checklist", "ouvrir checklist", "module checklist", "taches"],
-                    answer: "📋 Voici le module des **Check-lists** !",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-checklist'), 50); }
+                    title: "Environnement TARS Connect (RESAweb, DATAweb, ACDC, ANAIS & RIH)",
+                    badge: "TARS Connect • Module 6",
+                    keywords: ["tars", "tars connect", "resaweb", "dataweb", "anais", "rih", "distribution", "extranet accor"],
+                    answer: "🌐 **Cartographie de l'Écosystème TARS Connect :**\n\n• **RESAweb :** Consultation et gestion centrale des réservations TARS (utile en cas de désynchronisation PMS ou pour vérifier l'origine d'un tarif/canal).\n• **DATAweb :** Paramétrage des descriptifs produits, équipements et informations de l'établissement.\n• **ACDC :** Base centrale des profils clients et préférences membres ALL.\n• **ANAIS / RIH :** Gestion des contrats Corporate, tarifs négociés et référentiel hôtel.",
+                    module: { id: "module-tars", sub: "tars-map", label: "Ouvrir Module TARS Connect" },
+                    followUps: ["Compte corpo Thales", "Programme ALL & Barème Points"]
                 },
                 {
-                    keywords: ["ouvre la rooming list", "ouvrir rooming", "module rooming", "liste des arrivées", "reservations"],
-                    answer: "🛏️ J'ouvre le module **Réservations & Groupes**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-resa'), 50); }
+                    title: "Corporate, Chasse aux Leads & Lutte contre le « Vide Corpo »",
+                    badge: "Corporate • Module 7",
+                    keywords: ["lead", "leads", "chasse aux leads", "vide corpo", "corporate", "contrat corpo", "sc", "code sc", "new business", "commercial"],
+                    answer: "💼 **Stratégie Corporate, Chasse aux Leads & Halte au « Vide Corpo » :**\n\n1. **Halte au « Vide Corpo » :** Lorsqu'un client professionnel réserve au tarif public ou via Booking/Expedia, identifiez le nom de son entreprise au check-in ou sur la facture et **rattachez son profil Société (Code `SC` / `AS`)** dans Opera Cloud pour comptabiliser la production.\n2. **Chasse aux Leads :** Si l'entreprise n'a pas encore de contrat ou a un potentiel de nuitées régulières / long séjour, qualifiez le contact (Nom, Fonction, Volume de nuits) et envoyez la fiche au commercial via le **Générateur de Mail Leads**.\n3. **Astuce Chatbot :** Tapez directement *« Compte corpo [Nom entreprise] »* ici dans le chat pour trouver son code `SC` et son commercial parmi les **5 891 comptes** !",
+                    module: { id: "module-corpo", sub: "corpo-sc", label: "Ouvrir Recherche Comptes SC" },
+                    followUps: ["Compte corpo Thales", "Compte corpo SNCF", "Tarifs Dégressifs Adagio"]
+                },
+
+                // --- CHECK-LISTS, CAHIER DE CONSIGNES & COLIS ---
+                {
+                    title: "Check-lists Opérationnelles de Shift (Matin, Après-Midi & Nuit)",
+                    badge: "Check-lists • Module 0",
+                    keywords: ["checklist", "check-list", "shift matin", "shift aprem", "shift apres-midi", "shift nuit", "taches", "organisation shift"],
+                    answer: "📋 **Check-lists Opérationnelles par Shift :**\n\n• **☀️ Shift Matin (07h00 – 14h30) :** Comptage caisse `250€`, contrôle rapport de nuit, suivi des départs (`Check-Out` avant 11h00), coordination gouvernante pour les arrivées prioritaires, contrôle APOL/VCC du jour.\n• **🌤️ Shift Après-Midi (14h00 – 21h30) :** Comptage caisse `250€`, accueil des arrivées (`Check-In`), encaissements & cautions, préparation et contrôle SAFE des arrivées de J+1.\n• **🌙 Shift Nuit (21h00 – 07h00) :** Dernières arrivées tardives, traitement des No-Shows (`1069`), clôture TPE/Caisse, exécution du **Night Audit (End of Day)** et édition des rapports.",
+                    module: { id: "module-checklist", sub: null, label: "Ouvrir Check-lists de Shift" },
+                    followUps: ["Clôture de caisse 250€", "Clôture de Nuit (Night Audit)"]
                 },
                 {
-                    keywords: ["ouvre la police", "fiche de police", "fiches de police", "module police"],
-                    answer: "👮 J'ouvre le module **Séjour** pour la gestion des Fiches de Police.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour'), 50); }
+                    title: "Cahier de Consignes Numérique (Logbook) & Gestion des Colis",
+                    badge: "Vie Réception • Modules 10 & 11",
+                    keywords: ["colis", "paquet", "livraison", "amazon", "chronopost", "consigne", "consignes", "logbook", "cahier de consignes", "passation"],
+                    answer: "📦 **Cahier de Consignes (Logbook) & Suivi des Colis :**\n\n• **📝 Cahier de Consignes (Module 10) :** Permet de saisir, filtrer par priorité (*Urgent, Facturation, Technique, Client*) et valider les consignes entre les équipes Matin / Après-Midi / Nuit avec synchronisation temps réel.\n• **📦 Gestion des Colis (Module 11) :** Enregistrez chaque colis reçu à la réception (Nom du client, N° de chambre, Transporteur, Emplacement bagagerie) et validez la remise avec signature à la récupération.",
+                    module: { id: "module-logbook", sub: null, label: "Ouvrir Cahier de Consignes" },
+                    followUps: ["Ouvrir le module Colis", "Check-lists de Shift"]
+                },
+
+                // --- INFOS PRATIQUES DE L'HÔTEL (WIFI, PDJ, PARKING, MÉNAGE, LAVERIE, TRANSPORTS) ---
+                {
+                    title: "Informations Pratiques Hôtel (Récapitulatif Réception)",
+                    badge: "Infos Hôtel • Adagio",
+                    keywords: ["infos pratiques", "infos hotel", "recap hotel", "horaires hotel"],
+                    answer: "🏨 **Mémo Rapide des Services de l'Établissement :**\n\n• **📶 Code Wifi :** Affiché au desk en réception, change **tous les 1er du mois**.\n• **🥐 Petit-Déjeuner :** `07h00 – 10h00` en semaine | `07h30 – 10h30` le week-end.\n• **🕒 Check-Out :** **11h00** (Late Check-out jusqu'à 17h00 max : **50 €**).\n• **🚗 Parking :** **20 € / jour**.\n• **💶 Taxe de Séjour (TDS) :** **8,13 € / adulte / nuit** (exonéré -18 ans).\n• **🧹 Ménage :** Inclus **1 fois / semaine** pour les séjours de **+8 nuits**. En dessous : supplément **19 €** (`CA2D`) ou **23 €** (`AR4P`).\n• **🧺 Laverie :** Machine **6 €** (lessive incluse) + Sèche-linge **3 €** (CB ou app *AirWallet*).\n• **🏋️ Fitness / Piscine :** Niveau **-2**, ouvert **24h/24 et 7j/7**.\n• **🐶 Animaux :** Acceptés au tarif de **10 € / nuit**.",
+                    followUps: ["Politique de ménage Adagio", "Transports CDG / Orly & Taxis", "TDS 2 adultes 5 nuits"]
                 },
                 {
-                    keywords: ["ouvre le check in", "ouvre la partie check in", "aller au check in", "checkin", "check-in", "check in"],
-                    answer: "🔑 Très bien, j'ouvre la partie **Check-in** pour vous.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour', 'sejour-checkin'), 50); }
+                    title: "Code Wifi & Connexion Internet",
+                    badge: "Infos Hôtel",
+                    keywords: ["wifi", "internet", "code wifi", "connexion", "mot de passe wifi"],
+                    answer: "📶 **Connexion Wifi :**\nLe code Wifi est affiché en réception sur le chevalet au desk. Il change automatiquement **tous les 1er du mois**.",
+                    followUps: ["Horaires Petit-Déjeuner", "Tarif Parking", "Politique de ménage Adagio"]
                 },
                 {
-                    keywords: ["ouvre le check out", "ouvre la partie check out", "aller au check out", "checkout", "check-out", "check out", "depart", "dépard", "rendre la chambre"],
-                    answer: "🕒 Entendu, j'ouvre la partie **Check-out**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-sejour', 'sejour-checkout'), 50); }
+                    title: "Horaires & Tarifs du Petit-Déjeuner (PDJ)",
+                    badge: "Infos Hôtel",
+                    keywords: ["petit dejeuner", "petit-dejeuner", "pdj", "heure pdj", "horaires pdj", "buffet", "breakfast"],
+                    answer: "🥐 **Horaires du Petit-Déjeuner :**\n• **Lundi au Vendredi :** de **07h00 à 10h00**\n• **Samedi, Dimanche & Jours fériés :** de **07h30 à 10h30**",
+                    followUps: ["Code Wifi", "Tarif Parking", "Check-Out & Late Check-Out"]
                 },
                 {
-                    keywords: ["ouvre la facturation", "module facturation", "aller a la caisse", "ouvre la caisse"],
-                    answer: "💳 J'ouvre le module de **Facturation & Caisse**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-factu'), 50); }
+                    title: "Parking & Stationnement",
+                    badge: "Infos Hôtel",
+                    keywords: ["parking", "garage", "voiture", "se garer", "stationnement", "place de parking"],
+                    answer: "🚗 **Parking de l'établissement :**\nLe tarif du parking est de **20,00 € par nuit / jour** (TVA 20%).",
+                    followUps: ["20€ TTC en HT", "Code Wifi", "Transports CDG / Orly & Taxis"]
                 },
                 {
-                    keywords: ["ouvre les outils", "calculateur", "module outils"],
-                    answer: "🧮 J'ouvre le module des **Outils & Calculateurs**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-tools'), 50); }
+                    title: "Politique de Ménage & Suppléments Recouche (CA2D / AR4P)",
+                    badge: "Séjour & HK • Module 2",
+                    keywords: ["menage", "recouche", "nettoyage", "serviettes", "draps", "ca2d", "ar4p", "19€", "23€"],
+                    answer: "🧹 **Politique de Ménage Adagio :**\n\n• **Séjours de 8 nuits et plus :** **1 ménage hebdomadaire inclus** (changement draps & serviettes).\n• **Séjours de 1 à 7 nuits :** Aucun ménage quotidien inclus. Le client peut demander un ménage en supplément :\n  — Studio 2 pers. (**`CA2D`**) : **19,00 €**\n  — Appartement 4 pers. (**`AR4P`**) : **23,00 €**",
+                    module: { id: "module-sejour", sub: "sejour-spe", label: "Ouvrir Codes Ménage & Prêts" },
+                    followUps: ["Statuts de Chambres (OOO / OOS)", "Canapé-lit & Poubelles"]
                 },
                 {
-                    keywords: ["ouvre la fidelite", "programme all", "loyalty", "module fidelite"],
-                    answer: "⭐ J'ouvre le module du **Programme ALL & Fidélité**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-fidelite'), 50); }
+                    title: "Taxe de Séjour (TDS — 8,13 € / adulte / nuit)",
+                    badge: "Outils & Fiscalité",
+                    keywords: ["taxe", "taxe de sejour", "city tax", "tds", "8.13", "8,13"],
+                    answer: "💶 **Taxe de Séjour (TDS) :**\n\n• Montant : **8,13 € par adulte et par nuit** (exonération pour les mineurs de moins de 18 ans).\n• Code Opera Cloud : **`2000` / `7010`** (0% de TVA).\n• 💡 *Astuce : Tapez directement **« tds 2 adultes 5 nuits »** dans ce chat pour que je calcule le total instantanément !*",
+                    module: { id: "module-tools", sub: "tools-tax", label: "Ouvrir Calculateur TDS" },
+                    followUps: ["TDS 2 adultes 4 nuits", "TDS 1 adulte 7 nuits", "Erreur OFIS BR-O-10"]
                 },
                 {
-                    keywords: ["ouvre ofis", "facturation electronique", "module ofis"],
-                    answer: "📧 J'ouvre le module **OFIS (Facturation électronique)**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-ofis'), 50); }
+                    title: "Animaux de Compagnie, Bagagerie, Laverie & Fitness",
+                    badge: "Infos Hôtel",
+                    keywords: ["animaux", "chien", "chat", "pet", "animal", "bagage", "valise", "bagagerie", "laverie", "lessive", "machine a laver", "airwallet", "fitness", "salle de sport", "piscine", "pret", "adaptateur", "fer a repasser"],
+                    answer: "🛎️ **Services & Équipements sur place :**\n\n• **🐶 Animaux :** Acceptés avec supplément de **10,00 € / nuit**.\n• **🧳 Bagagerie :** Accessible **24h/24** (dépôt limité à 24h maximum).\n• **🧺 Laverie Libre-Service :** Machine à laver **6,00 €** (lessive incluse) + Sèche-linge **3,00 €** (paiement CB sur borne ou application **AirWallet**).\n• **🏋️ Fitness / Piscine :** Accessible **24h/24 et 7j/7** au niveau **-2**.\n• **🔌 Prêt de matériel :** Adaptateurs, fers à repasser, lits bébé et parapluies prêtés **gratuitement sans caution** en réception.",
+                    module: { id: "module-sejour", sub: "sejour-spe", label: "Ouvrir Prêts d'Objets" },
+                    followUps: ["Canapé-lit & Poubelles", "Transports CDG / Orly & Taxis"]
                 },
                 {
-                    keywords: ["ouvre tars", "environnement tars", "module tars"],
-                    answer: "🌐 J'ouvre le module **Environnement TARS Connect**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-tars'), 50); }
+                    title: "Canapé-Lit & Local Poubelles",
+                    badge: "Infos Hôtel",
+                    keywords: ["canape", "sofa", "literie", "canape-lit", "poubelle", "dechets", "jeter", "ordures", "local poubelle"],
+                    answer: "🛏️ **Canapé-Lit & Local Poubelles :**\n\n• **Canapé-lit :** Fermé à l'arrivée (les clients le préparent eux-mêmes). *Exceptionnellement, sur demande 24h à l'avance, l'équipe peut l'ouvrir et le préparer.*\n• **Local Poubelles :** Les clients sortent leurs poubelles eux-mêmes. Le local se situe au niveau de la réception, **au fond du couloir vers la bagagerie, à gauche**.",
+                    followUps: ["Politique de ménage Adagio", "Animaux, Laverie & Fitness"]
                 },
                 {
-                    keywords: ["ouvre le backoffice", "module backoffice", "cloture", "aller au backoffice"],
-                    answer: "🏢 J'ouvre le module **Back Office**.",
-                    action: () => { toggleChatbot(); setTimeout(() => navFromSidebar('module-backoffice'), 50); }
+                    title: "Transports Aéroports (CDG / Orly) & Taxis Partenaires",
+                    badge: "Infos Hôtel",
+                    keywords: ["taxi", "transport", "aeroport", "orly", "cdg", "charles de gaulle", "gare", "rer", "navette", "g7", "nasser"],
+                    answer: "🚕 **Itinéraires Aéroports & Taxis :**\n\n• **✈️ Aéroport CDG :** RER A (*La Défense*) ➔ *Châtelet-Les Halles* ➔ RER B (*Aéroport Charles de Gaulle*).\n• **✈️ Aéroport d'Orly :** RER A (*La Défense*) ➔ *Gare de Lyon* ➔ Métro Ligne 14 directe (*Aéroport d'Orly*).\n• **🚖 Taxis :** Nous pouvons commander un **G7** ou appeler notre chauffeur partenaire (**Nasser**) qui propose des tarifs forfaitaires plus avantageux.",
+                    followUps: ["Tarif Parking", "Bagagerie 24h/24"]
+                },
+
+                // --- COMMANDES D'OUVERTURE DIRECTE DES MODULES ---
+                {
+                    title: "Navigation Directe : Gestion des Colis",
+                    badge: "Navigation",
+                    keywords: ["ouvre les colis", "ouvrir colis", "aller aux colis", "module colis", "ouvrir le module colis"],
+                    answer: "📦 J'ouvre immédiatement le module **Gestion des Colis**.",
+                    action: () => { setTimeout(() => navFromSidebar('module-colis'), 80); }
                 },
                 {
-                    keywords: ["facture", "facturation", "Opera", "invoice"],
-                    answer: "🧾 L'édition de facture se fait toujours au checkout. Il faut bien penser à **scanner le QR code** présent en réception si on veut une adresse de facturation spécifique."
+                    title: "Navigation Directe : Cahier de Consignes",
+                    badge: "Navigation",
+                    keywords: ["ouvre les consignes", "ouvrir consignes", "aller aux consignes", "module consignes"],
+                    answer: "📝 J'ouvre immédiatement le **Cahier de Consignes (Logbook)**.",
+                    action: () => { setTimeout(() => navFromSidebar('module-logbook'), 80); }
                 },
                 {
-                    keywords: ["bonjour", "salut", "coucou", "hello"],
-                    answer: "Bonjour ! 😊 Je suis S.O.F.I.A, votre assistante dédiée. Posez-moi vos questions sur le fonctionnement de l'hôtel (Wifi, Parking, Ménage, etc.) !"
+                    title: "Accueil & Salutations S.O.F.I.A",
+                    badge: "S.O.F.I.A v3.5",
+                    keywords: ["bonjour", "salut", "coucou", "hello", "aide", "que sais tu faire", "comment ca marche"],
+                    answer: "Bonjour ! 😊 Je suis **S.O.F.I.A v3.5**, votre assistante interactive.\n\nVous pouvez m'interroger en langage naturel sur :\n• **Toutes les procédures Opera Cloud** (*Avoir, Ajustement, Routage Folio 2, VCC Booking, Night Audit, Délogement*)\n• **Tous les codes erreurs OFIS** (*G6.07, BR-CO-9, BR-FR-21, BR-O-10, 9914*)\n• **Les 5 891 Comptes Corporate** (*ex: « Compte corpo Thales » ou « Commercial SNCF »*)\n• **Les calculs de réception** (*ex: « TDS 2 adultes 5 nuits », « 320€ TTC en HT », ou un numéro SIRET/SIREN*)",
+                    followUps: ["Comment faire un ajustement ou un avoir ?", "Erreur OFIS G6.07", "Compte corpo Thales"]
                 },
                 {
-                    keywords: ["check-out masterclass", "masterclass check-out", "astuces checkout"],
-                    answer: "🎓 **Check-Out Masterclass** :\n\nVoici les points critiques pour un départ parfait :\n\n1. **La Caution (Pre-auth) :** Oublier d'annuler une caution non consommée bloque les fonds du client sur sa carte pendant des jours. Relâchez-la systématiquement si le client a payé autrement ou si tout est réglé !\n\n2. **Programme ALL :** \"Êtes-vous membre de notre programme de fidélité ?\" C'est LA phrase à dire au check-out. Un client inscrit = un client fidélisé.\n\n3. **City Ledger (Prise en charge) :** Ne laissez jamais le Folio 1 (Débiteur) avec un solde ! S'il y a une prise en charge entreprise, transférez le montant sur le Folio 2 et mettez-le en mode Débiteur (Code CL)."
-                },
-                {
-                    keywords: ["merci", "super", "top", "thanks"],
-                    answer: "Avec plaisir ! N'hésitez pas si vous avez d'autres questions. Bonne journée à la réception ! 👋"
+                    title: "Remerciements",
+                    badge: "S.O.F.I.A",
+                    keywords: ["merci", "super", "top", "parfait", "thanks", "genial"],
+                    answer: "Avec grand plaisir ! 🌟 Je reste juste ici en bas à droite si vous avez besoin d'un calcul rapide, d'un code OFIS ou d'une procédure Opera Cloud. Bon shift à la réception ! 👋",
+                    followUps: ["Infos pratiques hôtel", "Codes transactions Opera Cloud"]
                 }
             ];
 
+            // =========================================================================
+            // MOTEUR 1 : CALCULATEURS EN LANGAGE NATUREL (SIRET/TVA, TDS, HT/TTC)
+            // =========================================================================
+            function tryNaturalLanguageCalculators(rawQuery) {
+                const norm = normalizeSofiaText(rawQuery);
+                const digitsOnly = rawQuery.replace(/\s+/g, '');
+
+                // 1A. Détection SIRET (14 chiffres) ou SIREN (9 chiffres) ou calcul TVA FR
+                const siretMatch = digitsOnly.match(/\b(\d{14})\b/);
+                const sirenMatch = !siretMatch ? digitsOnly.match(/\b(\d{9})\b/) : null;
+                if (siretMatch || (sirenMatch && (norm.includes('siren') || norm.includes('siret') || norm.includes('tva') || norm.includes('ofis') || norm.includes('cardex')))) {
+                    const fullDigits = siretMatch ? siretMatch[1] : sirenMatch[1];
+                    const siren = fullDigits.substring(0, 9);
+                    const nic = siretMatch ? fullDigits.substring(9, 14) : null;
+                    const sirenNum = parseInt(siren, 10);
+                    const vatKey = String((12 + 3 * (sirenNum % 97)) % 97).padStart(2, '0');
+                    const vatNumber = `FR${vatKey}${siren}`;
+
+                    // Validation Luhn
+                    let sum = 0;
+                    for (let i = 0; i < fullDigits.length; i++) {
+                        let d = parseInt(fullDigits.charAt(fullDigits.length - 1 - i), 10);
+                        if (i % 2 === 1) {
+                            d *= 2;
+                            if (d > 9) d -= 9;
+                        }
+                        sum += d;
+                    }
+                    const isLuhnValid = (sum % 10 === 0);
+
+                    let ans = `🧮 **Calculateur & Contrôle Fiscal B2B (OFIS / Cardex) :**\n\n`;
+                    ans += `• **SIREN (9 chiffres) :** \`${siren}\`\n`;
+                    if (nic) {
+                        ans += `• **SIRET (14 chiffres sans espace) :** \`${fullDigits}\` ${isLuhnValid ? '✅ *(Clé Luhn valide)*' : '⚠️ *(Attention : clé Luhn atypique, vérifiez sur Societe.com)*'}\n`;
+                    }
+                    ans += `• **N° TVA Intracommunautaire calculé :** **\`${vatNumber}\`**\n\n`;
+                    ans += `📌 **Règle Opera Cloud (` + '`BR-FR-21`' + `) :** Copiez \`${vatNumber}\` dans *Tax 1 No* et \`${nic ? fullDigits : siren + 'XXXXX'}\` (14 chiffres continus) dans *Tax 2 No / Corporate ID*, avec le code Pays **\`FR\`**.`;
+
+                    return {
+                        title: "Calculateur TVA Intracommunautaire & SIRET",
+                        badge: "Calcul Fiscal B2B",
+                        answer: ans,
+                        copyValue: vatNumber,
+                        copyLabel: `Copier ${vatNumber}`,
+                        module: { id: "module-ofis", sub: "ofis-cardex", label: "Ouvrir Règles Cardex OFIS" },
+                        followUps: ["Erreur OFIS BR-FR-21", "Erreur OFIS G6.07"]
+                    };
+                }
+
+                // 1B. Détection Calcul Taxe de Séjour (TDS) : ex "tds 2 adultes 5 nuits" ou "taxe de sejour 3 pers 4j"
+                if ((norm.includes('tds') || norm.includes('taxe de sejour') || norm.includes('city tax')) && /\d/.test(norm)) {
+                    const RATE = 8.13;
+                    let adults = 1;
+                    let nights = 1;
+
+                    const adMatch = norm.match(/(\d+)\s*(?:adulte|adultes|ad|pers|personne|personnes|pax|client|clients)/);
+                    const niMatch = norm.match(/(\d+)\s*(?:nuit|nuits|n|jour|jours|j)\b/);
+
+                    if (adMatch && niMatch) {
+                        adults = parseInt(adMatch[1], 10);
+                        nights = parseInt(niMatch[1], 10);
+                    } else if (niMatch && !adMatch) {
+                        nights = parseInt(niMatch[1], 10);
+                        // Chercher s'il y a un autre nombre avant
+                        const allNums = norm.match(/\b\d+\b/g);
+                        if (allNums && allNums.length >= 2) {
+                            adults = parseInt(allNums[0], 10);
+                            nights = parseInt(allNums[1], 10);
+                        }
+                    } else if (adMatch && !niMatch) {
+                        adults = parseInt(adMatch[1], 10);
+                        const allNums = norm.match(/\b\d+\b/g);
+                        if (allNums && allNums.length >= 2) {
+                            nights = parseInt(allNums[1], 10);
+                        }
+                    } else {
+                        const allNums = norm.match(/\b\d+\b/g);
+                        if (allNums && allNums.length >= 2) {
+                            adults = parseInt(allNums[0], 10);
+                            nights = parseInt(allNums[1], 10);
+                        } else if (allNums && allNums.length === 1) {
+                            nights = parseInt(allNums[0], 10);
+                        }
+                    }
+
+                    if (adults > 0 && nights > 0 && adults <= 500 && nights <= 365) {
+                        const total = (adults * nights * RATE).toFixed(2);
+                        const perNight = (adults * RATE).toFixed(2);
+                        return {
+                            title: `Calcul Taxe de Séjour (${adults} ad. × ${nights} nuit${nights > 1 ? 's' : ''})`,
+                            badge: "Calculateur TDS • 8,13 €",
+                            answer: `💶 **Résultat du Calcul Taxe de Séjour :**\n\n` +
+                                `• **Tarif unitaire :** **8,13 €** / adulte / nuit *(Code Opera \`2000\` / \`7010\`)*\n` +
+                                `• **Par nuit (${adults} adulte${adults > 1 ? 's' : ''}) :** \`${perNight} €\`\n` +
+                                `• **Total pour ${nights} nuit${nights > 1 ? 's' : ''} :** **\`${total} €\`** *(0% de TVA)*\n\n` +
+                                `*(Rappel : les mineurs de moins de 18 ans sont exonérés de Taxe de Séjour).*`,
+                            copyValue: total,
+                            copyLabel: `Copier ${total} €`,
+                            module: { id: "module-tools", sub: "tools-tax", label: "Ouvrir Calculateur TDS" },
+                            followUps: ["TDS 2 adultes 7 nuits", "Routage Fenêtre 2 (1000 + 2000)"]
+                        };
+                    }
+                }
+
+                // 1C. Détection Convertisseur TVA HT / TTC (10% et 20%)
+                // Ex: "320€ ttc en ht", "150 ht en ttc", "tva sur 240€", "ajustement 85€ ttc"
+                if ((norm.includes('ht') || norm.includes('ttc') || norm.includes('tva')) && /\d/.test(norm)) {
+                    // Extraire le montant principal (en ignorant 10% ou 20%)
+                    const cleanedForAmount = norm.replace(/\b(?:10|20)\s*%/g, ' ');
+                    const amountMatch = cleanedForAmount.match(/(\d+(?:[.,]\d{1,2})?)/);
+                    if (amountMatch) {
+                        const amount = parseFloat(amountMatch[1].replace(',', '.'));
+                        if (amount > 0 && amount < 1000000) {
+                            const isFromHT = norm.includes('ht en ttc') || (norm.includes('ht') && !norm.includes('en ht') && !norm.includes('ttc'));
+                            if (isFromHT) {
+                                const ttc10 = (amount * 1.10).toFixed(2);
+                                const tva10 = (amount * 0.10).toFixed(2);
+                                const ttc20 = (amount * 1.20).toFixed(2);
+                                const tva20 = (amount * 0.20).toFixed(2);
+                                return {
+                                    title: `Conversion ${amount.toFixed(2)} € HT ➔ TTC`,
+                                    badge: "Calculateur TVA 10% & 20%",
+                                    answer: `🧮 **Conversion à partir de \`${amount.toFixed(2)} € HT\` :**\n\n` +
+                                        `🏨 **Taux 10% (Hébergement ` + '`1000`' + ` / Petit-Déjeuner) :**\n` +
+                                        `• **Montant TTC :** **\`${ttc10} €\`** *(dont TVA 10% : \`${tva10} €\`)*\n\n` +
+                                        `🚗 **Taux 20% (Parking / Boutique / Extras) :**\n` +
+                                        `• **Montant TTC :** **\`${ttc20} €\`** *(dont TVA 20% : \`${tva20} €\`)*`,
+                                    copyValue: ttc10,
+                                    copyLabel: `Copier ${ttc10} € (TTC 10%)`,
+                                    module: { id: "module-tools", sub: "tools-vat", label: "Ouvrir Convertisseur TVA" },
+                                    followUps: ["Comment faire un ajustement ou un avoir ?", "Codes transactions Opera Cloud"]
+                                };
+                            } else {
+                                const ht10 = (amount / 1.10).toFixed(2);
+                                const tva10 = (amount - amount / 1.10).toFixed(2);
+                                const ht20 = (amount / 1.20).toFixed(2);
+                                const tva20 = (amount - amount / 1.20).toFixed(2);
+                                return {
+                                    title: `Décomposition ${amount.toFixed(2)} € TTC ➔ HT & TVA`,
+                                    badge: "Calculateur TVA 10% & 20%",
+                                    answer: `🧮 **Décomposition pour \`${amount.toFixed(2)} € TTC\` :**\n\n` +
+                                        `🏨 **Taux 10% (Hébergement ` + '`1000`' + ` / Petit-Déjeuner) :**\n` +
+                                        `• **Montant HT :** **\`${ht10} €\`** | **TVA (10%) :** \`${tva10} €\`\n\n` +
+                                        `🚗 **Taux 20% (Parking / Boutique / Extras) :**\n` +
+                                        `• **Montant HT :** **\`${ht20} €\`** | **TVA (20%) :** \`${tva20} €\``,
+                                    copyValue: ht10,
+                                    copyLabel: `Copier ${ht10} € (HT 10%)`,
+                                    module: { id: "module-tools", sub: "tools-vat", label: "Ouvrir Convertisseur TVA" },
+                                    followUps: ["Comment faire un ajustement ou un avoir ?", "Outils & Calculateurs"]
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            // =========================================================================
+            // MOTEUR 2 : DIAGNOSTIC DIRECT DES CODES ERREURS OFIS (window.EINVOICING_ERRORS)
+            // =========================================================================
+            function tryOfisErrorLookup(rawQuery) {
+                const errors = window.EINVOICING_ERRORS;
+                if (!Array.isArray(errors) || errors.length === 0) return null;
+
+                const norm = normalizeSofiaText(rawQuery);
+
+                // Correspondance directe par code ou identifiant connu
+                const codeAliases = [
+                    { id: 'g6-07', triggers: ['g6.07', 'g6 07', 'g6-07', 'bt-47', 'bt 47', 'legal registration'] },
+                    { id: 'br-fr-05', triggers: ['br-fr-05', 'br fr 05', 'brfr05', 'g1.05', 'g1 05'] },
+                    { id: 'br-co-9', triggers: ['br-co-9', 'br co 9', 'brco9', 'bt-48', 'bt 48', 'prefixe tva', 'iso 3166'] },
+                    { id: 'br-fr-12', triggers: ['br-fr-12', 'br fr 12', 'brfr12', 'bt-49', 'bt 49', '2329'] },
+                    { id: 'br-fr-21', triggers: ['br-fr-21', 'br fr 21', 'brfr21', 'incoherence siren', 'incoherence tva'] },
+                    { id: 'br-fr-09', triggers: ['br-fr-09', 'br fr 09', 'brfr09', 'g1.89', 'g1 89', 'g1.80', 'g2.07', '0009'] },
+                    { id: 'br-fr-23', triggers: ['br-fr-23', 'br fr 23', 'brfr23', '9914', '0225', 'peppol', 'deux points'] },
+                    { id: 'br-o-10', triggers: ['br-o-10', 'br o 10', 'bro10', 'bt-121', 'bt 121', 'tva 0%', 'exoneration'] },
+                    { id: 'br-fr-co-02', triggers: ['br-fr-co-02', 'br fr co 02', 'doublon facture', 'duplicated invoice', '1786'] },
+                    { id: 'br-54', triggers: ['br-54', 'br 54', 'br54', 'bg-32', 'bt-160', 'bt-161'] }
+                ];
+
+                let matchedError = null;
+                for (const alias of codeAliases) {
+                    if (alias.triggers.some(t => norm.includes(t))) {
+                        matchedError = errors.find(e => e.id === alias.id);
+                        if (matchedError) break;
+                    }
+                }
+
+                if (!matchedError) return null;
+
+                // Formater les étapes proprement en enlevant le HTML complexe pour le chat
+                const stepsText = (matchedError.solutionSteps || []).map(s => {
+                    const cleanDesc = s.desc
+                        .replace(/<div[^>]*>.*?<\/div>/gi, '')
+                        .replace(/<br\s*\/?>/gi, ' ')
+                        .replace(/<\/?strong>/gi, '**')
+                        .replace(/<\/?code>/gi, '`')
+                        .replace(/<\/?em>/gi, '*')
+                        .replace(/<[^>]+>/g, '');
+                    return `• **${s.step} :** ${cleanDesc}`;
+                }).join('\n');
+
+                const ans = `🚨 **Diagnostic OFIS ${matchedError.code} — ${matchedError.shortTag}**\n` +
+                    `Statut : **${matchedError.statusBadge}**\n\n` +
+                    `🔍 **Cause du rejet :**\n${matchedError.auditCause}\n\n` +
+                    `🛠️ **Solution Opera Cloud :**\n${stepsText}`;
+
+                return {
+                    title: `Rejet OFIS ${matchedError.code}`,
+                    badge: `OFIS • ${matchedError.categoryLabel}`,
+                    answer: ans,
+                    ofisPopupId: matchedError.id,
+                    copyValue: matchedError.copyText,
+                    copyLabel: "Copier la consigne OFIS",
+                    image: {
+                        src: "img/opera-ofis-ereporting.png",
+                        caption: "Opera Cloud — Profil Société & Facturation Électronique OFIS (B2B France vs E-reporting)"
+                    },
+                    module: { id: "module-ofis", sub: "ofis-erreurs", label: "Ouvrir Module OFIS" },
+                    followUps: ["Facturation Électronique OFIS", "Erreur OFIS BR-FR-21", "Erreur OFIS BR-O-10"]
+                };
+            }
+
+            // =========================================================================
+            // MOTEUR 3 : RECHERCHE EN DIRECT DANS LES 5 891 COMPTES CORPO (window.CORPO_ACCOUNTS)
+            // =========================================================================
+            function tryCorpoAccountLookup(rawQuery) {
+                const accounts = window.CORPO_ACCOUNTS;
+                if (!Array.isArray(accounts) || accounts.length === 0) return null;
+
+                const norm = normalizeSofiaText(rawQuery);
+
+                // Déclencheurs : recherche explicite d'un compte corpo, code SC/AS, ou commercial
+                const corpoIntent = /(?:compte|corpo|corporate|code sc|commercial|sales|entreprise|societe|contrat)\s+(.+)/i.exec(norm);
+                const directScCode = /\b((?:sc|as|scp)[a-z0-9]{4,14})\b/i.exec(norm);
+
+                if (!corpoIntent && !directScCode) return null;
+
+                let searchTerm = '';
+                if (directScCode) {
+                    searchTerm = directScCode[1].toUpperCase();
+                } else if (corpoIntent) {
+                    searchTerm = corpoIntent[1]
+                        .replace(/\b(?:de|du|des|la|le|les|chez|pour|client|corpo|corporate|sc|code|compte|commercial)\b/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                }
+
+                if (!searchTerm || searchTerm.length < 2) return null;
+                // Éviter d'intercepter une question OFIS ("societe etrangere")
+                if (['etrangere', 'etranger', 'francaise', 'ofis', 'facture', 'cardex', 'debiteur'].includes(searchTerm)) {
+                    return null;
+                }
+
+                const termUpper = searchTerm.toUpperCase();
+                const matches = accounts.filter(acc => {
+                    const n = (acc.n || '').toUpperCase();
+                    const c = (acc.c || '').toUpperCase();
+                    const s = (acc.s || '').toUpperCase();
+                    return c === termUpper || n.includes(termUpper) || c.includes(termUpper) || s.includes(termUpper);
+                });
+
+                if (matches.length === 0) {
+                    return {
+                        title: `Recherche Compte Corporate : « ${searchTerm.toUpperCase()} »`,
+                        badge: "Base Corporate • 5 891 Comptes",
+                        answer: `🏢 Aucun compte Corporate exact trouvé pour **« ${searchTerm.toUpperCase()} »** parmi les 5 891 comptes.\n\n💡 **Réflexe Chasse aux Leads :** Si ce client séjourne pour motif professionnel sans contrat, qualifiez-le comme **Lead New Business** dans le Module 7 !`,
+                        module: { id: "module-corpo", sub: "corpo-sc", label: "Ouvrir Moteur 5 891 Comptes SC" },
+                        followUps: ["Corporate & Chasse aux Leads", "Compte corpo SNCF", "Compte corpo Airbus"]
+                    };
+                }
+
+                const topMatches = matches.slice(0, 6);
+                const lines = topMatches.map(m => `• **${m.n}**\n  Code : **\`${m.c}\`** — Sales : *${m.s}*`).join('\n');
+                const moreText = matches.length > 6 ? `\n\n*(+ ${matches.length - 6} autres comptes correspondants dans l'annuaire)*` : '';
+
+                return {
+                    title: `Comptes Corporate trouvés (${matches.length})`,
+                    badge: "Base Corporate • Module 7",
+                    answer: `🏢 **Résultats dans la base Corporate (${matches.length} résultat${matches.length > 1 ? 's' : ''}) :**\n\n${lines}${moreText}`,
+                    copyValue: topMatches[0].c,
+                    copyLabel: `Copier ${topMatches[0].c}`,
+                    module: { id: "module-corpo", sub: "corpo-sc", label: "Ouvrir Base Comptes SC" },
+                    followUps: ["Corporate & Chasse aux Leads", "Tarifs Dégressifs Adagio"]
+                };
+            }
+
+            // =========================================================================
+            // MOTEUR 4 : SCORING MULTI-MOTS-CLÉS SUR LA BASE EXPERTE (faqKnowledgeBase)
+            // =========================================================================
+            function findBestFaqMatch(rawQuery) {
+                const normQuery = normalizeSofiaText(rawQuery);
+                if (!normQuery) return null;
+
+                const stopWords = new Set(['comment', 'faire', 'pour', 'dans', 'avec', 'sans', 'quel', 'quelle', 'quels', 'quelles', 'est', 'sont', 'une', 'des', 'les', 'aux', 'sur', 'par', 'que', 'qui', 'quoi', 'quand', 'peut', 'on', 'je', 'tu', 'il', 'nous', 'vous']);
+                const queryTokens = normQuery.split(' ').filter(w => w.length >= 2 && !stopWords.has(w));
+
+                let bestItem = null;
+                let maxScore = 0;
+
+                faqKnowledgeBase.forEach(item => {
+                    let score = 0;
+                    const titleNorm = normalizeSofiaText(item.title || '');
+
+                    item.keywords.forEach(kw => {
+                        const kwNorm = normalizeSofiaText(kw);
+                        if (!kwNorm) return;
+                        if (normQuery === kwNorm) {
+                            score += 50 + kwNorm.length * 2;
+                        } else if (normQuery.includes(kwNorm)) {
+                            score += 18 + kwNorm.length * 1.5;
+                        } else {
+                            const kwParts = kwNorm.split(' ').filter(p => p.length >= 3);
+                            let matchedParts = 0;
+                            kwParts.forEach(part => {
+                                if (queryTokens.some(qt => qt === part || (qt.length >= 4 && part.startsWith(qt)) || (part.length >= 4 && qt.startsWith(part)))) {
+                                    matchedParts++;
+                                }
+                            });
+                            if (kwParts.length > 0 && matchedParts === kwParts.length) {
+                                score += 14 + kwNorm.length;
+                            } else if (matchedParts > 0) {
+                                score += matchedParts * 4;
+                            }
+                        }
+                    });
+
+                    queryTokens.forEach(qt => {
+                        if (qt.length >= 3 && titleNorm.includes(qt)) {
+                            score += 6;
+                        }
+                    });
+
+                    if (score > maxScore) {
+                        maxScore = score;
+                        bestItem = item;
+                    }
+                });
+
+                if (bestItem && maxScore >= 6) {
+                    return bestItem;
+                }
+                return null;
+            }
+
+            // =========================================================================
+            // MOTEUR 5 : RECHERCHE DYNAMIQUE DANS LE DOM DES 12 MODULES (RAG LOCAL)
+            // =========================================================================
+            function searchModulesDOM(rawQuery) {
+                const normQuery = normalizeSofiaText(rawQuery);
+                const stopWords = new Set(['comment', 'faire', 'pour', 'dans', 'avec', 'sans', 'quel', 'quelle', 'quels', 'quelles', 'est', 'sont', 'une', 'des', 'les', 'aux', 'sur', 'par', 'que', 'qui', 'quoi', 'quand', 'peut', 'on', 'je', 'tu', 'il', 'nous', 'vous', 'opera', 'cloud', 'adagio']);
+                const tokens = normQuery.split(' ').filter(t => t.length >= 3 && !stopWords.has(t));
+                if (tokens.length === 0) return null;
+
+                const moduleLabels = {
+                    'module-checklist': '0. Check-lists de Shift',
+                    'module-resa': '1. Réservations & Groupes',
+                    'module-sejour': '2. Le Séjour (In-House)',
+                    'module-fidelite': '3. Programme ALL & Fidélité',
+                    'module-factu': '4. Facturation & Caisse',
+                    'module-ofis': '5. Facturation Électronique (OFIS)',
+                    'module-tars': '6. Environnement TARS Connect',
+                    'module-corpo': '7. Corporate & Leads',
+                    'module-backoffice': '8. Back Office & Clôture',
+                    'module-tools': '9. Outils & Calculateurs',
+                    'module-logbook': '10. Cahier de Consignes',
+                    'module-colis': '11. Gestion des Colis'
+                };
+
+                let bestBlock = null;
+                let bestScore = 0;
+
+                document.querySelectorAll('.module-content').forEach(modEl => {
+                    const modId = modEl.id;
+                    if (!modId) return;
+
+                    const candidates = modEl.querySelectorAll('.sub-content, .glass-card, .bg-white');
+                    candidates.forEach(card => {
+                        const headingEl = card.querySelector('h2, h3, h4');
+                        if (!headingEl) return;
+
+                        const headingText = (headingEl.innerText || '').trim();
+                        const bodyText = (card.innerText || '').replace(/\s+/g, ' ').trim();
+                        if (bodyText.length < 40 || bodyText.length > 3500) return;
+
+                        const normHead = normalizeSofiaText(headingText);
+                        const normBody = normalizeSofiaText(bodyText);
+
+                        let score = 0;
+                        tokens.forEach(tok => {
+                            if (normHead.includes(tok)) score += 12;
+                            if (normBody.includes(tok)) score += 4;
+                        });
+
+                        if (score > bestScore) {
+                            bestScore = score;
+                            const subParent = card.closest('.sub-content');
+                            const subId = subParent ? subParent.id.replace(/^content-/, '') : null;
+                            bestBlock = {
+                                modId,
+                                subId,
+                                modLabel: moduleLabels[modId] || modId,
+                                heading: headingText,
+                                snippet: bodyText.substring(0, 420) + (bodyText.length > 420 ? '…' : '')
+                            };
+                        }
+                    });
+                });
+
+                if (bestBlock && bestScore >= 12) {
+                    return {
+                        title: bestBlock.heading,
+                        badge: bestBlock.modLabel,
+                        answer: `📖 **Extrait trouvé dans ${bestBlock.modLabel} :**\n\n**${bestBlock.heading}**\n${bestBlock.snippet}`,
+                        module: {
+                            id: bestBlock.modId,
+                            sub: bestBlock.subId,
+                            label: `Ouvrir ${bestBlock.modLabel}`
+                        },
+                        followUps: ["Codes transactions Opera Cloud", "Comment faire un ajustement ou un avoir ?", "Infos pratiques hôtel"]
+                    };
+                }
+
+                return null;
+            }
+
+            // =========================================================================
+            // PIPELINE DE RÉSOLUTION GLOBAL S.O.F.I.A
+            // =========================================================================
+            function resolveSofiaResponse(query) {
+                // 1. Calculateurs intelligents (SIRET/TVA, TDS, HT/TTC)
+                const calcRes = tryNaturalLanguageCalculators(query);
+                if (calcRes) return calcRes;
+
+                // 2. Diagnostic codes erreurs OFIS
+                const ofisRes = tryOfisErrorLookup(query);
+                if (ofisRes) return ofisRes;
+
+                // 3. Recherche Comptes Corporate (5 891 comptes SC)
+                const corpoRes = tryCorpoAccountLookup(query);
+                if (corpoRes) return corpoRes;
+
+                // 4. Base de connaissances experte (65+ procédures & FAQ)
+                const faqRes = findBestFaqMatch(query);
+                if (faqRes) return faqRes;
+
+                // 5. Recherche dynamique dans le DOM des 12 modules
+                const domRes = searchModulesDOM(query);
+                if (domRes) return domRes;
+
+                // Fallback guidé avec suggestions cliquables
+                return {
+                    title: "Précisez votre demande",
+                    badge: "Assistant S.O.F.I.A",
+                    answer: "🤔 Je n'ai pas trouvé de procédure exacte correspondant à cette formulation.\n\nVoici des exemples que je traite instantanément :\n• **Procédures Opera :** *« Faire un avoir », « Routage Fenêtre 2 », « VCC Booking », « Clôture EOD »*\n• **Erreurs OFIS :** *« G6.07 », « BR-CO-9 », « BR-FR-21 », « 9914 »*\n• **Comptes Corpo :** *« Compte corpo Thales », « Commercial SNCF »*\n• **Calculs directs :** *« TDS 2 adultes 5 nuits », « 320€ TTC en HT », ou un numéro SIRET*",
+                    followUps: ["Comment faire un ajustement ou un avoir ?", "Erreur OFIS G6.07", "Codes transactions Opera Cloud", "Infos pratiques hôtel"]
+                };
+            }
+
+            // =========================================================================
+            // INTERFACE & RENDU DES MESSAGES ENRICHIS
+            // =========================================================================
             let chatbotIsOpen = false;
+            let chatbotIsExpanded = false;
             const chatbotPanel = document.getElementById('chatbot-panel');
             const chatbotInput = document.getElementById('chatbot-input');
             const chatbotMessages = document.getElementById('chatbot-messages');
+            const initialChatHTML = chatbotMessages ? chatbotMessages.innerHTML : '';
 
             function toggleChatbot() {
                 chatbotIsOpen = !chatbotIsOpen;
                 window.chatbotIsOpen = chatbotIsOpen;
                 if (chatbotIsOpen) {
                     chatbotPanel.classList.add('chatbot-open');
-                    setTimeout(() => chatbotInput.focus(), 300);
+                    setTimeout(() => chatbotInput && chatbotInput.focus(), 250);
                     if (window.playSyncSound) window.playSyncSound('click');
                 } else {
                     chatbotPanel.classList.remove('chatbot-open');
                 }
             }
 
+            function toggleChatbotExpand() {
+                chatbotIsExpanded = !chatbotIsExpanded;
+                const btnIcon = document.querySelector('#chatbot-expand-btn i');
+                if (chatbotIsExpanded) {
+                    chatbotPanel.classList.remove('sm:w-[440px]', 'h-[610px]');
+                    chatbotPanel.classList.add('sm:w-[580px]', 'h-[720px]');
+                    if (btnIcon) btnIcon.className = 'fas fa-compress-alt';
+                } else {
+                    chatbotPanel.classList.remove('sm:w-[580px]', 'h-[720px]');
+                    chatbotPanel.classList.add('sm:w-[440px]', 'h-[610px]');
+                    if (btnIcon) btnIcon.className = 'fas fa-expand-alt';
+                }
+                scrollToBottom();
+            }
+
+            function resetSofiaChat() {
+                if (!chatbotMessages) return;
+                chatbotMessages.innerHTML = initialChatHTML;
+                if (chatbotInput) {
+                    chatbotInput.value = '';
+                    chatbotInput.focus();
+                }
+            }
+
             function scrollToBottom() {
+                if (!chatbotMessages) return;
                 chatbotMessages.scrollTo({
                     top: chatbotMessages.scrollHeight,
                     behavior: 'smooth'
                 });
             }
 
-            function appendMessage(sender, text, isHtml = false) {
+            function escapeHtmlSafe(str) {
+                return String(str || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function formatBotMarkdown(text) {
+                return String(text || '')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>')
+                    .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-rose-50 dark:bg-slate-700 text-rose-700 dark:text-rose-300 font-mono text-[11px] font-bold border border-rose-200/60 dark:border-slate-600">$1</code>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            function copySofiaText(btnEl, text) {
+                if (!navigator.clipboard) return;
+                navigator.clipboard.writeText(text).then(() => {
+                    const orig = btnEl.innerHTML;
+                    btnEl.innerHTML = '<i class="fas fa-check text-emerald-500"></i> Copié !';
+                    setTimeout(() => { btnEl.innerHTML = orig; }, 1800);
+                });
+            }
+
+            function appendMessage(sender, payload) {
                 const wrapper = document.createElement('div');
 
                 if (sender === 'user') {
+                    const safeUser = escapeHtmlSafe(typeof payload === 'string' ? payload : payload.answer);
                     wrapper.className = 'flex items-end justify-end gap-2';
                     wrapper.innerHTML = `
-                    <div class="bg-gray-800 dark:bg-slate-100 text-white dark:text-gray-900 p-3 rounded-2xl rounded-br-none shadow-sm max-w-[85%]">
-                        <p class="text-sm">${text}</p>
-                    </div>
-                `;
+                        <div class="bg-gradient-to-r from-gray-900 to-slate-800 dark:from-rose-600 dark:to-pink-600 text-white px-3.5 py-2.5 rounded-2xl rounded-br-none shadow-sm max-w-[85%]">
+                            <p class="text-xs sm:text-sm leading-relaxed">${safeUser}</p>
+                        </div>
+                    `;
                 } else {
-                    // S.O.F.I.A
-                    wrapper.className = 'flex items-end gap-2 chatbot-msg-in';
+                    const match = typeof payload === 'string' ? { answer: payload } : payload;
+                    wrapper.className = 'flex flex-col gap-2 chatbot-msg-in';
 
-                    // Parse markdown-like bold (**)
-                    let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    // Parse new lines
-                    formattedText = formattedText.replace(/\n/g, '<br>');
+                    const formattedText = formatBotMarkdown(match.answer);
+
+                    // En-tête de carte (Badge + Titre)
+                    let headerHtml = '';
+                    if (match.title || match.badge) {
+                        headerHtml = `
+                            <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-gray-100 dark:border-slate-700/80">
+                                <span class="font-black text-xs text-gray-900 dark:text-white leading-snug">${escapeHtmlSafe(match.title || 'Réponse S.O.F.I.A')}</span>
+                                ${match.badge ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/50 whitespace-nowrap shrink-0">${escapeHtmlSafe(match.badge)}</span>` : ''}
+                            </div>
+                        `;
+                    }
+
+                    // Boutons d'actions interactifs (Capture 4K, Ouvrir Module, Diagnostic OFIS, Copier)
+                    const actions = [];
+
+                    if (match.image && match.image.src) {
+                        const safeSrc = escapeHtmlSafe(match.image.src);
+                        const safeCap = escapeHtmlSafe(match.image.caption || match.title || 'Capture Opera Cloud 4K');
+                        actions.push(`
+                            <button type="button" onclick="openLightbox('${safeSrc}', '${safeCap}')"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/50 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 text-[11px] font-bold transition-all cursor-pointer">
+                                <i class="fas fa-expand text-amber-500"></i> Voir Capture 4K
+                            </button>
+                        `);
+                    }
+
+                    if (Array.isArray(match.extraImages)) {
+                        match.extraImages.forEach(imgObj => {
+                            const sSrc = escapeHtmlSafe(imgObj.src);
+                            const sLbl = escapeHtmlSafe(imgObj.label);
+                            actions.push(`
+                                <button type="button" onclick="openLightbox('${sSrc}', '${sLbl}')"
+                                    class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-amber-50/70 hover:bg-amber-100 dark:bg-slate-700 dark:hover:bg-slate-600 text-amber-800 dark:text-amber-200 border border-amber-200/70 dark:border-slate-600 text-[11px] font-semibold transition-all cursor-pointer">
+                                    <i class="fas fa-image text-amber-500"></i> ${sLbl}
+                                </button>
+                            `);
+                        });
+                    }
+
+                    if (match.ofisPopupId) {
+                        const safeId = escapeHtmlSafe(match.ofisPopupId);
+                        actions.push(`
+                            <button type="button" onclick="navFromSidebar('module-ofis', 'ofis-erreurs'); setTimeout(() => { if(window.openEinvoicingDoublePopup) window.openEinvoicingDoublePopup('${safeId}'); }, 120);"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-bold shadow-xs transition-all cursor-pointer">
+                                <i class="fas fa-stethoscope"></i> Ouvrir Fiche OFIS
+                            </button>
+                        `);
+                    }
+
+                    if (match.module && match.module.id) {
+                        const mId = escapeHtmlSafe(match.module.id);
+                        const mSub = match.module.sub ? `'${escapeHtmlSafe(match.module.sub)}'` : 'null';
+                        const mLabel = escapeHtmlSafe(match.module.label || 'Ouvrir le module');
+                        actions.push(`
+                            <button type="button" onclick="navFromSidebar('${mId}', ${mSub})"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/50 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 text-[11px] font-bold transition-all cursor-pointer">
+                                <i class="fas fa-external-link-alt text-[10px]"></i> ${mLabel}
+                            </button>
+                        `);
+                    }
+
+                    if (match.copyValue) {
+                        const encodedCopy = encodeURIComponent(match.copyValue);
+                        const cLabel = escapeHtmlSafe(match.copyLabel || 'Copier');
+                        actions.push(`
+                            <button type="button" onclick="copySofiaText(this, decodeURIComponent('${encodedCopy}'))"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 text-[11px] font-bold transition-all cursor-pointer">
+                                <i class="fas fa-copy"></i> ${cLabel}
+                            </button>
+                        `);
+                    }
+
+                    const actionsBarHtml = actions.length > 0
+                        ? `<div class="mt-3 pt-2.5 border-t border-gray-100 dark:border-slate-700/80 flex flex-wrap gap-1.5">${actions.join('')}</div>`
+                        : '';
+
+                    // Suggestions de suivi contextuelles (Follow-ups)
+                    let followUpsHtml = '';
+                    if (Array.isArray(match.followUps) && match.followUps.length > 0) {
+                        const chips = match.followUps.map(q => {
+                            const safeQ = escapeHtmlSafe(q);
+                            return `<button type="button" onclick="sendQuickReply('${safeQ.replace(/'/g, "\\'")}')" class="text-[11px] bg-white hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-600 hover:text-rose-600 dark:text-gray-300 dark:hover:text-rose-300 border border-gray-200 dark:border-slate-700 px-2.5 py-1 rounded-xl transition-colors font-medium cursor-pointer">↪ ${safeQ}</button>`;
+                        }).join('');
+                        followUpsHtml = `<div class="flex flex-wrap gap-1.5 ml-10">${chips}</div>`;
+                    }
 
                     wrapper.innerHTML = `
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-adagio-red flex items-center justify-center text-white text-xs shrink-0 shadow-sm"><i class="fas fa-robot"></i></div>
-                    <div class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-3 rounded-2xl rounded-bl-none shadow-sm max-w-[85%]">
-                        <p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">${formattedText}</p>
-                    </div>
-                `;
+                        <div class="flex items-start gap-2.5">
+                            <div class="w-8 h-8 rounded-2xl bg-gradient-to-br from-rose-500 to-adagio-red flex items-center justify-center text-white text-xs shrink-0 shadow-sm mt-0.5">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[90%]">
+                                ${headerHtml}
+                                <div class="text-xs sm:text-[13px] text-gray-700 dark:text-gray-200 leading-relaxed">${formattedText}</div>
+                                ${actionsBarHtml}
+                            </div>
+                        </div>
+                        ${followUpsHtml}
+                    `;
                 }
 
                 chatbotMessages.appendChild(wrapper);
 
                 if (typeof gsap !== 'undefined') {
-                    gsap.from(wrapper, { opacity: 0, y: 10, duration: 0.3 });
+                    gsap.from(wrapper, { opacity: 0, y: 10, duration: 0.25 });
                 }
                 scrollToBottom();
             }
@@ -22027,15 +22921,15 @@
                 wrapper.id = id;
                 wrapper.className = 'flex items-end gap-2 chatbot-msg-in';
                 wrapper.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-slate-600 dark:to-slate-700 flex items-center justify-center text-white text-xs shrink-0 shadow-sm"><i class="fas fa-robot"></i></div>
-                <div class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 py-3.5 px-4 rounded-2xl rounded-bl-none shadow-sm">
-                    <svg height="8" width="32" class="text-gray-400 dark:text-gray-500">
-                        <circle cx="4" cy="4" r="3" class="typing-dot" />
-                        <circle cx="16" cy="4" r="3" class="typing-dot" />
-                        <circle cx="28" cy="4" r="3" class="typing-dot" />
-                    </svg>
-                </div>
-            `;
+                    <div class="w-8 h-8 rounded-2xl bg-gradient-to-br from-gray-300 to-gray-400 dark:from-slate-600 dark:to-slate-700 flex items-center justify-center text-white text-xs shrink-0 shadow-sm"><i class="fas fa-robot"></i></div>
+                    <div class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 py-3 px-4 rounded-2xl rounded-bl-none shadow-sm">
+                        <svg height="8" width="32" class="text-rose-500 dark:text-rose-400">
+                            <circle cx="4" cy="4" r="3" class="typing-dot" />
+                            <circle cx="16" cy="4" r="3" class="typing-dot" />
+                            <circle cx="28" cy="4" r="3" class="typing-dot" />
+                        </svg>
+                    </div>
+                `;
                 chatbotMessages.appendChild(wrapper);
                 scrollToBottom();
                 return id;
@@ -22046,48 +22940,26 @@
                 if (el) el.remove();
             }
 
-            function findBestAnswer(query) {
-                const lowerQuery = query.toLowerCase().trim();
-                let bestMatch = null;
-                let maxScore = 0;
-
-                faqKnowledgeBase.forEach(item => {
-                    let score = 0;
-                    item.keywords.forEach(kw => {
-                        if (lowerQuery.includes(kw)) {
-                            score += kw.length;
-                        }
-                    });
-                    if (score > maxScore) {
-                        maxScore = score;
-                        bestMatch = item;
-                    }
-                });
-
-                if (bestMatch && maxScore > 0) {
-                    return bestMatch; // Retourne l'objet complet (answer + action potentielle)
-                }
-
-                return { answer: "Je ne suis pas sûre d'avoir la réponse exacte... 🤔\nEssayez avec des mots-clés simples comme **Wifi**, **Parking**, **Ménage**, **Check-out**, ou demandez-moi d'**ouvrir les colis** !" };
-            }
-
             function processUserQuery(text) {
                 const suggestions = document.getElementById('chatbot-suggestions');
                 if (suggestions && suggestions.style.display !== 'none') {
-                    gsap.to(suggestions, { opacity: 0, height: 0, margin: 0, overflow: 'hidden', duration: 0.3, onComplete: () => suggestions.style.display = 'none' });
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(suggestions, { opacity: 0, height: 0, margin: 0, overflow: 'hidden', duration: 0.25, onComplete: () => suggestions.style.display = 'none' });
+                    } else {
+                        suggestions.style.display = 'none';
+                    }
                 }
 
                 appendMessage('user', text);
 
                 const typingId = appendTypingIndicator();
-                const delay = 600 + Math.random() * 600;
+                const delay = 260 + Math.random() * 240;
 
                 setTimeout(() => {
                     removeTypingIndicator(typingId);
-                    const match = findBestAnswer(text);
-                    appendMessage('bot', match.answer);
+                    const match = resolveSofiaResponse(text);
+                    appendMessage('bot', match);
 
-                    // Exécution de l'action si le mot clé est lié à l'ouverture d'un module
                     if (match.action && typeof match.action === 'function') {
                         match.action();
                     }
@@ -22097,7 +22969,7 @@
             }
 
             function handleChatSubmit(e) {
-                e.preventDefault();
+                if (e && typeof e.preventDefault === 'function') e.preventDefault();
                 const text = chatbotInput.value.trim();
                 if (!text) return;
 
@@ -22109,10 +22981,14 @@
                 processUserQuery(text);
             }
 
-            // Exposer les fonctions au contexte global (window) pour les attributs onclick / onsubmit HTML
+            // Exposer les fonctions au contexte global (window)
             window.toggleChatbot = toggleChatbot;
+            window.toggleChatbotExpand = toggleChatbotExpand;
+            window.resetSofiaChat = resetSofiaChat;
+            window.copySofiaText = copySofiaText;
             window.handleChatSubmit = handleChatSubmit;
             window.sendQuickReply = sendQuickReply;
+            window.resolveSofiaResponse = resolveSofiaResponse;
             window.faqKnowledgeBase = faqKnowledgeBase;
 
         })();
@@ -22185,9 +23061,9 @@
                         searchIndex.push({
                             type: 'faq',
                             icon: 'fa-robot',
-                            title: 'S.O.F.I.A: ' + faq.keywords.slice(0, 3).join(', '),
-                            desc: faq.answer.substring(0, 80) + '...',
-                            keywords: faq.keywords.join(' ').toLowerCase(),
+                            title: 'S.O.F.I.A : ' + (faq.title || faq.keywords.slice(0, 3).join(', ')),
+                            desc: faq.answer.replace(/\*\*|`/g, '').substring(0, 95) + '...',
+                            keywords: ((faq.title || '') + ' ' + faq.keywords.join(' ')).toLowerCase(),
                             action: faq.action || (() => {
                                 if (typeof toggleChatbot === 'function') {
                                     if (!document.getElementById('chatbot-panel').classList.contains('chatbot-open')) toggleChatbot();
