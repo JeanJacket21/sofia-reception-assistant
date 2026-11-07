@@ -4,21 +4,9 @@ backups/
 *.backup.*
 *.backup.html
 *.backup_*.html
-media_latest_screenshot.png
 temp_xlsx/
-scratch_step.json
 *.tmp
 *.log
+.DS_Store
+Thumbs.db
 
-# Temp/debug files from editing sessions
-index_head.html
-original_modules.html
-replacement.txt
-target.txt
-temp_tail.txt
-apply_changes.ps1
-check.js
-test.js
-test_encoding.txt
-test_encoding2.txt
-safelist_div.html
