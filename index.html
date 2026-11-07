@@ -3299,51 +3299,82 @@
                     </div>
 
                     <!-- GUIDE VISUEL ORACLE OPERA CLOUD : CLÔTURE DE CAISSE & NIGHT AUDIT (4K) -->
-                    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-200 dark:border-slate-700 mt-6">
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-200 dark:border-slate-700 mt-6">
                         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-black">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-black">
                                     <i class="fas fa-cash-register"></i>
                                 </div>
                                 <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">Documentation Officielle Oracle OPERA Cloud • Cashiering & End of Day</span>
-                                    <h3 class="text-lg sm:text-xl font-black text-gray-900 dark:text-white mt-0.5">Contrôle de Caisse & Clôture Journalière (Night Audit) dans Opera Cloud</h3>
+                                    <span
+                                        class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">Documentation
+                                        Officielle Oracle OPERA Cloud • Cashiering & End of Day</span>
+                                    <h3 class="text-lg sm:text-xl font-black text-gray-900 dark:text-white mt-0.5">
+                                        Contrôle de Caisse & Clôture Journalière (Night Audit) dans Opera Cloud</h3>
                                 </div>
                             </div>
-                            <button onclick="openLightbox('img/opera-checklist-eod.png', 'Capture Opera Cloud (4K) : Clôture de caisse (Cashier Closure) & 5 Points de contrôle Night Audit')"
+                            <button
+                                onclick="openLightbox('img/opera-checklist-eod.png', 'Capture Opera Cloud (4K) : Clôture de caisse (Cashier Closure) & 5 Points de contrôle Night Audit')"
                                 class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm cursor-pointer transition-all">
                                 <i class="fas fa-search-plus"></i> Ouvrir la capture en 4K
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5 text-xs text-gray-700 dark:text-gray-300">
-                            <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/60 border border-gray-200 dark:border-slate-700">
-                                <strong class="text-purple-700 dark:text-purple-400 block mb-1">1. Fermeture Caissier (Cashier Closure)</strong>
-                                Menu <code class="font-mono font-bold">Données financières &gt; Opérations de caisse &gt; Clôture de caisse</code>. Vérifiez que le montant espèces attendu correspond au fonds de caisse physique avant de clôturer le shift.
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5 text-xs text-gray-700 dark:text-gray-300">
+                            <div
+                                class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/60 border border-gray-200 dark:border-slate-700">
+                                <strong class="text-purple-700 dark:text-purple-400 block mb-1">1. Fermeture Caissier
+                                    (Cashier Closure)</strong>
+                                Menu <code
+                                    class="font-mono font-bold">Données financières &gt; Opérations de caisse &gt; Clôture de caisse</code>.
+                                Vérifiez que le montant espèces attendu correspond au fonds de caisse physique avant de
+                                clôturer le shift.
                             </div>
-                            <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/60 border border-gray-200 dark:border-slate-700">
-                                <strong class="text-purple-700 dark:text-purple-400 block mb-1">2. Zéro Due-In / Zéro Due-Out</strong>
-                                Selon la documentation Oracle <em>End of Day Sequence</em>, toutes les arrivées non présentées doivent être traitées (No-Show ou report de date) et tous les départs du jour doivent afficher un solde à <code class="font-mono font-bold">0.00 EUR</code>.
+                            <div
+                                class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/60 border border-gray-200 dark:border-slate-700">
+                                <strong class="text-purple-700 dark:text-purple-400 block mb-1">2. Zéro Due-In / Zéro
+                                    Due-Out</strong>
+                                Selon la documentation Oracle <em>End of Day Sequence</em>, toutes les arrivées non
+                                présentées doivent être traitées (No-Show ou report de date) et tous les départs du jour
+                                doivent afficher un solde à <code class="font-mono font-bold">0.00 EUR</code>.
                             </div>
-                            <div class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/60 border border-gray-200 dark:border-slate-700">
-                                <strong class="text-purple-700 dark:text-purple-400 block mb-1">3. Audit Fiscal OFIS & Rapports</strong>
-                                Contrôlez l'absence de statut <code class="font-mono font-bold text-rose-600">FAILED</code> dans <em>Historique du compte client</em> et pointez les rapports <code class="font-mono font-bold">finjrnlbytrans</code> et <code class="font-mono font-bold">trial_balance</code>.
+                            <div
+                                class="p-4 rounded-2xl bg-gray-50 dark:bg-slate-900/60 border border-gray-200 dark:border-slate-700">
+                                <strong class="text-purple-700 dark:text-purple-400 block mb-1">3. Audit Fiscal OFIS &
+                                    Rapports</strong>
+                                Contrôlez l'absence de statut <code
+                                    class="font-mono font-bold text-rose-600">FAILED</code> dans <em>Historique du
+                                    compte client</em> et pointez les rapports <code
+                                    class="font-mono font-bold">finjrnlbytrans</code> et <code
+                                    class="font-mono font-bold">trial_balance</code>.
                             </div>
                         </div>
 
-                        <div class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
-                            <div class="bg-slate-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between text-xs">
+                        <div
+                            class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+                            <div
+                                class="bg-slate-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between text-xs">
                                 <span class="font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1.5">
-                                    <i class="fas fa-camera text-purple-600"></i> Capture Opera Cloud (Français • 4K UHD) : <span class="font-mono text-[11px] bg-white dark:bg-slate-700 px-1.5 py-0.5 rounded">Données financières / Opérations de caisse / Clôture de caisse</span>
+                                    <i class="fas fa-camera text-purple-600"></i> Capture Opera Cloud (Français • 4K
+                                    UHD) : <span
+                                        class="font-mono text-[11px] bg-white dark:bg-slate-700 px-1.5 py-0.5 rounded">Données
+                                        financières / Opérations de caisse / Clôture de caisse</span>
                                 </span>
-                                <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400">Cliquer sur l'image pour zoomer en 4K</span>
+                                <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400">Cliquer sur
+                                    l'image pour zoomer en 4K</span>
                             </div>
                             <div class="relative group cursor-zoom-in"
                                 onclick="openLightbox('img/opera-checklist-eod.png', 'Capture Opera Cloud (4K) : Clôture de caisse (Cashier Closure) & 5 Points de contrôle Night Audit')">
-                                <img src="img/opera-checklist-eod.png" alt="Clôture de caisse et vérifications Night Audit Opera Cloud"
+                                <img src="img/opera-checklist-eod.png"
+                                    alt="Clôture de caisse et vérifications Night Audit Opera Cloud"
                                     class="w-full h-auto object-cover group-hover:opacity-95 transition-all">
-                                <div class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                    <span class="px-4 py-2 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-2">
+                                <div
+                                    class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                    <span
+                                        class="px-4 py-2 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-2">
                                         <i class="fas fa-expand-alt"></i> Ouvrir en plein écran 4K
                                     </span>
                                 </div>
@@ -4410,48 +4441,78 @@
                         </div>
 
                         <!-- GUIDE VISUEL ORACLE OPERA CLOUD : DÉTAILS JOURNALIERS (DAILY DETAILS) & TARIF FIXE (4K) -->
-                        <div class="bg-gray-50/80 dark:bg-slate-900/60 p-5 sm:p-6 rounded-3xl border border-blue-200 dark:border-blue-900/60 shadow-sm">
+                        <div
+                            class="bg-gray-50/80 dark:bg-slate-900/60 p-5 sm:p-6 rounded-3xl border border-blue-200 dark:border-blue-900/60 shadow-sm">
                             <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
                                 <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">Documentation Officielle Oracle OPERA Cloud • Daily Details & Fixed Rate</span>
+                                    <span
+                                        class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">Documentation
+                                        Officielle Oracle OPERA Cloud • Daily Details & Fixed Rate</span>
                                     <h4 class="text-base sm:text-lg font-black text-gray-900 dark:text-white mt-1">
-                                        Verrouiller un Tarif Long Séjour (<code class="font-mono text-blue-600">Tarif fixe / Fixed Rate</code>) & l'Appartement (<code class="font-mono text-blue-600">Ne pas déplacer / DNM</code>)
+                                        Verrouiller un Tarif Long Séjour (<code
+                                            class="font-mono text-blue-600">Tarif fixe / Fixed Rate</code>) &
+                                        l'Appartement (<code
+                                            class="font-mono text-blue-600">Ne pas déplacer / DNM</code>)
                                     </h4>
                                 </div>
-                                <button onclick="openLightbox('img/opera-resa-daily.png', 'Capture Opera Cloud (4K) : Détails journaliers (Daily Details), Paliers dégressifs Adagio et Tarif Fixe verrouillé')"
+                                <button
+                                    onclick="openLightbox('img/opera-resa-daily.png', 'Capture Opera Cloud (4K) : Détails journaliers (Daily Details), Paliers dégressifs Adagio et Tarif Fixe verrouillé')"
                                     class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer transition-all">
                                     <i class="fas fa-search-plus"></i> Plein écran 4K
                                 </button>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 text-xs text-gray-700 dark:text-gray-300">
-                                <div class="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
-                                    <strong class="text-blue-700 dark:text-blue-400 block mb-1">1. Écran Détails journaliers (Daily Details)</strong>
-                                    Dans la réservation (<code class="font-mono font-bold">Réservations &gt; Gérer la réservation</code>), cliquez sur le lien du tarif ou sur <em>Détails du séjour &gt; Détails journaliers</em> pour inspecter le tarif nuit par nuit.
+                            <div
+                                class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 text-xs text-gray-700 dark:text-gray-300">
+                                <div
+                                    class="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+                                    <strong class="text-blue-700 dark:text-blue-400 block mb-1">1. Écran Détails
+                                        journaliers (Daily Details)</strong>
+                                    Dans la réservation (<code
+                                        class="font-mono font-bold">Réservations &gt; Gérer la réservation</code>),
+                                    cliquez sur le lien du tarif ou sur <em>Détails du séjour &gt; Détails
+                                        journaliers</em> pour inspecter le tarif nuit par nuit.
                                 </div>
-                                <div class="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
-                                    <strong class="text-blue-700 dark:text-blue-400 block mb-1">2. Cocher « Tarif fixe (Fixed Rate) »</strong>
-                                    Conformément à la documentation Oracle OPERA Cloud, cocher <strong>Tarif fixe</strong> empêche le PMS de recalculer automatiquement les nuits au tarif public du jour lors d'une prolongation ou d'une modification de séjour.
+                                <div
+                                    class="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+                                    <strong class="text-blue-700 dark:text-blue-400 block mb-1">2. Cocher « Tarif fixe
+                                        (Fixed Rate) »</strong>
+                                    Conformément à la documentation Oracle OPERA Cloud, cocher <strong>Tarif
+                                        fixe</strong> empêche le PMS de recalculer automatiquement les nuits au tarif
+                                    public du jour lors d'une prolongation ou d'une modification de séjour.
                                 </div>
-                                <div class="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
-                                    <strong class="text-blue-700 dark:text-blue-400 block mb-1">3. Cadenas « Ne pas déplacer (Do Not Move) »</strong>
-                                    Pour tout long séjour (10–27n / 28+n) ou studio PMR attribué à l'avance, cochez <strong>Ne pas déplacer (DNM)</strong> afin de bloquer toute réattribution accidentelle avant le check-in.
+                                <div
+                                    class="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+                                    <strong class="text-blue-700 dark:text-blue-400 block mb-1">3. Cadenas « Ne pas
+                                        déplacer (Do Not Move) »</strong>
+                                    Pour tout long séjour (10–27n / 28+n) ou studio PMR attribué à l'avance, cochez
+                                    <strong>Ne pas déplacer (DNM)</strong> afin de bloquer toute réattribution
+                                    accidentelle avant le check-in.
                                 </div>
                             </div>
 
-                            <div class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
-                                <div class="bg-slate-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between text-xs">
+                            <div
+                                class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+                                <div
+                                    class="bg-slate-100 dark:bg-slate-800 px-4 py-2 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between text-xs">
                                     <span class="font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1.5">
-                                        <i class="fas fa-camera text-blue-600"></i> Capture Opera Cloud (Français • 4K UHD) : <span class="font-mono text-[11px] bg-white dark:bg-slate-700 px-1.5 py-0.5 rounded">Réservations / Gérer la réservation / Détails journaliers</span>
+                                        <i class="fas fa-camera text-blue-600"></i> Capture Opera Cloud (Français • 4K
+                                        UHD) : <span
+                                            class="font-mono text-[11px] bg-white dark:bg-slate-700 px-1.5 py-0.5 rounded">Réservations
+                                            / Gérer la réservation / Détails journaliers</span>
                                     </span>
-                                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400">Cliquer pour agrandir en 4K</span>
+                                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400">Cliquer pour
+                                        agrandir en 4K</span>
                                 </div>
                                 <div class="relative group cursor-zoom-in"
                                     onclick="openLightbox('img/opera-resa-daily.png', 'Capture Opera Cloud (4K) : Détails journaliers (Daily Details), Paliers dégressifs Adagio et Tarif Fixe verrouillé')">
-                                    <img src="img/opera-resa-daily.png" alt="Détails journaliers et Tarif Fixe Opera Cloud"
+                                    <img src="img/opera-resa-daily.png"
+                                        alt="Détails journaliers et Tarif Fixe Opera Cloud"
                                         class="w-full h-auto object-cover group-hover:opacity-95 transition-all">
-                                    <div class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                        <span class="px-4 py-2 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-2">
+                                    <div
+                                        class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                        <span
+                                            class="px-4 py-2 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-2">
                                             <i class="fas fa-expand-alt"></i> Ouvrir en plein écran 4K
                                         </span>
                                     </div>
@@ -7772,28 +7833,42 @@
                         <!-- GUIDES VISUELS ORACLE OPERA CLOUD : ATTRIBUTION DE CHAMBRE & INSTRUCTIONS DE ROUTAGE (4K) -->
                         <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <!-- Capture A : Attribution des chambres, Statut Inspecté & Do Not Move -->
-                            <div class="p-5 bg-white dark:bg-slate-800 rounded-3xl border border-indigo-200 dark:border-indigo-900/60 shadow-sm flex flex-col justify-between">
+                            <div
+                                class="p-5 bg-white dark:bg-slate-800 rounded-3xl border border-indigo-200 dark:border-indigo-900/60 shadow-sm flex flex-col justify-between">
                                 <div>
                                     <div class="flex items-center justify-between gap-2 mb-3">
-                                        <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300">Oracle OPERA Cloud • Room Assignment & DNM</span>
-                                        <button onclick="openLightbox('img/opera-sejour-roomassign.png', 'Capture Opera Cloud (4K) : Attribution des chambres (Statut Inspecté, cadenas Ne pas déplacer / Do Not Move et Traces HK)')"
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300">Oracle
+                                            OPERA Cloud • Room Assignment & DNM</span>
+                                        <button
+                                            onclick="openLightbox('img/opera-sejour-roomassign.png', 'Capture Opera Cloud (4K) : Attribution des chambres (Statut Inspecté, cadenas Ne pas déplacer / Do Not Move et Traces HK)')"
                                             class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-all">
                                             <i class="fas fa-search-plus"></i> Plein écran 4K
                                         </button>
                                     </div>
                                     <h4 class="font-black text-gray-900 dark:text-white text-base mb-2">
-                                        Écran Attribution des Chambres (<code class="font-mono text-indigo-600">Inspecté</code> & <code class="font-mono text-indigo-600">Ne pas déplacer</code>)
+                                        Écran Attribution des Chambres (<code
+                                            class="font-mono text-indigo-600">Inspecté</code> & <code
+                                            class="font-mono text-indigo-600">Ne pas déplacer</code>)
                                     </h4>
                                     <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed mb-3">
-                                        Dans <code class="font-mono font-bold">Réception &gt; Arrivées &gt; Attribution des chambres</code>, filtrez sur le statut Housekeeping <strong>Inspecté (Inspected)</strong>. Pour les longs séjours, PMR ou VIP, cochez <strong>Ne pas déplacer (Do Not Move)</strong> afin de verrouiller l'appartement jusqu'au check-in, et vérifiez les <strong>Traces</strong> étages.
+                                        Dans <code
+                                            class="font-mono font-bold">Réception &gt; Arrivées &gt; Attribution des chambres</code>,
+                                        filtrez sur le statut Housekeeping <strong>Inspecté (Inspected)</strong>. Pour
+                                        les longs séjours, PMR ou VIP, cochez <strong>Ne pas déplacer (Do Not
+                                            Move)</strong> afin de verrouiller l'appartement jusqu'au check-in, et
+                                        vérifiez les <strong>Traces</strong> étages.
                                     </p>
                                 </div>
                                 <div class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-xs bg-white relative group cursor-zoom-in"
                                     onclick="openLightbox('img/opera-sejour-roomassign.png', 'Capture Opera Cloud (4K) : Attribution des chambres (Statut Inspecté, cadenas Ne pas déplacer / Do Not Move et Traces HK)')">
-                                    <img src="img/opera-sejour-roomassign.png" alt="Attribution des chambres Opera Cloud"
+                                    <img src="img/opera-sejour-roomassign.png"
+                                        alt="Attribution des chambres Opera Cloud"
                                         class="w-full h-auto object-cover group-hover:opacity-95 transition-all">
-                                    <div class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                        <span class="px-3.5 py-1.5 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-1.5">
+                                    <div
+                                        class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                        <span
+                                            class="px-3.5 py-1.5 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-1.5">
                                             <i class="fas fa-expand-alt"></i> Agrandir en 4K
                                         </span>
                                     </div>
@@ -7801,28 +7876,43 @@
                             </div>
 
                             <!-- Capture B : Instructions de facturation / Routing Instructions -->
-                            <div class="p-5 bg-white dark:bg-slate-800 rounded-3xl border border-amber-200 dark:border-amber-900/60 shadow-sm flex flex-col justify-between">
+                            <div
+                                class="p-5 bg-white dark:bg-slate-800 rounded-3xl border border-amber-200 dark:border-amber-900/60 shadow-sm flex flex-col justify-between">
                                 <div>
                                     <div class="flex items-center justify-between gap-2 mb-3">
-                                        <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300">Oracle OPERA Cloud • Routing Instructions</span>
-                                        <button onclick="openLightbox('img/opera-sejour-routing.png', 'Capture Opera Cloud (4K) : Instructions de facturation (Routage automatique 1000 + 2000 vers Fenêtre 2 Société/VCC et option rétroactive In-House)')"
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300">Oracle
+                                            OPERA Cloud • Routing Instructions</span>
+                                        <button
+                                            onclick="openLightbox('img/opera-sejour-routing.png', 'Capture Opera Cloud (4K) : Instructions de facturation (Routage automatique 1000 + 2000 vers Fenêtre 2 Société/VCC et option rétroactive In-House)')"
                                             class="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-all">
                                             <i class="fas fa-search-plus"></i> Plein écran 4K
                                         </button>
                                     </div>
                                     <h4 class="font-black text-gray-900 dark:text-white text-base mb-2">
-                                        Écran Instructions de Facturation (<code class="font-mono text-amber-600">Folio Routing Fenêtre 2</code>)
+                                        Écran Instructions de Facturation (<code
+                                            class="font-mono text-amber-600">Folio Routing Fenêtre 2</code>)
                                     </h4>
                                     <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed mb-3">
-                                        Via <code class="font-mono font-bold">Je veux... &gt; Instructions de facturation</code>, routez les codes <code class="font-mono font-bold">1000</code> (Appartement) et <code class="font-mono font-bold">2000</code> (PDJ si inclus) vers la <strong>Fenêtre 2 (Société / VCC)</strong> en laissant la taxe de séjour (<code class="font-mono font-bold">7530</code>) en Fenêtre 1. Cochez toujours <em>« Appliquer les instructions aux imputations des réservations présentes »</em>.
+                                        Via <code
+                                            class="font-mono font-bold">Je veux... &gt; Instructions de facturation</code>,
+                                        routez les codes <code class="font-mono font-bold">1000</code> (Appartement) et
+                                        <code class="font-mono font-bold">2000</code> (PDJ si inclus) vers la
+                                        <strong>Fenêtre 2 (Société / VCC)</strong> en laissant la taxe de séjour (<code
+                                            class="font-mono font-bold">7530</code>) en Fenêtre 1. Cochez toujours <em>«
+                                            Appliquer les instructions aux imputations des réservations présentes
+                                            »</em>.
                                     </p>
                                 </div>
                                 <div class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-xs bg-white relative group cursor-zoom-in"
                                     onclick="openLightbox('img/opera-sejour-routing.png', 'Capture Opera Cloud (4K) : Instructions de facturation (Routage automatique 1000 + 2000 vers Fenêtre 2 Société/VCC et option rétroactive In-House)')">
-                                    <img src="img/opera-sejour-routing.png" alt="Instructions de facturation Routing Opera Cloud"
+                                    <img src="img/opera-sejour-routing.png"
+                                        alt="Instructions de facturation Routing Opera Cloud"
                                         class="w-full h-auto object-cover group-hover:opacity-95 transition-all">
-                                    <div class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                        <span class="px-3.5 py-1.5 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-1.5">
+                                    <div
+                                        class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                        <span
+                                            class="px-3.5 py-1.5 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-1.5">
                                             <i class="fas fa-expand-alt"></i> Agrandir en 4K
                                         </span>
                                     </div>
@@ -11733,9 +11823,13 @@
                                                 class="border border-slate-300 rounded-xl overflow-hidden shadow-xs bg-white mt-4">
                                                 <div
                                                     class="bg-slate-100 px-3 py-1.5 border-b border-slate-200 text-[11px] font-bold text-slate-700 flex items-center justify-between gap-2">
-                                                    <span>Capture d'écran n°3 : Cas E-Reporting B2B (Société Étrangère : SIRET vide, TVA DE114108789, Communication eInvoicing Address sans 9914:, Pays = DE)</span>
+                                                    <span>Capture d'écran n°3 : Cas E-Reporting B2B (Société Étrangère :
+                                                        SIRET vide, TVA DE114108789, Communication eInvoicing Address
+                                                        sans 9914:, Pays = DE)</span>
                                                     <div class="flex items-center gap-2 shrink-0">
-                                                        <span class="font-mono text-[10px] text-rose-600 hidden sm:inline">E-Reporting UE • B2G Chorus Pro</span>
+                                                        <span
+                                                            class="font-mono text-[10px] text-rose-600 hidden sm:inline">E-Reporting
+                                                            UE • B2G Chorus Pro</span>
                                                         <button
                                                             onclick="openLightbox('img/opera-ofis-ereporting.png', 'Capture 3 (OFIS) : Cardex Société Étrangère E-Reporting B2B (SIRET vide, TVA DE114108789, eInvoicing Address sans 9914:, Pays = DE)')"
                                                             class="px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-xs">
@@ -15477,30 +15571,44 @@
                             </div>
 
                             <!-- GUIDE VISUEL ORACLE OPERA CLOUD : COMPTES DÉBITEURS (ACCOUNTS RECEIVABLE) 4K -->
-                            <div class="mt-6 bg-white dark:bg-slate-800 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <div
+                                class="mt-6 bg-white dark:bg-slate-800 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
                                 <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
                                     <div>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Documentation Officielle Oracle OPERA Cloud • Accounts Receivable (AR)</span>
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Documentation
+                                            Officielle Oracle OPERA Cloud • Accounts Receivable (AR)</span>
                                         <h4 class="text-base sm:text-lg font-black text-gray-900 dark:text-white mt-1">
-                                            Gestion des Comptes Débiteurs (<code class="font-mono text-indigo-600">City Ledger / Direct Bill</code>) & Suivi des Factures B2B
+                                            Gestion des Comptes Débiteurs (<code
+                                                class="font-mono text-indigo-600">City Ledger / Direct Bill</code>) &
+                                            Suivi des Factures B2B
                                         </h4>
                                     </div>
-                                    <button onclick="openLightbox('img/opera-backoffice-ar.png', 'Capture Opera Cloud (4K) : Gérer les comptes débiteurs (Accounts Receivable / City Ledger, Solde, Échéance Aging et conformité Cardex OFIS)')"
+                                    <button
+                                        onclick="openLightbox('img/opera-backoffice-ar.png', 'Capture Opera Cloud (4K) : Gérer les comptes débiteurs (Accounts Receivable / City Ledger, Solde, Échéance Aging et conformité Cardex OFIS)')"
                                         class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer transition-all">
                                         <i class="fas fa-search-plus"></i> Plein écran 4K
                                     </button>
                                 </div>
 
                                 <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                                    Dans <code class="font-mono font-bold">Données financières &gt; Comptes débiteurs &gt; Gérer les comptes débiteurs</code>, le Back-Office contrôle les comptes sociétés autorisés en paiement différé (<em>Direct Bill / DB</em>), vérifie la balance âgée (<em>Aging 0-30 / 31-60 jours</em>) et s'assure que chaque profil AR dispose d'un Cardex conforme OFIS avant tout transfert en City Ledger.
+                                    Dans <code
+                                        class="font-mono font-bold">Données financières &gt; Comptes débiteurs &gt; Gérer les comptes débiteurs</code>,
+                                    le Back-Office contrôle les comptes sociétés autorisés en paiement différé
+                                    (<em>Direct Bill / DB</em>), vérifie la balance âgée (<em>Aging 0-30 / 31-60
+                                        jours</em>) et s'assure que chaque profil AR dispose d'un Cardex conforme OFIS
+                                    avant tout transfert en City Ledger.
                                 </p>
 
                                 <div class="rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-xs bg-white relative group cursor-zoom-in"
                                     onclick="openLightbox('img/opera-backoffice-ar.png', 'Capture Opera Cloud (4K) : Gérer les comptes débiteurs (Accounts Receivable / City Ledger, Solde, Échéance Aging et conformité Cardex OFIS)')">
-                                    <img src="img/opera-backoffice-ar.png" alt="Gérer les comptes débiteurs Accounts Receivable Opera Cloud"
+                                    <img src="img/opera-backoffice-ar.png"
+                                        alt="Gérer les comptes débiteurs Accounts Receivable Opera Cloud"
                                         class="w-full h-auto object-cover group-hover:opacity-95 transition-all">
-                                    <div class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                        <span class="px-4 py-2 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-2">
+                                    <div
+                                        class="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                        <span
+                                            class="px-4 py-2 rounded-xl bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold shadow-xl flex items-center gap-2">
                                             <i class="fas fa-expand-alt"></i> Ouvrir en plein écran 4K
                                         </span>
                                     </div>
@@ -18169,7 +18277,8 @@
         <i class="fas fa-robot text-2xl group-hover:scale-110 transition-transform"></i>
         <span class="absolute -top-1 -right-1 flex h-4 w-4">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-400 border-2 border-white dark:border-slate-800"></span>
+            <span
+                class="relative inline-flex rounded-full h-4 w-4 bg-emerald-400 border-2 border-white dark:border-slate-800"></span>
         </span>
     </button>
 
@@ -18187,7 +18296,9 @@
                 <div class="min-w-0">
                     <div class="flex items-center gap-2">
                         <h3 class="font-black text-base leading-tight tracking-tight">S.O.F.I.A</h3>
-                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 border border-white/25">IA Réception</span>
+                        <span
+                            class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 border border-white/25">IA
+                            Réception</span>
                     </div>
                     <p class="text-[11px] text-rose-100 flex items-center gap-1.5 truncate mt-0.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
@@ -18212,7 +18323,8 @@
         </div>
 
         <!-- Barre de raccourcis thématiques (Scroll horizontal) -->
-        <div class="px-3 py-2 bg-rose-50/70 dark:bg-slate-900/90 border-b border-rose-100 dark:border-slate-700/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 text-[11px]">
+        <div
+            class="px-3 py-2 bg-rose-50/70 dark:bg-slate-900/90 border-b border-rose-100 dark:border-slate-700/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 text-[11px]">
             <button onclick="sendQuickReply('Comment faire un ajustement ou un avoir ?')"
                 class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-700 font-bold whitespace-nowrap transition-colors shrink-0 cursor-pointer">
                 🧾 Avoir / Ajustement
@@ -18251,14 +18363,20 @@
                 <div
                     class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[90%] space-y-2">
                     <p class="text-xs sm:text-sm text-gray-800 dark:text-gray-200 leading-relaxed">
-                        Bonjour ! 👋 Je suis <strong>S.O.F.I.A</strong>, votre assistante experte Opera Cloud & Réception Adagio.
+                        Bonjour ! 👋 Je suis <strong>S.O.F.I.A</strong>, votre assistante experte Opera Cloud &
+                        Réception Adagio.
                     </p>
-                    <div class="text-[11px] text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-gray-100 dark:border-slate-700/70 space-y-1">
-                        <div class="font-bold text-gray-800 dark:text-gray-100">💡 Ce que vous pouvez me demander :</div>
-                        <div>• <strong>Procédures Opera :</strong> <em>« Faire un avoir », « VCC Booking », « Clôture EOD »</em></div>
-                        <div>• <strong>Erreurs OFIS :</strong> <em>« G6.07 », « BR-CO-9 », « BR-FR-21 », « 9914 »</em></div>
+                    <div
+                        class="text-[11px] text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-gray-100 dark:border-slate-700/70 space-y-1">
+                        <div class="font-bold text-gray-800 dark:text-gray-100">💡 Ce que vous pouvez me demander :
+                        </div>
+                        <div>• <strong>Procédures Opera :</strong> <em>« Faire un avoir », « VCC Booking », « Clôture
+                                EOD »</em></div>
+                        <div>• <strong>Erreurs OFIS :</strong> <em>« G6.07 », « BR-CO-9 », « BR-FR-21 », « 9914 »</em>
+                        </div>
                         <div>• <strong>Comptes Corpo :</strong> <em>« Compte Thales », « Commercial SNCF »</em></div>
-                        <div>• <strong>Calculs directs :</strong> <em>« TDS 2 adultes 4 nuits », « 320€ TTC en HT », « SIRET »</em></div>
+                        <div>• <strong>Calculs directs :</strong> <em>« TDS 2 adultes 4 nuits », « 320€ TTC en HT », «
+                                SIRET »</em></div>
                     </div>
                 </div>
             </div>
@@ -18286,7 +18404,8 @@
         <!-- Input Area -->
         <div class="p-3 bg-white dark:bg-slate-800 border-t border-gray-100 dark:border-slate-700 shrink-0">
             <form id="chatbot-form" class="flex items-center gap-2" onsubmit="handleChatSubmit(event)">
-                <input type="text" id="chatbot-input" placeholder="Posez une question (ex: avoir, G6.07, Thales, tds 2 ad 3n)..."
+                <input type="text" id="chatbot-input"
+                    placeholder="Posez une question (ex: avoir, G6.07, Thales, tds 2 ad 3n)..."
                     class="flex-1 bg-gray-100 dark:bg-slate-900 border border-transparent focus:bg-white dark:focus:bg-slate-800 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 dark:focus:ring-rose-900 rounded-2xl px-4 py-2.5 text-xs sm:text-sm transition-all dark:text-white outline-none"
                     autocomplete="off">
                 <button type="submit"
